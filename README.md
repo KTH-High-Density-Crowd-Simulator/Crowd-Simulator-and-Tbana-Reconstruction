@@ -19,7 +19,7 @@
 - Original implementation of high density crowd simulator.
 - [High Density Simulation of Crowds with Groups in Real-Time](https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-210564)
 
-### PVK Software Engineering group and Julian Rey
+### PVK Software Engineering group and Julian Ley
 
 - Created subway reconstruction.
 - [Metroped Interactive](https://github.com/JulianLey/MetropedInteractive)
