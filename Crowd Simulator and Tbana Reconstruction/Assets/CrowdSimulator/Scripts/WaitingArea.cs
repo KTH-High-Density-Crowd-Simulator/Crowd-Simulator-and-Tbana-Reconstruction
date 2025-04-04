@@ -17,11 +17,14 @@ public class WaitingArea : MonoBehaviour
 
     internal List<Vector3> waitingSpots;
     internal List<bool> isOccupied;
+    internal List<int> freeWaitingSpots;
+    private int currentWaitingSpotIndex = 0;
     private int mapIndex;
 
     void OnEnable()
     {
         GenerateRowColumnWaitingSpots();
+        freeWaitingSpots = Enumerable.Range(0, waitingSpots.Count).ToList();
     }
 
     /*
@@ -74,7 +77,7 @@ public class WaitingArea : MonoBehaviour
 
     /*
     *   Finds a free waiting spot in the waiting area.
-    *   Returns the index of the spot (in the MapGen roadmap) and the index of the waiting spot (in the waitingSpots list).
+    *   Returns the index of the waiting area (in the MapGen roadmap) and the index of the waiting spot (in the waitingSpots list).
     *   If there are no free spots, returns (-1, -1).
     */
     public (int index, int waitingSpot) getWaitingSpot()
@@ -82,18 +85,29 @@ public class WaitingArea : MonoBehaviour
         // If there are available spots
         if(!isOccupied.All(spot => spot == true))
         {
-            for(int i = 0; i < waitingSpots.Count; i++)
-            {
-                if(!isOccupied[i])
-                {
-                    isOccupied[i] = true;
-                    return (mapIndex, i);
-                }
-            }
+            int waitingSpot = getRandomWaitingSpot();
+            return (mapIndex, waitingSpot);
         }
 
         // No available spots
         return (-1, -1);
+    }
+
+    private int getWaitingSpotInOrder()
+    {
+        isOccupied[currentWaitingSpotIndex] = true;
+        currentWaitingSpotIndex++;
+        return currentWaitingSpotIndex-1;
+
+    }
+
+    private int getRandomWaitingSpot()
+    {
+        int randomIndex = Random.Range(0, freeWaitingSpots.Count);
+        int waitingSpot = freeWaitingSpots[randomIndex];
+        freeWaitingSpots.RemoveAt(randomIndex);
+        isOccupied[waitingSpot] = true;
+        return waitingSpot;
     }
 
 }
