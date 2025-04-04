@@ -120,12 +120,13 @@ public class WaitingAreaController : MonoBehaviour
                 waitingAgents.RemoveAt(i);
                 agent.setAnimatorStanding(false);
                 agent.waitingArea.isOccupied[agent.waitingSpot] = false;
+                agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
                 
                 // Unfreeze the agent's position and rotation
                 Rigidbody rb = agent.GetComponent<Rigidbody>();
                 rb.constraints = RigidbodyConstraints.None;
                 // Set the agent's layer to default
-                agent.gameObject.layer = LayerMask.NameToLayer("IgnoreRaycast");
+                agent.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
             }
             
         }
