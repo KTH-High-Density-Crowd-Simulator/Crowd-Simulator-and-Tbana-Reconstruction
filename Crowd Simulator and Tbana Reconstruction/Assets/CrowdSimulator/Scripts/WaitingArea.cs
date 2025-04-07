@@ -13,6 +13,7 @@ public class WaitingArea : MonoBehaviour
     public int rows = 3;
     public int columns = 5;
     public bool debug = false;
+    public float waitingSpotSize = 0.5f;
 
     internal List<Vector3> waitingSpots;
     internal List<bool> isOccupied;
@@ -22,7 +23,7 @@ public class WaitingArea : MonoBehaviour
 
     void OnEnable()
     {
-        GenerateRowColumnWaitingSpots();
+        GenerateFixedSizeWaitingSpots();
         freeWaitingSpots = Enumerable.Range(0, waitingSpots.Count).ToList();
     }
 
@@ -63,6 +64,40 @@ public class WaitingArea : MonoBehaviour
             }
         }
     }
+
+    void GenerateFixedSizeWaitingSpots()
+    {
+        waitingSpots = new List<Vector3>();
+
+        Renderer renderer = transform.Find("Area").GetComponent<Renderer>();
+        Bounds bounds = renderer.bounds;
+
+        Vector3 corner = new Vector3(bounds.min.x, transform.position.y, bounds.min.z);
+        Vector3 size = bounds.size;
+
+        int columns = Mathf.FloorToInt(size.x / waitingSpotSize);
+        int rows = Mathf.FloorToInt(size.z / waitingSpotSize);
+
+        isOccupied = new List<bool>(new bool[columns * rows]);
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < columns; col++)
+            {
+                float xPos = corner.x + waitingSpotSize * 0.5f + col * waitingSpotSize;
+                float zPos = corner.z + waitingSpotSize * 0.5f + row * waitingSpotSize;
+                Vector3 spotPosition = new Vector3(xPos, transform.position.y, zPos);
+                waitingSpots.Add(spotPosition);
+
+                isOccupied[col + row * columns] = false;
+
+                if (debug)
+                {
+                    Debug.DrawLine(spotPosition, spotPosition + Vector3.up * 0.5f, Color.red, 10f);
+                }
+            }
+        }
+}
 
     /*
     *   The waiting area is also a node used for the agents' pathfinding.
