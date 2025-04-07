@@ -88,7 +88,9 @@ public class WaitingAreaController : MonoBehaviour
     }
 
     /*
-    *   After the agent reached the waiting area, they will be teleported to the waiting spot.
+    *   After the agent reached their waiting spot, they will be teleported to the exact position of the waiting spot.
+    *   The agent will be frozen in place and will be an obstacle for other agents.
+    *   The closest train door (node) will be set as the agent's goal.
     */
     public void putAgentInWaitingArea(Agent agent)
     {
@@ -96,7 +98,11 @@ public class WaitingAreaController : MonoBehaviour
         waitingAgents.Add(agent);
         agent.transform.SetParent(waitingAgentsContainer.transform);
         agent.teleportAgent(agent.waitingArea.waitingSpots[agent.waitingSpot]);
-        agent.rotateAgent(agent.waitingArea.goal.transform.position);
+
+        GameObject train = GameObject.Find("Train"+agent.subwayData.Value.trainLine);
+        GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
+        agent.noMapGoal = FindClosestTrainDoor(ref agent, ref trainDoors);
+        agent.rotateAgent(agent.noMapGoal);
         
         // Freeze the agent's position and rotation
         Rigidbody rb = agent.GetComponent<Rigidbody>();
@@ -114,7 +120,6 @@ public class WaitingAreaController : MonoBehaviour
             {
                 agent.done = false;
                 agent.noMap = true;
-                agent.noMapGoal = agent.waitingArea.goal.transform.position;
                 agent.isWaitingAgent = false;
                 FindObjectOfType<Main>().AddToAgentList(agent);
                 waitingAgents.RemoveAt(i);
@@ -130,6 +135,26 @@ public class WaitingAreaController : MonoBehaviour
             }
             
         }
+    }
+
+    internal Vector3 FindClosestTrainDoor(ref Agent agent, ref GameObject trainDoors)
+    {   
+        float closestDistance = Mathf.Infinity;
+        Vector3 currentPosition = agent.transform.position;
+        Vector3 closestNode = Vector3.zero;
+
+        foreach (Transform node in trainDoors.transform)
+        {   
+            Debug.Log("sup");
+            Debug.Log(node.position);
+            float distance = Vector3.Distance(currentPosition, node.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestNode = node.position;
+            }
+        }
+        return closestNode;
     }
 
 }

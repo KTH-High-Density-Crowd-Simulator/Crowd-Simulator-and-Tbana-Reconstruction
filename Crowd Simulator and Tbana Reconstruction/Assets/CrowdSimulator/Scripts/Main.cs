@@ -192,31 +192,42 @@ public class Main : MonoBehaviour {
     public void BoardTrainLine1()
     {
 		int trainLine = 1;
-        waitingAreaController.BoardWaitingAgents(trainLine);
-		foreach(Agent agent in agentList)
+
+		GameObject train = GameObject.Find("Train"+trainLine);
+        GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
+
+		for(int i = agentList.Count - 1; i >= 0; i--)
 		{
+			Agent agent = agentList[i];
 			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
 			{
 				agent.noMap = true;
-				agent.noMapGoal = agent.waitingArea.goal.transform.position;
+				agent.noMapGoal = waitingAreaController.FindClosestTrainDoor(ref agent, ref trainDoors);
 			}
 		}
+
+		waitingAreaController.BoardWaitingAgents(trainLine);
     }
 
 	[ContextMenu("Board Train 2")]
     public void BoardTrainLine2()
     {
 		int trainLine = 2;
-        waitingAreaController.BoardWaitingAgents(trainLine);
-		foreach(Agent agent in agentList)
+
+		GameObject train = GameObject.Find("Train"+trainLine);
+        GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
+
+		for(int i = agentList.Count - 1; i >= 0; i--)
 		{
+			Agent agent = agentList[i];
 			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
 			{
 				agent.noMap = true;
-				agent.noMapGoal = agent.waitingArea.goal.transform.position;
+				agent.noMapGoal = waitingAreaController.FindClosestTrainDoor(ref agent, ref trainDoors);
 			}
 		}
-    }
 
+		waitingAreaController.BoardWaitingAgents(trainLine);
 
+	}
 }

@@ -132,7 +132,7 @@ public class MapGen : MonoBehaviour {
 					}
 				}
 			}
-			c.transform.parent = graph.transform;
+			//c.transform.parent = graph.transform;
 		}
 
 		/**
