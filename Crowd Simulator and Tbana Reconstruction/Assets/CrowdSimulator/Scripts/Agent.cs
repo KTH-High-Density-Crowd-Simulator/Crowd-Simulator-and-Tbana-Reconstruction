@@ -25,7 +25,6 @@ public class Agent : MonoBehaviour {
 	Vector3 previousDirection;
 	public float walkingSpeed;
     public float maxWaitTime = 2f;
-	public float currentSpeed;
 
 	// Waiting
 	internal bool isWaitingAgent;
@@ -80,6 +79,7 @@ public class Agent : MonoBehaviour {
 		}
 		
 	}
+
 
 	public void setWaitingAgent(bool isWaitingAgent)
 	{
