@@ -145,8 +145,6 @@ public class WaitingAreaController : MonoBehaviour
 
         foreach (Transform node in trainDoors.transform)
         {   
-            Debug.Log("sup");
-            Debug.Log(node.position);
             float distance = Vector3.Distance(currentPosition, node.position);
             if (distance < closestDistance)
             {
