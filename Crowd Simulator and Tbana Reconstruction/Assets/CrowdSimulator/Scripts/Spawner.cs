@@ -305,7 +305,7 @@ public class Spawner : MonoBehaviour {
 			yield return new WaitForSeconds (continousSpawnRate);
 		}
 		
-		if (agentList.Count < mainScript.maxNumberOfAgents) {
+		if (agentList.Count + waitingAreaController.waitingAgents.Count < mainScript.maxNumberOfAgents) {
 			Vector3 startPos = new Vector3 (Random.Range (-0.5f, 0.5f), 0.15f, Random.Range (-0.5f, 0.5f)); startPos = transform.TransformPoint (startPos);
 			float randomRange = Random.Range(0.0f, 1.0f);
 			if (!useGroupedAgents || randomRange < individualAgents) {
