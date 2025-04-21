@@ -23,7 +23,8 @@ public class WaitingArea : MonoBehaviour
 
     void OnEnable()
     {
-        GenerateFixedSizeWaitingSpots();
+        //GenerateFixedSizeWaitingSpots();
+        GenerateRowColumnWaitingSpots();
         freeWaitingSpots = Enumerable.Range(0, waitingSpots.Count).ToList();
     }
 

@@ -12,7 +12,8 @@ public class WaitingAreaController : MonoBehaviour
     internal List<Agent> waitingAgents;                              // Agents that are currently waiting
     private GameObject waitingAgentsContainer;                      // A container for the waiting agent objects in the inspector
     public Dictionary<int, List<int>> spawnerWaitingAreaDistances;  // The distance from each spawner to each waiting area in descending order
-    private MapGen.map roadmap;                                     // The map of the nodes in the scene
+    private MapGen.map roadmap;    
+    public GameObject agentContainer;                                 // The map of the nodes in the scene
 
     public void Initialize()
     {
@@ -101,14 +102,20 @@ public class WaitingAreaController : MonoBehaviour
 
         GameObject train = GameObject.Find("Train"+agent.subwayData.Value.trainLine);
         GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
-        agent.noMapGoal = FindClosestTrainDoor(ref agent, ref trainDoors);
-        agent.rotateAgent(agent.noMapGoal);
+        //agent.noMapGoal = FindClosestTrainDoor(ref agent, ref trainDoors);
+        Vector3 closestTrainDoorPosition = FindClosestTrainDoor(ref agent, ref trainDoors);
+        
+        agent.rotateAgent(closestTrainDoorPosition);
         
         // Freeze the agent's position and rotation
         Rigidbody rb = agent.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeAll;
         // Make waiting agents obstcales for other agents
-        agent.gameObject.layer = LayerMask.NameToLayer("Obstacle");
+        agent.gameObject.layer = LayerMask.NameToLayer("WaitingAgent");
+
+        int closestTrainDoorIndex = FindClosestTrainDoorNodeIndex(closestTrainDoorPosition);
+        agent.setNewPath(agent.goal, closestTrainDoorIndex, ref roadmap);
+        agent.noMap = false;
     }
 
     public void BoardWaitingAgents(int trainLine)
@@ -118,20 +125,30 @@ public class WaitingAreaController : MonoBehaviour
             Agent agent = waitingAgents[i];
             if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
             {
-                agent.done = false;
-                agent.noMap = true;
-                agent.isWaitingAgent = false;
-                FindObjectOfType<Main>().AddToAgentList(agent);
-                waitingAgents.RemoveAt(i);
                 agent.setAnimatorStanding(false);
+                agent.isWaitingAgent = false;
                 agent.waitingArea.isOccupied[agent.waitingSpot] = false;
                 agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+                agent.walkingSpeed = Random.Range(0.8f, 1.2f);
                 
                 // Unfreeze the agent's position and rotation
                 Rigidbody rb = agent.GetComponent<Rigidbody>();
                 rb.constraints = RigidbodyConstraints.None;
                 // Set the agent's layer to default
                 agent.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+
+                agent.done = false;
+                FindObjectOfType<Main>().AddToAgentList(agent);
+                waitingAgents.RemoveAt(i);
+
+                if(agentContainer != null)
+                {
+                    agent.transform.SetParent(agentContainer.transform);
+                }
+                else
+                {
+                    agent.transform.SetParent(null); 
+                }
             }
             
         }
@@ -153,6 +170,21 @@ public class WaitingAreaController : MonoBehaviour
             }
         }
         return closestNode;
+    }
+
+    internal int FindClosestTrainDoorNodeIndex(Vector3 position)
+    {   
+        int index = -1;
+
+        for(int i = 0; i < roadmap.allNodes.Count; i++)
+        {   
+            if(roadmap.allNodes[i].transform.position == position)
+            {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
 }

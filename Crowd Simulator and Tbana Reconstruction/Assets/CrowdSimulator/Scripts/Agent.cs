@@ -17,6 +17,7 @@ public class Agent : MonoBehaviour {
 	internal bool done = false;
 	internal bool noMap = false;
 	internal Vector3 noMapGoal;
+	internal int goal;
 	internal Animator animator;
 	internal Rigidbody rbody;
 	internal bool collision = false;
@@ -80,16 +81,37 @@ public class Agent : MonoBehaviour {
 		
 	}
 
-
-	public void setWaitingAgent(bool isWaitingAgent)
+    public void setWaitingAgent(bool isWaitingAgent)
 	{
 		this.isWaitingAgent = isWaitingAgent;
 	}
 
+	public void setNewPath(int start, int goal, ref MapGen.map map) {
+		calculateRowAndColumn();
+		this.goal = goal;
+		path = map.shortestPaths [start] [goal]; 
+		int outsideTrainNode = -1;
+		float shortestDistance = Mathf.Infinity;
+		for(int i = 0; i < map.distances[goal].Count; i++)
+		{
+			if(map.distances[goal][i] < shortestDistance && i != goal)
+			{
+				shortestDistance = map.distances[goal][i];
+				outsideTrainNode = i;
+			}
+		}
+		if(path[path.Count-2] != outsideTrainNode)
+		{
+			path.Insert(path.Count - 1, outsideTrainNode);
+		}
+		pathIndex = 1;
+		preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint (transform.position) - transform.position).normalized;
+	}
 
 	public void InitializeAgent(Vector3 pos, int start, int goal, ref MapGen.map map) {
 		transform.position = pos;
 		transform.right = transform.right;
+		this.goal = goal;
 		path = map.shortestPaths [start] [goal]; 
 		pathIndex = 1;
 		preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint (transform.position) - transform.position).normalized;
@@ -150,7 +172,10 @@ public class Agent : MonoBehaviour {
 			//Can we see next goal?
 			Vector3 next = map.allNodes[path[pathIndex+modifier]].getTargetPoint(transform.position);
 			Vector3 dir = next - transform.position;
-			if(!Physics.Raycast (transform.position, dir.normalized, dir.magnitude)) {
+			int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Ignore Raycast");
+			int layerMask = ~layersToIgnore;
+
+			if (!Physics.Raycast(transform.position, dir.normalized, dir.magnitude, layerMask)) {
 				return true;
 			}
 		}

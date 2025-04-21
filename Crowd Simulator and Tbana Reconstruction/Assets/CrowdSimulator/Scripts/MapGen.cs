@@ -13,6 +13,7 @@ public class MapGen : MonoBehaviour {
 		public List<CustomNode> allNodes;
 		public List<spawnNode> spawns;
 		public List<int> goals;
+		public List<List<float>> distances;
 	}
 
 	public struct spawnNode {
@@ -230,13 +231,15 @@ public class MapGen : MonoBehaviour {
 		for (int i = 0; i < map.Count; ++i) {
 			for (int j = 0; j < map.Count; ++j) {
 				if (i != j) {
+					/**
 					if(roadmap.allNodes[i] is WaitingAreaNode)
 					{
 						// This prevents agents from using waiting areas as nodes in their path
 						// except when their goal is the waiting area
 						dist[i].Add (float.MaxValue);
 					}
-					else if (!Physics.Raycast (map [j], map [i] - map [j], (map [i] - map [j]).magnitude)) {
+					**/
+					if (!Physics.Raycast (map [j], map [i] - map [j], (map [i] - map [j]).magnitude)) {
 						dist [i].Add ((map [i] - map [j]).magnitude);
 					} else {
 						dist [i].Add (float.MaxValue);
@@ -246,6 +249,7 @@ public class MapGen : MonoBehaviour {
 				}
 			}
 		}
+		roadmap.distances = dist;
 		return dist;
 	}
 

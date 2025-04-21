@@ -2537,8 +2537,20 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
+      propertyPath: agentMaxSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
+      propertyPath: agentMinSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: roadNodeAmount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
+      propertyPath: maxNumberOfAgents
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3731,11 +3743,11 @@ PrefabInstance:
       objectReference: {fileID: 2010027568}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: rows
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: columns
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4254,7 +4266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 986671598435191627, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6088621342034585089, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: m_Name
@@ -7030,6 +7042,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5053032725012777784, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5731743036327798072, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7070,6 +7086,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7032286784090803201, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
+      propertyPath: agentContainer
+      value: 
+      objectReference: {fileID: 2038246482}
     - target: {fileID: 7353786690459693392, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
       propertyPath: m_Name
       value: Waiting Area Controller
@@ -13777,7 +13797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114000011514121796, guid: 431ca676e53a5da4ea94cd30188ba2a9, type: 3}
       propertyPath: spawnRate
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 114000011514121796, guid: 431ca676e53a5da4ea94cd30188ba2a9, type: 3}
       propertyPath: usePoisson
@@ -16146,7 +16166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8557075303523951449, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
