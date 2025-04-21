@@ -376,6 +376,7 @@ public class Agent : MonoBehaviour {
 
 	public void teleportAgent(Vector3 newPosition)
 	{
+		newPosition.y = 0.0f;
 		transform.position = newPosition;
 	}
 
