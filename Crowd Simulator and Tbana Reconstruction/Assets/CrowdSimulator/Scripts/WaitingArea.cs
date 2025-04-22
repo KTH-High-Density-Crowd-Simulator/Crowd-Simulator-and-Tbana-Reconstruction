@@ -20,11 +20,18 @@ public class WaitingArea : MonoBehaviour
     internal List<int> freeWaitingSpots;
     private int currentWaitingSpotIndex = 0;
     private int mapIndex;
+    public bool useRowColumns = false;
 
     void OnEnable()
     {
-        //GenerateFixedSizeWaitingSpots();
-        GenerateRowColumnWaitingSpots();
+        if(useRowColumns)
+        {
+            GenerateRowColumnWaitingSpots();
+        }   
+        else
+        {
+            GenerateFixedSizeWaitingSpots();
+        }
         freeWaitingSpots = Enumerable.Range(0, waitingSpots.Count).ToList();
     }
 
