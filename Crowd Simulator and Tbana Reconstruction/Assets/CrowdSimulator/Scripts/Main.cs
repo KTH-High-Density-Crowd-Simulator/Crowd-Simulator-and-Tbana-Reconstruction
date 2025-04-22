@@ -244,11 +244,14 @@ public class Main : MonoBehaviour {
 		int closestNode = -1;
 		float closestDistance = Mathf.Infinity;
 
+		int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Ignore Raycast");
+		int layerMask = ~layersToIgnore; // ignore these layers
+
 		for (int j = 0; j < roadmap.allNodes.Count; ++j) {
 			Vector3 nodePos = roadmap.allNodes[j].transform.position;
 			float distance = (nodePos - position).magnitude;
 
-			if (!Physics.Raycast(position, (nodePos - position).normalized, distance)) {
+			if (!Physics.Raycast(position, (nodePos - position).normalized, distance, layerMask)) {
 				if (nodePos != transform.position && distance < closestDistance) {
 					closestDistance = distance;
 					closestNode = j;
