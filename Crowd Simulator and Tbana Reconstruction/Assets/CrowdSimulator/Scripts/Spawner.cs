@@ -356,7 +356,7 @@ public class Spawner : MonoBehaviour {
 		if(waitingAgents)
 		{
 			// Find a waiting area goal for the agent. If there are no free waiting area spots their goal will be the ordinary goal for this spawner.
-			(int waitingArea,int waitingSpot) waitingAreaSpot = waitingAreaController.getWaitingAreaSpot(node);
+			(int waitingArea,int waitingSpot) waitingAreaSpot = waitingAreaController.GetWaitingAreaSpot(node);
 			if(waitingAreaSpot.waitingArea != -1)
 			{
 				agent.setWaitingAgent(true);

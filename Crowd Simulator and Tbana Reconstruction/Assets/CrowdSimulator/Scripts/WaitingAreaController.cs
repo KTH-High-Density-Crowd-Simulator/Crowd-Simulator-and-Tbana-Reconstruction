@@ -40,7 +40,7 @@ public class WaitingAreaController : MonoBehaviour
     *   Get a waiting spot in the closest waiting area that has free spots.
     *   Returns the index of the waiting area in the roadmap and the position of the waiting spot.
     */
-    public (int,int) getWaitingAreaSpot(int startNode)
+    public (int,int) GetWaitingAreaSpot(int startNode)
     {
 
         foreach (int waitingAreaIndex in spawnerWaitingAreaDistances[startNode])
