@@ -28,6 +28,16 @@ public class MapGen : MonoBehaviour {
 		return roadmap;
 	}
 
+	public void printRoadmap()
+	{
+		Debug.Log("Roadmap\nNumber of nodes: " + roadmap.allNodes.Count
+		+"\nNumber of spawners: " + roadmap.spawns.Count
+		+"\nNumber of goals: " + roadmap.goals.Count
+		+"\n Distances: " + roadmap.distances
+		+"\n Shortest paths: " + roadmap.shortestPaths);
+		
+	}
+
 	void sweepMap(Vector2 xMinMax, Vector2 zMinMax) {
 		for (int i = 0; i < xMinMax.y - xMinMax.x; ++i) {
 			for(int j = 0; j < zMinMax.y-zMinMax.x; ++j) {
@@ -219,7 +229,9 @@ public class MapGen : MonoBehaviour {
 		List<List<List<int>>> shortestPaths = getShortestPaths (ref dist, Mathf.Max(xMinMax.y - xMinMax.x, zMinMax.y - zMinMax.x));
 		m.shortestPaths = shortestPaths;
 		roadmap.shortestPaths = shortestPaths;
-		
+		m.distances = dist;
+	
+		//printRoadmap();
 		return m;
 	}
 

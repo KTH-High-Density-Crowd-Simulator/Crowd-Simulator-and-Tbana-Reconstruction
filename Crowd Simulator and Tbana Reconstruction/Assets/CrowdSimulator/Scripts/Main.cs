@@ -193,16 +193,20 @@ public class Main : MonoBehaviour {
     {
 		int trainLine = 1;
 
-		GameObject train = GameObject.Find("Train"+trainLine);
-        GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
-
 		for(int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
 			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
 			{
-				agent.noMap = true;
-				agent.noMapGoal = waitingAreaController.FindClosestTrainDoor(ref agent, ref trainDoors);
+				int closestTrainDoor = waitingAreaController.FindClosestTrainDoor(ref agent);
+				int closestNode = FindClosestNode(agent.transform.position);
+				agent.setNewPath(closestNode, closestTrainDoor, ref roadmap);
+				if(agent.isWaitingAgent)
+				{
+					agent.waitingArea.isOccupied[agent.waitingSpot] = false;
+                	agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+					agent.isWaitingAgent = false;
+				}
 			}
 		}
 
@@ -214,20 +218,44 @@ public class Main : MonoBehaviour {
     {
 		int trainLine = 2;
 
-		GameObject train = GameObject.Find("Train"+trainLine);
-        GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
-
 		for(int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
 			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
 			{
-				agent.noMap = true;
-				agent.noMapGoal = waitingAreaController.FindClosestTrainDoor(ref agent, ref trainDoors);
+				int closestTrainDoor = waitingAreaController.FindClosestTrainDoor(ref agent);
+				int closestNode = FindClosestNode(agent.transform.position);
+				agent.setNewPath(closestNode, closestTrainDoor, ref roadmap);
+				if(agent.isWaitingAgent)
+				{
+					agent.waitingArea.isOccupied[agent.waitingSpot] = false;
+                	agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+					agent.isWaitingAgent = false;
+				}
 			}
 		}
 
 		waitingAreaController.BoardWaitingAgents(trainLine);
 
+	}
+
+	int FindClosestNode(Vector3 position)
+	{
+		int closestNode = -1;
+		float closestDistance = Mathf.Infinity;
+
+		for (int j = 0; j < roadmap.allNodes.Count; ++j) {
+			Vector3 nodePos = roadmap.allNodes[j].transform.position;
+			float distance = (nodePos - position).magnitude;
+
+			if (!Physics.Raycast(position, (nodePos - position).normalized, distance)) {
+				if (nodePos != transform.position && distance < closestDistance) {
+					closestDistance = distance;
+					closestNode = j;
+				}
+			}
+		}
+
+		return closestNode;
 	}
 }

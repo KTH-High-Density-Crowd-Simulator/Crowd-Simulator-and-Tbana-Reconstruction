@@ -89,7 +89,9 @@ public class Agent : MonoBehaviour {
 	public void setNewPath(int start, int goal, ref MapGen.map map) {
 		calculateRowAndColumn();
 		this.goal = goal;
-		path = map.shortestPaths [start] [goal]; 
+
+		path = new List<int>(map.shortestPaths[start][goal]);
+
 		int outsideTrainNode = -1;
 		float shortestDistance = Mathf.Infinity;
 		for(int i = 0; i < map.distances[goal].Count; i++)
@@ -104,6 +106,7 @@ public class Agent : MonoBehaviour {
 		{
 			path.Insert(path.Count - 1, outsideTrainNode);
 		}
+
 		pathIndex = 1;
 		preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint (transform.position) - transform.position).normalized;
 	}
@@ -112,7 +115,8 @@ public class Agent : MonoBehaviour {
 		transform.position = pos;
 		transform.right = transform.right;
 		this.goal = goal;
-		path = map.shortestPaths [start] [goal]; 
+		path = new List<int>(map.shortestPaths[start][goal]);
+
 		pathIndex = 1;
 		preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint (transform.position) - transform.position).normalized;
 		transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); // Modify this to change the size of characters new Vector3(2.0f, 2.0f, 2.0f) is normal size

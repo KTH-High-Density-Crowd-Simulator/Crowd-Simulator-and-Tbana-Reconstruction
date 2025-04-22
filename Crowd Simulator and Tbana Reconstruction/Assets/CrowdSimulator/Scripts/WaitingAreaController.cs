@@ -99,13 +99,10 @@ public class WaitingAreaController : MonoBehaviour
         waitingAgents.Add(agent);
         agent.transform.SetParent(waitingAgentsContainer.transform);
         agent.teleportAgent(agent.waitingArea.waitingSpots[agent.waitingSpot]);
-
-        GameObject train = GameObject.Find("Train"+agent.subwayData.Value.trainLine);
-        GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
-        //agent.noMapGoal = FindClosestTrainDoor(ref agent, ref trainDoors);
-        Vector3 closestTrainDoorPosition = FindClosestTrainDoor(ref agent, ref trainDoors);
         
-        agent.rotateAgent(closestTrainDoorPosition);
+        int closestTrainDoor = FindClosestTrainDoor(ref agent);
+        
+        agent.rotateAgent(roadmap.allNodes[closestTrainDoor].transform.position);
         
         // Freeze the agent's position and rotation
         Rigidbody rb = agent.GetComponent<Rigidbody>();
@@ -113,10 +110,10 @@ public class WaitingAreaController : MonoBehaviour
         // Make waiting agents obstcales for other agents
         agent.gameObject.layer = LayerMask.NameToLayer("WaitingAgent");
 
-        int closestTrainDoorIndex = FindClosestTrainDoorNodeIndex(closestTrainDoorPosition);
-        agent.setNewPath(agent.goal, closestTrainDoorIndex, ref roadmap);
+        agent.setNewPath(agent.goal, closestTrainDoor, ref roadmap);
         agent.noMap = false;
     }
+
 
     public void BoardWaitingAgents(int trainLine)
     {
@@ -154,8 +151,11 @@ public class WaitingAreaController : MonoBehaviour
         }
     }
 
-    internal Vector3 FindClosestTrainDoor(ref Agent agent, ref GameObject trainDoors)
+    internal int FindClosestTrainDoor(ref Agent agent)
     {   
+        GameObject train = GameObject.Find("Train"+agent.subwayData.Value.trainLine);
+        GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
+
         float closestDistance = Mathf.Infinity;
         Vector3 currentPosition = agent.transform.position;
         Vector3 closestNode = Vector3.zero;
@@ -169,22 +169,23 @@ public class WaitingAreaController : MonoBehaviour
                 closestNode = node.position;
             }
         }
-        return closestNode;
-    }
-
-    internal int FindClosestTrainDoorNodeIndex(Vector3 position)
-    {   
+        
         int index = -1;
 
         for(int i = 0; i < roadmap.allNodes.Count; i++)
         {   
-            if(roadmap.allNodes[i].transform.position == position)
+            if(roadmap.allNodes[i].transform.position == closestNode)
             {
                 index = i;
                 break;
             }
         }
+        if(index == -1)
+        {
+            Debug.LogError("No train door found");
+        }
         return index;
     }
+        
 
 }
