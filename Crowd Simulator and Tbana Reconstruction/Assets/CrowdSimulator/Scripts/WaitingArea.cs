@@ -22,6 +22,7 @@ public class WaitingArea : MonoBehaviour
     private int currentWaitingSpotIndex = 0;
     private int mapIndex;
     public bool useRowColumns = false;
+    public Material[] priorityMaterials;
 
     void OnEnable()
     {
