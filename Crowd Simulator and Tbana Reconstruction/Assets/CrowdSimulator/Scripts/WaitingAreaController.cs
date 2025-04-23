@@ -159,7 +159,14 @@ public class WaitingAreaController : MonoBehaviour
         agent.setAnimatorStanding(true);
         waitingAgents.Add(agent);
         agent.transform.SetParent(waitingAgentsContainer.transform);
-        agent.teleportAgent(agent.waitingArea.waitingSpots[agent.waitingSpot]);
+
+        // Add random offset to the waiting spot position
+        // to make the agents look more natural and less aligned
+        Vector3 adjustedPosition = agent.waitingArea.waitingSpots[agent.waitingSpot];
+        adjustedPosition.x += Random.Range(-0.3f, 0.3f);
+        adjustedPosition.z += Random.Range(-0.3f, 0.3f);
+
+        agent.teleportAgent(adjustedPosition);
         
         int closestTrainDoor = FindClosestTrainDoor(ref agent);
         
