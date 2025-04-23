@@ -14,6 +14,7 @@ public class WaitingAreaController : MonoBehaviour
     public Dictionary<int, List<int>> spawnerWaitingAreaDistances;  // The distance from each spawner to each waiting area in descending order
     private MapGen.map roadmap;    
     public GameObject agentContainer;                                 // The map of the nodes in the scene
+    public float wdistance = 1.0f, wdensity = 1.0f, wtrainline = 1.0f, wpriority = 1.0f;
 
     public void Initialize()
     {
@@ -51,6 +52,66 @@ public class WaitingAreaController : MonoBehaviour
                 return (areaAndSpot.waitingAreaMapIndex, areaAndSpot.waitingAreaSpot);
             }
         }
+        return (-1,-1);
+    }
+
+    public (int,int) GetWaitingAreaSpotNew(Vector3 startPosition, int trainLine)
+    {
+        float bestScore = Mathf.Infinity;
+        WaitingArea bestWaitingArea = null;
+        foreach (WaitingArea waitingArea in waitingAreas)
+        {   
+            if(!waitingArea.HasFreeWaitingSpots())
+            {
+                continue;
+            }
+            float score;
+            float distance = Vector3.Distance(startPosition, waitingArea.transform.position);
+            distance /= 150f; // Normalize the distance to a value between 0 and 1
+            float density = waitingArea.GetDensity();
+            int closestTrainLine;
+
+            if(waitingArea.transform.position.x >= 0)
+            {
+                closestTrainLine = 1;
+            }
+            else
+            {
+                closestTrainLine = 2;
+            }
+
+            float lineMismatch;
+
+            if(trainLine == closestTrainLine)
+            {
+                lineMismatch = 0f;
+            }
+            else
+            {
+                lineMismatch = 1f;
+            }
+
+            float priority = waitingArea.priority * 0.1f;
+
+            score = wdistance * distance + wdensity * density + wtrainline * lineMismatch + wpriority * priority;
+
+            if(score < bestScore)
+            {
+                bestScore = score;
+                bestWaitingArea = waitingArea;
+            }
+        }
+        if(bestWaitingArea == null)
+        {
+            return (-1,-1);
+        }
+
+        (int waitingAreaMapIndex, int waitingAreaSpot) areaAndSpot = bestWaitingArea.getWaitingSpot();
+        if(areaAndSpot.waitingAreaSpot != -1)
+        {
+            return (areaAndSpot.waitingAreaMapIndex, areaAndSpot.waitingAreaSpot);
+        }
+
         return (-1,-1);
     }
 

@@ -14,6 +14,7 @@ public class WaitingArea : MonoBehaviour
     public int columns = 5;
     public bool debug = false;
     public float waitingSpotSize = 0.5f;
+    public int priority = 1;
 
     internal List<Vector3> waitingSpots;
     internal List<bool> isOccupied;
@@ -33,6 +34,13 @@ public class WaitingArea : MonoBehaviour
             GenerateFixedSizeWaitingSpots();
         }
         freeWaitingSpots = Enumerable.Range(0, waitingSpots.Count).ToList();
+    }
+
+    // Returns the percentage of occupied spots in the waiting area.
+    public float GetDensity()
+    {
+        float density = (waitingSpots.Count-isOccupied.Count(spot => spot == false))/ (float)waitingSpots.Count;
+        return density;
     }
 
     /*
@@ -133,6 +141,11 @@ public class WaitingArea : MonoBehaviour
 
         // No available spots
         return (-1, -1);
+    }
+
+    public bool HasFreeWaitingSpots()
+    {
+        return !isOccupied.All(spot => spot == true);
     }
 
     private int getWaitingSpotInOrder()

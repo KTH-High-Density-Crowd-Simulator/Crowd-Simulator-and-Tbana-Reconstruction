@@ -353,10 +353,18 @@ public class Spawner : MonoBehaviour {
 
 		int agentGoal = goal;
 
+		int trainLine = Random.Range(1,3);
+		if(subwayAgents)
+		{
+			
+			agent.subwayData = new Agent.SubwayData(trainLine);
+
+		}
+
 		if(waitingAgents)
 		{
 			// Find a waiting area goal for the agent. If there are no free waiting area spots their goal will be the ordinary goal for this spawner.
-			(int waitingArea,int waitingSpot) waitingAreaSpot = waitingAreaController.GetWaitingAreaSpot(node);
+			(int waitingArea,int waitingSpot) waitingAreaSpot = waitingAreaController.GetWaitingAreaSpotNew(startPosition, trainLine);
 			if(waitingAreaSpot.waitingArea != -1)
 			{
 				agent.setWaitingAgent(true);
@@ -364,13 +372,6 @@ public class Spawner : MonoBehaviour {
 				agent.waitingSpot = waitingAreaSpot.waitingSpot;
 				agent.waitingArea = map.allNodes[waitingAreaSpot.waitingArea].GetComponent<WaitingArea>();
 			}
-		}
-
-		if(subwayAgents)
-		{
-			int trainLine = Random.Range(1,3);
-			agent.subwayData = new Agent.SubwayData(trainLine);
-
 		}
 
 		agent.InitializeAgent (startPosition, node, agentGoal, ref map);
