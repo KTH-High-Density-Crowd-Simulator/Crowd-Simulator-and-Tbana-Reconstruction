@@ -514,6 +514,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Waiting Area (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
       value: 
@@ -2066,6 +2070,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Waiting Area (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
       value: 
@@ -2485,6 +2493,10 @@ PrefabInstance:
     - target: {fileID: 7986685869924602631, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: m_Name
       value: Waiting Area (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -4058,7 +4070,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -4067,6 +4079,10 @@ PrefabInstance:
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: rows
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: debug
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: columns
@@ -7019,7 +7035,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -8238,7 +8254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -8877,7 +8893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -8886,6 +8902,10 @@ PrefabInstance:
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: rows
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: debug
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: columns
@@ -10063,7 +10083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -12191,7 +12211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -12200,6 +12220,10 @@ PrefabInstance:
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: rows
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: debug
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: columns
@@ -12939,6 +12963,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Waiting Area (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
       value: 
@@ -13356,7 +13384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -13669,6 +13697,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Waiting Area (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
       value: 
@@ -13951,6 +13983,10 @@ PrefabInstance:
     - target: {fileID: 7986685869924602631, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: m_Name
       value: Waiting Area (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -14613,7 +14649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: thresholdDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
@@ -15924,6 +15960,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Waiting Area (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal
       value: 
@@ -17146,6 +17186,10 @@ PrefabInstance:
     - target: {fileID: 7986685869924602631, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: m_Name
       value: Waiting Area (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881275998846585255, guid: 414a733856d94664dac68461db536e3c, type: 3}
+      propertyPath: thresholdDistance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9100568367219303109, guid: 414a733856d94664dac68461db536e3c, type: 3}
       propertyPath: goal

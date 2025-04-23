@@ -35,6 +35,11 @@ public class WaitingArea : MonoBehaviour
             GenerateFixedSizeWaitingSpots();
         }
         freeWaitingSpots = Enumerable.Range(0, waitingSpots.Count).ToList();
+        
+        if(!debug)
+        {
+            transform.Find("Area").GetComponent<Renderer>().enabled = false;
+        }
     }
 
     // Returns the percentage of occupied spots in the waiting area.

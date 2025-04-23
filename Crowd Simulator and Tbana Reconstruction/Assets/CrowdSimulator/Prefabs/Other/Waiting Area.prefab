@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 2
   columns: 10
-  debug: 1
+  debug: 0
   waitingSpotSize: 0.5
   priority: 1
   useRowColumns: 0
