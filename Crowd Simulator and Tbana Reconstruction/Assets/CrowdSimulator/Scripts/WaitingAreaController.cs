@@ -132,7 +132,7 @@ public class WaitingAreaController : MonoBehaviour
                 Rigidbody rb = agent.GetComponent<Rigidbody>();
                 rb.constraints = RigidbodyConstraints.None;
                 // Set the agent's layer to default
-                agent.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+                agent.gameObject.layer = LayerMask.NameToLayer("Agent");
 
                 agent.done = false;
                 FindObjectOfType<Main>().AddToAgentList(agent);

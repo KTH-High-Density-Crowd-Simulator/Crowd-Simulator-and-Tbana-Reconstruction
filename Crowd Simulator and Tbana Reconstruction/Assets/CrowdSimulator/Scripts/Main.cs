@@ -244,7 +244,7 @@ public class Main : MonoBehaviour {
 		int closestNode = -1;
 		float closestDistance = Mathf.Infinity;
 
-		int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Ignore Raycast");
+		int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Agent");
 		int layerMask = ~layersToIgnore; // ignore these layers
 
 		for (int j = 0; j < roadmap.allNodes.Count; ++j) {

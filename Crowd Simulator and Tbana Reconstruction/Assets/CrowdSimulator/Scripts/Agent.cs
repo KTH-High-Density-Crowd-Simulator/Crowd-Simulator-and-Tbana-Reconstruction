@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
+
 public class Agent : MonoBehaviour {
 	public Vector3 preferredVelocity, continuumVelocity, collisionAvoidanceVelocity;
 	public Vector3 velocity;
@@ -176,7 +177,7 @@ public class Agent : MonoBehaviour {
 			//Can we see next goal?
 			Vector3 next = map.allNodes[path[pathIndex+modifier]].getTargetPoint(transform.position);
 			Vector3 dir = next - transform.position;
-			int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Ignore Raycast");
+			int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Agent");
 			int layerMask = ~layersToIgnore;
 
 			if (!Physics.Raycast(transform.position, dir.normalized, dir.magnitude, layerMask)) {
