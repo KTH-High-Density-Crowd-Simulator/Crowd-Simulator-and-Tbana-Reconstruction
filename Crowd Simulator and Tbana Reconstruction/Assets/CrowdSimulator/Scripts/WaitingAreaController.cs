@@ -15,6 +15,9 @@ public class WaitingAreaController : MonoBehaviour
     private MapGen.map roadmap;    
     public GameObject agentContainer;                                 // The map of the nodes in the scene
     public float wdistance = 1.0f, wdensity = 1.0f, wtrainline = 1.0f, wpriority = 1.0f;
+    public bool debug = false;
+    public float waitingSpotSize = 0.5f;
+    public bool useRowColumns = false;
 
     public void Initialize()
     {
@@ -25,6 +28,7 @@ public class WaitingAreaController : MonoBehaviour
         foreach(WaitingArea waitingArea in FindObjectsOfType<WaitingArea>())
         {
             waitingAreas.Add(waitingArea);
+            waitingArea.Initialize(debug, waitingSpotSize, useRowColumns);
         }
 
         roadmap = FindObjectOfType<MapGen>().getRoadmap();

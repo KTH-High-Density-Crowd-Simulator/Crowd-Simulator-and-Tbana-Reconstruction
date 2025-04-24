@@ -12,8 +12,8 @@ public class WaitingArea : MonoBehaviour
     // Grid based on number of rows and columns
     public int rows = 3;
     public int columns = 5;
-    public bool debug = false;
-    public float waitingSpotSize = 0.5f;
+    private bool debug = false;
+    private float waitingSpotSize = 0.5f;
     public int priority = 1;
 
     internal List<Vector3> waitingSpots;
@@ -21,11 +21,14 @@ public class WaitingArea : MonoBehaviour
     internal List<int> freeWaitingSpots;
     private int currentWaitingSpotIndex = 0;
     private int mapIndex;
-    public bool useRowColumns = false;
+    private bool useRowColumns = false;
     public Material[] priorityMaterials;
 
-    void OnEnable()
+    public void Initialize(bool debug, float waitingSpotSize, bool useRowColumns)
     {
+        this.debug = debug;
+        this.waitingSpotSize = waitingSpotSize;
+        this.useRowColumns = useRowColumns;
         if(useRowColumns)
         {
             GenerateRowColumnWaitingSpots();
