@@ -36,10 +36,12 @@ public class Agent : MonoBehaviour {
 	internal struct SubwayData
 	{
 		internal int trainLine;
+		internal bool boarding;
 
 		internal SubwayData(int trainLine)
 		{
 			this.trainLine = trainLine;
+			boarding = false;
 		}
 	}
 	internal SubwayData? subwayData;

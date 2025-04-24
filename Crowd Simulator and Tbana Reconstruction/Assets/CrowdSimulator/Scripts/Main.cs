@@ -196,8 +196,12 @@ public class Main : MonoBehaviour {
 		for(int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
-			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
+			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine && !agent.subwayData.Value.boarding)
 			{
+				var data = agent.subwayData ?? new Agent.SubwayData();
+				data.boarding = true;
+				agent.subwayData = data;
+
 				int closestTrainDoor = waitingAreaController.FindClosestTrainDoor(ref agent);
 				int closestNode = FindClosestNode(agent.transform.position);
 				agent.setNewPath(closestNode, closestTrainDoor, ref roadmap);
@@ -221,8 +225,12 @@ public class Main : MonoBehaviour {
 		for(int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
-			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
+			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine && !agent.subwayData.Value.boarding)
 			{
+				var data = agent.subwayData ?? new Agent.SubwayData();
+				data.boarding = true;
+				agent.subwayData = data;
+
 				int closestTrainDoor = waitingAreaController.FindClosestTrainDoor(ref agent);
 				int closestNode = FindClosestNode(agent.transform.position);
 				agent.setNewPath(closestNode, closestTrainDoor, ref roadmap);
