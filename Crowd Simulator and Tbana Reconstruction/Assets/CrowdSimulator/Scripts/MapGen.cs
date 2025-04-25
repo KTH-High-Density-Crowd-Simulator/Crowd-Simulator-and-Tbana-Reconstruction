@@ -115,15 +115,15 @@ public class MapGen : MonoBehaviour {
 		foreach(CustomNode c in Object.FindObjectsOfType<CustomNode> ()) {
 			map.Add (c.transform.position);
 			m.allNodes.Add (c); //Assume a circle threshold
-			if (c.gameObject.GetComponent<CustomNode> ().isSpawn) {
-				spawnNode sn = new spawnNode ();
+			if (c.gameObject.GetComponent<CustomNode>().isSpawn && c.gameObject.GetComponent<TrainSpawner>() == null) {
+				spawnNode sn = new spawnNode();
 				sn.node = map.Count - 1;
 				sn.spawner = c.gameObject.transform.parent.gameObject.GetComponent<Spawner>();
 				sn.spawner.SetNode(sn.node);
 				m.spawns.Add (sn);
 				//	c.gameObject.transform.parent.gameObject.GetComponent<Renderer> ().enabled = false;
 			} 
-			if (c.gameObject.GetComponent<CustomNode> ().isGoal) {
+			if (c.gameObject.GetComponent<CustomNode>().isGoal) {
 				m.goals.Add (map.Count-1);
 			} 
 			// Inform the waiting area of its node index in the map
@@ -131,6 +131,7 @@ public class MapGen : MonoBehaviour {
 			{
 				c.GetComponent<WaitingArea>().setMapIndex(map.Count - 1);
 			}
+			c.index = map.Count - 1;
 
 			Renderer r = c.GetComponent<Renderer> ();
 			if (r != null) {

@@ -61,7 +61,7 @@ public class Main : MonoBehaviour {
 	[Range(0.01f, 1f)]
 	public float alpha; 
 
-	List<Agent> agentList = new List<Agent>();
+	internal List<Agent> agentList = new List<Agent>();
 	public int maxNumberOfAgents = 1000; // Maximum number of agents when spawning continuously
 
 	public bool showSplattedDensity = false;

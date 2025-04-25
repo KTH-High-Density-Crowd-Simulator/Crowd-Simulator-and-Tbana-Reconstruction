@@ -5,6 +5,7 @@ public class CustomNode : MonoBehaviour {
 
 	public bool isSpawn = false;
 	public bool isGoal = false;
+	public int index;
 
 	public virtual float getThreshold() {
 		Vector3 A = transform.TransformPoint(new Vector3 (0.5f, 0, 0));
