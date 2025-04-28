@@ -51,8 +51,8 @@ public class Train : MonoBehaviour
         
     }
 
-    [ContextMenu("Alight Train")]
-    public void AlightTrain()
+    [ContextMenu("Alight")]
+    public void Alight()
     {
         foreach (TrainSpawner spawner in trainSpawners)
         {   
