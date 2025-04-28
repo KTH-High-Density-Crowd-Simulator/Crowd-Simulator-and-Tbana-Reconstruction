@@ -25,7 +25,7 @@ public class TrainSpawner : MonoBehaviour
     public IEnumerator SpawnAgents()
     {
         for (int i = 0; i < numberOfAgents; ++i) {
-			Vector3 startPos = new Vector3(transform.position.x + Random.Range(-1.5f, 1.5f), transform.position.y, transform.position.z + Random.Range(-1.5f, 1.5f));
+			Vector3 startPos = new Vector3(transform.position.x + Random.Range(-1.5f, 1.5f), transform.position.y, transform.position.z + Random.Range(-0.5f, 0.5f));
 			spawnOneAgent (startPos);
 			yield return new WaitForSeconds (burstRate);
 		}
