@@ -291,8 +291,7 @@ public class Spawner : MonoBehaviour {
 	}
 
 	internal IEnumerator spawnContinously(float continousSpawnRate) {
-		float spawnSizeX = transform.localScale.x;
-		float spawnSizeZ = transform.localScale.z;
+		Transform spawnerNode = transform.GetChild(0);
 
 		if(usePoisson)
 		{
@@ -306,7 +305,9 @@ public class Spawner : MonoBehaviour {
 		}
 		
 		if (agentList.Count + waitingAreaController.waitingAgents.Count < mainScript.maxNumberOfAgents) {
-			Vector3 startPos = new Vector3 (Random.Range (-0.5f, 0.5f), 0.15f, Random.Range (-0.5f, 0.5f)); startPos = transform.TransformPoint (startPos);
+			Vector3 startPos = new Vector3 (Random.Range (-0.5f, 0.5f), 0f, Random.Range (-0.5f, 0.5f)); 
+			startPos = spawnerNode.TransformPoint (startPos);
+			Debug.DrawLine(startPos, startPos + Vector3.up * 0.5f, Color.red, 10f);
 			float randomRange = Random.Range(0.0f, 1.0f);
 			if (!useGroupedAgents || randomRange < individualAgents) {
 				spawnOneAgent(startPos);
