@@ -364,8 +364,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   train1: {fileID: 1314993762}
   train2: {fileID: 908229884}
-  arriveInterval: 60
-  dwellTime: 30
+  arriveInterval: 10
+  dwellTime: 5
   waitingAreaController: {fileID: 288606869}
 --- !u!4 &7590237
 Transform:
@@ -4043,7 +4043,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285564994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 
@@ -4243,7 +4243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: visibleMap
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: smoothTurns
@@ -17606,7 +17606,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540456526}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 
@@ -20963,7 +20963,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629048326}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 
@@ -24181,7 +24181,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116491434}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 

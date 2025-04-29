@@ -307,7 +307,6 @@ public class Spawner : MonoBehaviour {
 		if (agentList.Count + waitingAreaController.waitingAgents.Count < mainScript.maxNumberOfAgents) {
 			Vector3 startPos = new Vector3 (Random.Range (-0.5f, 0.5f), 0f, Random.Range (-0.5f, 0.5f)); 
 			startPos = spawnerNode.TransformPoint (startPos);
-			Debug.DrawLine(startPos, startPos + Vector3.up * 0.5f, Color.red, 10f);
 			float randomRange = Random.Range(0.0f, 1.0f);
 			if (!useGroupedAgents || randomRange < individualAgents) {
 				spawnOneAgent(startPos);
