@@ -178,12 +178,12 @@ public class Agent : MonoBehaviour {
 	}
 
 	internal bool canSeeNext(ref MapGen.map map, int modifier) {
-		if (pathIndex + modifier< path.Count && pathIndex + modifier >= 0 && pathIndex + modifier < map.allNodes.Count) {
+		if (pathIndex + modifier < path.Count && pathIndex + modifier >= 0 && pathIndex + modifier < map.allNodes.Count) {
 			//Can we see next goal?
 			Vector3 next = map.allNodes[path[pathIndex+modifier]].getTargetPoint(transform.position);
 			int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Agent");
 			int layerMask = ~layersToIgnore;
-			Vector3 targetPosition = transform.position - transform.forward * 2f;
+			Vector3 targetPosition = transform.position - transform.forward;
 			Vector3 dir = next - targetPosition;
 			if (!Physics.Raycast(targetPosition, dir.normalized, dir.magnitude, layerMask)) {
 				return true;
