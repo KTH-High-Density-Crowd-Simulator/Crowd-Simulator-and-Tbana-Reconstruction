@@ -364,7 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   train1: {fileID: 1314993762}
   train2: {fileID: 908229884}
-  arriveInterval: 10
+  arriveInterval: 500
   dwellTime: 5
   waitingAreaController: {fileID: 288606869}
 --- !u!4 &7590237
@@ -4043,7 +4043,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285564994}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 
@@ -4066,8 +4066,8 @@ MonoBehaviour:
   groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 446555961}
-  spawnRate: 1
-  usePoisson: 1
+  spawnRate: 10
+  usePoisson: 0
 --- !u!114 &288606869 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7032286784090803201, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
@@ -6709,7 +6709,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size
@@ -17606,7 +17606,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540456526}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 
@@ -17629,8 +17629,8 @@ MonoBehaviour:
   groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 216364175}
-  spawnRate: 1
-  usePoisson: 1
+  spawnRate: 10
+  usePoisson: 0
 --- !u!1 &1543804604
 GameObject:
   m_ObjectHideFlags: 0
@@ -20963,7 +20963,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629048326}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 
@@ -20986,8 +20986,8 @@ MonoBehaviour:
   groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 443753746}
-  spawnRate: 1
-  usePoisson: 1
+  spawnRate: 10
+  usePoisson: 0
 --- !u!1 &1864808929
 GameObject:
   m_ObjectHideFlags: 0
@@ -24181,7 +24181,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116491434}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
   m_Name: 
@@ -24204,8 +24204,8 @@ MonoBehaviour:
   groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 327909441}
-  spawnRate: 1
-  usePoisson: 1
+  spawnRate: 10
+  usePoisson: 0
 --- !u!1 &2119348801
 GameObject:
   m_ObjectHideFlags: 0
@@ -24583,7 +24583,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size
