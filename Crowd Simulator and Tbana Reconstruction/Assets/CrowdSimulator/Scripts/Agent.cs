@@ -15,6 +15,7 @@ public class Agent : MonoBehaviour {
 	neighbourRightVelocityWeight, neighbourLeftVelocityWeight, neighbourUpperVelocityWeight, neighbourLowerVelocityWeight;
 	internal float densityAtAgentPosition;
 
+	internal Vector3 targetPoint;
 	internal bool done = false;
 	internal bool noMap = false;
 	internal Vector3 noMapGoal;
@@ -111,7 +112,8 @@ public class Agent : MonoBehaviour {
 		}
 
 		pathIndex = 1;
-		preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint (transform.position) - transform.position).normalized;
+		targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+		preferredVelocity = (targetPoint - transform.position).normalized;
 	}
 
 	public void InitializeAgent(Vector3 pos, int start, int goal, ref MapGen.map map) {
@@ -121,7 +123,8 @@ public class Agent : MonoBehaviour {
 		path = new List<int>(map.shortestPaths[start][goal]);
 
 		pathIndex = 1;
-		preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint (transform.position) - transform.position).normalized;
+		targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+		preferredVelocity = (targetPoint - transform.position).normalized;
 		transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); // Modify this to change the size of characters new Vector3(2.0f, 2.0f, 2.0f) is normal size
 	}
 
@@ -194,15 +197,19 @@ public class Agent : MonoBehaviour {
 	bool change = false;
 	internal void calculatePreferredVelocityMap(ref MapGen.map map) {
 		previousDirection = preferredVelocity.normalized;
-		if (map.allNodes[path[pathIndex]].IsAgentInsideArea(transform.position) || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) {
+		if (map.allNodes[path[pathIndex]].IsAgentInsideArea(transform.position) || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) 
+		{
 			//New node reached
 			collision = false;
 			pathIndex += 1;
-			if (pathIndex >= path.Count) {
+			if (pathIndex >= path.Count) 
+			{
 				//Done
 				done = true;
-			} else {
-				Vector3 nextDirection = ((map.allNodes [path [pathIndex]].getTargetPoint(transform.position)) - transform.position).normalized;
+			} else 
+			{
+				targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+				Vector3 nextDirection = (targetPoint - transform.position).normalized;
 				if (Vector3.Angle (previousDirection, nextDirection) > 20.0f && Grid.instance.smoothTurns) {
 					preferredVelocity = Vector3.RotateTowards (velocity.normalized, nextDirection, Grid.instance.dt*((35.0f - 400*Grid.instance.dt) * Mathf.PI / 180.0f), 15.0f).normalized;
 					change = true;
@@ -214,12 +221,12 @@ public class Agent : MonoBehaviour {
 			change = false;
 		} else {
 			collision = false;
-			Vector3 nextDirection = (map.allNodes [path [pathIndex]].getTargetPoint(transform.position) - transform.position).normalized;
+			Vector3 nextDirection = (targetPoint - transform.position).normalized;
 			if (change && Vector3.Angle (previousDirection, nextDirection) > 20.0f && Grid.instance.smoothTurns) {
 				preferredVelocity = Vector3.RotateTowards(velocity.normalized, nextDirection, Grid.instance.dt*((35.0f - 400*Grid.instance.dt) * Mathf.PI / 180.0f),  15.0f).normalized;
 			} else {
 				change = false;
-				preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint(transform.position) - transform.position).normalized;
+				preferredVelocity = (targetPoint - transform.position).normalized;
 			}
 		}
 		//collision = false;
