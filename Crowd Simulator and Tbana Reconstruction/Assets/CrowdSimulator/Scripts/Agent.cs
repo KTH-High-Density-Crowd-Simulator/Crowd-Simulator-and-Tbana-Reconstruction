@@ -194,7 +194,7 @@ public class Agent : MonoBehaviour {
 	bool change = false;
 	internal void calculatePreferredVelocityMap(ref MapGen.map map) {
 		previousDirection = preferredVelocity.normalized;
-		if ((transform.position - map.allNodes[path[pathIndex]].getTargetPoint(transform.position)).magnitude < map.allNodes[path[pathIndex]].getThreshold() || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) {
+		if (map.allNodes[path[pathIndex]].IsAgentInsideArea(transform.position) || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) {
 			//New node reached
 			collision = false;
 			pathIndex += 1;

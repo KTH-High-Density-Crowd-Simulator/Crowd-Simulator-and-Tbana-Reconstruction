@@ -30,8 +30,8 @@ public class WaitingAreaNode : CustomNode
     /**
     * The agents have reached this node when they are within the threshold distance of the plane.
     */
-    public override float getThreshold()
-    {
-        return thresholdDistance;
-    }
+    public override bool IsAgentInsideArea(Vector3 agentPosition)
+	{
+		return Vector3.Distance(agentPosition, getTargetPoint(agentPosition)) < thresholdDistance;
+	}
 }
