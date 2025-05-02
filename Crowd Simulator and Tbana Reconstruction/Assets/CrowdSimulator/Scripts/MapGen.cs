@@ -18,7 +18,7 @@ public class MapGen : MonoBehaviour {
 
 	public struct spawnNode {
 		public int node;
-		public Spawner spawner;
+		public NewSpawner spawner;
 	}
 
 	private map roadmap;
@@ -118,7 +118,7 @@ public class MapGen : MonoBehaviour {
 			if (c.gameObject.GetComponent<CustomNode>().isSpawn && c.gameObject.GetComponent<TrainSpawner>() == null) {
 				spawnNode sn = new spawnNode();
 				sn.node = map.Count - 1;
-				sn.spawner = c.gameObject.transform.parent.gameObject.GetComponent<Spawner>();
+				sn.spawner = c.gameObject.transform.parent.gameObject.GetComponent<NewSpawner>();
 				sn.spawner.SetNode(sn.node);
 				m.spawns.Add (sn);
 				//	c.gameObject.transform.parent.gameObject.GetComponent<Renderer> ().enabled = false;

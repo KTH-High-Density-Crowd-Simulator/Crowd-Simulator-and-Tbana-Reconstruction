@@ -364,8 +364,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   train1: {fileID: 1314993762}
   train2: {fileID: 908229884}
-  arriveInterval: 30
-  dwellTime: 15
+  arriveInterval: 15
+  dwellTime: 5
   waitingAreaController: {fileID: 288606869}
 --- !u!4 &7590237
 Transform:
@@ -3732,29 +3732,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 285564994}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnMethod: 3
-  numberOfAgents: 0
-  useGroupedAgents: 0
-  individualAgents: 0
-  percentOfTwoInGroup: 0
-  percentOfThreeInGroup: 0
-  percentOfFourInGroup: 0
   useSimpleAgents: 1
-  circleRadius: 0
-  numberOfDiscRows: 0
-  rows: 0
-  rowLength: 0
   waitingAgents: 1
   subwayAgents: 1
-  agentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
-  groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 446555961}
   spawnRate: 2
   usePoisson: 1
+  agentPrefab: {fileID: 114000012423741106, guid: 62fcfdbb183bc094c9e69e041b60eaaf, type: 3}
 --- !u!114 &288606869 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7032286784090803201, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
@@ -16383,29 +16371,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1540456526}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnMethod: 3
-  numberOfAgents: 0
-  useGroupedAgents: 0
-  individualAgents: 0
-  percentOfTwoInGroup: 0
-  percentOfThreeInGroup: 0
-  percentOfFourInGroup: 0
   useSimpleAgents: 1
-  circleRadius: 0
-  numberOfDiscRows: 0
-  rows: 0
-  rowLength: 0
   waitingAgents: 1
   subwayAgents: 1
-  agentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
-  groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 216364175}
   spawnRate: 2
   usePoisson: 1
+  agentPrefab: {fileID: 114000012423741106, guid: 62fcfdbb183bc094c9e69e041b60eaaf, type: 3}
 --- !u!1 &1543804604
 GameObject:
   m_ObjectHideFlags: 0
@@ -19378,14 +19354,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8215633196484945561, guid: 83b818e6fef608845b447fdb1ec01c8f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1855891887}
+      addedObject: {fileID: 1855891883}
   m_SourcePrefab: {fileID: 100100000, guid: 83b818e6fef608845b447fdb1ec01c8f, type: 3}
 --- !u!4 &1855891882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 483958788417783041, guid: 83b818e6fef608845b447fdb1ec01c8f, type: 3}
   m_PrefabInstance: {fileID: 1855891881}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1855891887
+--- !u!114 &1855891883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19394,29 +19370,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629048326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnMethod: 3
-  numberOfAgents: 0
-  useGroupedAgents: 0
-  individualAgents: 0
-  percentOfTwoInGroup: 0
-  percentOfThreeInGroup: 0
-  percentOfFourInGroup: 0
   useSimpleAgents: 1
-  circleRadius: 0
-  numberOfDiscRows: 0
-  rows: 0
-  rowLength: 0
   waitingAgents: 1
   subwayAgents: 1
-  agentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
-  groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 443753746}
   spawnRate: 2
   usePoisson: 1
+  agentPrefab: {fileID: 114000012423741106, guid: 62fcfdbb183bc094c9e69e041b60eaaf, type: 3}
 --- !u!1 &1864808929
 GameObject:
   m_ObjectHideFlags: 0
@@ -22489,29 +22453,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2116491434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d48e31efd525945874c429466b4c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnMethod: 3
-  numberOfAgents: 0
-  useGroupedAgents: 0
-  individualAgents: 0
-  percentOfTwoInGroup: 0
-  percentOfThreeInGroup: 0
-  percentOfFourInGroup: 0
   useSimpleAgents: 1
-  circleRadius: 0
-  numberOfDiscRows: 0
-  rows: 0
-  rowLength: 0
   waitingAgents: 1
   subwayAgents: 1
-  agentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
-  groupAgentSpawnColor: {r: 0, g: 0, b: 0, a: 1}
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 327909441}
   spawnRate: 2
   usePoisson: 1
+  agentPrefab: {fileID: 114000012423741106, guid: 62fcfdbb183bc094c9e69e041b60eaaf, type: 3}
 --- !u!1 &2119348801
 GameObject:
   m_ObjectHideFlags: 0
