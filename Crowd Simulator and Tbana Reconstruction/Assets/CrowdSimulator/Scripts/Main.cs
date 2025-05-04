@@ -5,14 +5,6 @@ using Unity.VisualScripting;
 
 public class Main : MonoBehaviour {
 
-	public enum Method{
-		uniformSpawn,
-		circleSpawn,
-		discSpawn,
-		continuousSpawn,
-		areaSpawn
-	}
-
 	public enum LCPSolutioner {
 		mprgp,
 		mprgpmic0,
@@ -36,13 +28,8 @@ public class Main : MonoBehaviour {
 
 
 
-	public GameObject agentPrefabs;
-	public GameObject groupAgentPrefabs;
-	public Agent shirtColorPrefab;
-
-
 	public Grid gridPrefab;
-	public Spawner spawnerPrefab;
+	public NewSpawner spawnerPrefab;
 	public MapGen mapGen;
 	public Plane plane;
 	internal static Vector2 xMinMax;
@@ -128,6 +115,7 @@ public class Main : MonoBehaviour {
 											 ref agentList, xMinMax, zMinMax, agentAvoidanceRadius);
 		}
 	}
+
 
     /**
 	 * Main simulation loop which is called every frame
