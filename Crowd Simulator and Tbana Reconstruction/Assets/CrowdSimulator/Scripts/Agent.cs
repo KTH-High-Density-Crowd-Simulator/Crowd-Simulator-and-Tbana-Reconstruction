@@ -125,7 +125,7 @@ public class Agent : MonoBehaviour {
 		pathIndex = 1;
 		targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
 		preferredVelocity = (targetPoint - transform.position).normalized;
-		transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); // Modify this to change the size of characters new Vector3(2.0f, 2.0f, 2.0f) is normal size
+		//transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); // Modify this to change the size of characters new Vector3(2.0f, 2.0f, 2.0f) is normal size
 	}
 
 	public void ApplyMaterials(Material materialColor, ref Dictionary<string, int> skins, Material argMat = null)
@@ -421,7 +421,10 @@ public class Agent : MonoBehaviour {
 
 	public void setAnimatorStanding(bool isStanding)
 	{
-		animator.SetBool("Standing",isStanding);
+		if(!(animator == null))
+		{
+			animator.SetBool("Standing",isStanding);
+		}
 	}
 
 	public void rotateAgent(Vector3 target)
