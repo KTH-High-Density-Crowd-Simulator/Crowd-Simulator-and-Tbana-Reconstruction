@@ -364,8 +364,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   train1: {fileID: 1314993762}
   train2: {fileID: 908229884}
-  arriveInterval: 15
-  dwellTime: 5
+  arriveInterval: 30
+  dwellTime: 10
   waitingAreaController: {fileID: 288606869}
 --- !u!4 &7590237
 Transform:
@@ -1317,7 +1317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8215633196484945561, guid: 83b818e6fef608845b447fdb1ec01c8f, type: 3}
       propertyPath: m_Name
-      value: Goal (1)
+      value: Spawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -3740,7 +3740,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 446555961}
-  spawnRate: 2
+  spawnRate: 3
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!114 &288606869 stripped
@@ -6074,7 +6074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8215633196484945561, guid: 83b818e6fef608845b447fdb1ec01c8f, type: 3}
       propertyPath: m_Name
-      value: Goal (3)
+      value: Spawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -6265,7 +6265,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 500
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size
@@ -9087,7 +9087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8215633196484945561, guid: 83b818e6fef608845b447fdb1ec01c8f, type: 3}
       propertyPath: m_Name
-      value: Goal
+      value: Spawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -16383,7 +16383,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 216364175}
-  spawnRate: 2
+  spawnRate: 3
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!1 &1543804604
@@ -19346,7 +19346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8215633196484945561, guid: 83b818e6fef608845b447fdb1ec01c8f, type: 3}
       propertyPath: m_Name
-      value: Goal (3)
+      value: Spawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -19382,7 +19382,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 443753746}
-  spawnRate: 2
+  spawnRate: 3
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!1 &1864808929
@@ -22048,7 +22048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2089987330}
   m_Layer: 0
-  m_Name: Exits
+  m_Name: Entrances/Exits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22465,7 +22465,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 327909441}
-  spawnRate: 2
+  spawnRate: 3
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!1 &2119348801
@@ -22849,7 +22849,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 500
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size
