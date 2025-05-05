@@ -113,6 +113,11 @@ public class Agent : MonoBehaviour {
 		path = map.shortestPaths[start][goal];
 
 		pathIndex = 1;
+
+		if(path.Count <= 1)
+		{
+			pathIndex = 0;
+		}
 		try
 		{
 			targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
@@ -125,10 +130,6 @@ public class Agent : MonoBehaviour {
 		}
 		//targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
 		preferredVelocity = (targetPoint - transform.position).normalized;
-		if(path.Count <= 2)
-		{
-			Debug.Log("My path is too short!");
-		}
 	}
 
 	public void InitializeAgent(Vector3 pos, int start, int goal, ref MapGen.map map) {
