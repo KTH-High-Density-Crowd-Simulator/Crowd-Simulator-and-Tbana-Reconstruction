@@ -4290,7 +4290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1644231237306657552
 Transform:
   m_ObjectHideFlags: 0
@@ -6042,6 +6042,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -6131,6 +6135,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6284,6 +6292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -6435,6 +6447,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6712,6 +6728,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -6988,6 +7008,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -7202,6 +7226,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -7353,6 +7381,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7634,6 +7666,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -7847,6 +7883,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8189,6 +8229,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9044,6 +9088,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -9133,6 +9181,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9475,6 +9527,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9826,6 +9882,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -10105,6 +10165,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10770,6 +10834,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -11236,6 +11304,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -11325,6 +11397,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11477,6 +11553,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11831,6 +11911,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12376,6 +12460,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -12531,6 +12619,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12874,6 +12966,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -13150,6 +13246,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -13364,6 +13464,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8483353
@@ -13453,6 +13557,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13667,6 +13775,10 @@ PrefabInstance:
     - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_Name
       value: TrainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012620143854, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
+      propertyPath: m_TagString
+      value: InsideTrainNode
       objectReference: {fileID: 0}
     - target: {fileID: 4000014275702142, guid: e88375e87842b144aa2dda2a80b3b4f3, type: 3}
       propertyPath: m_LocalPosition.x
