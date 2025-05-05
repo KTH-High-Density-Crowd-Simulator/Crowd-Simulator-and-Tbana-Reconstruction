@@ -28,18 +28,19 @@ public class Agent : MonoBehaviour {
 	Vector3 previousDirection;
 	public float walkingSpeed;
     public float maxWaitTime = 2f;
+	private bool isProblem = false;
 
 	// Waiting
 	internal bool isWaitingAgent;
 	internal WaitingArea waitingArea;
 	internal int waitingSpot;
 	// Subway
-	internal struct SubwayData
+	public struct SubwayData
 	{
-		internal int trainLine;
-		internal bool boarding;
+		public int trainLine;
+		public bool boarding;
 
-		internal SubwayData(int trainLine)
+		public SubwayData(int trainLine)
 		{
 			this.trainLine = trainLine;
 			boarding = false;
@@ -85,6 +86,21 @@ public class Agent : MonoBehaviour {
 		
 	}
 
+	private void OnDrawGizmos()
+	{
+		UnityEditor.Handles.color = Color.red;
+		if(isProblem)
+		{
+			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "Problem!!!");
+			Debug.DrawLine(transform.position, transform.position + Vector3.up * 5f, Color.red, 10f);
+		}
+		if(pathIndex < path.Count)
+		{
+			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, path[pathIndex].ToString());
+		}
+		
+	}
+
     public void setWaitingAgent(bool isWaitingAgent)
 	{
 		this.isWaitingAgent = isWaitingAgent;
@@ -94,33 +110,32 @@ public class Agent : MonoBehaviour {
 		calculateRowAndColumn();
 		this.goal = goal;
 
-		path = new List<int>(map.shortestPaths[start][goal]);
-
-		int outsideTrainNode = -1;
-		float shortestDistance = Mathf.Infinity;
-		for(int i = 0; i < map.distances[goal].Count; i++)
-		{
-			if(map.distances[goal][i] < shortestDistance && i != goal)
-			{
-				shortestDistance = map.distances[goal][i];
-				outsideTrainNode = i;
-			}
-		}
-		if(path[path.Count-2] != outsideTrainNode)
-		{
-			path.Insert(path.Count - 1, outsideTrainNode);
-		}
+		path = map.shortestPaths[start][goal];
 
 		pathIndex = 1;
-		targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+		try
+		{
+			targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+		}
+		catch (System.Exception e)
+		{
+			Debug.LogError("Path index out of range: " + e.Message);
+			isProblem = true;
+			return;
+		}
+		//targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
 		preferredVelocity = (targetPoint - transform.position).normalized;
+		if(path.Count <= 2)
+		{
+			Debug.Log("My path is too short!");
+		}
 	}
 
 	public void InitializeAgent(Vector3 pos, int start, int goal, ref MapGen.map map) {
 		transform.position = pos;
 		transform.right = transform.right;
 		this.goal = goal;
-		path = new List<int>(map.shortestPaths[start][goal]);
+		path = map.shortestPaths[start][goal];
 
 		pathIndex = 1;
 		targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);

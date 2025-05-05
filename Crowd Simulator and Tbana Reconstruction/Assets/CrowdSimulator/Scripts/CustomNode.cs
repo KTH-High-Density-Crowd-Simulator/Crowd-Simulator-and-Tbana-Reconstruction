@@ -18,4 +18,10 @@ public class CustomNode : MonoBehaviour {
 	public virtual Vector3 getTargetPoint(Vector3 origin) {
 		return transform.position;
 	}
+
+	private void OnDrawGizmos()
+	{
+		UnityEditor.Handles.color = Color.white;
+		UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, index.ToString());
+	}
 }

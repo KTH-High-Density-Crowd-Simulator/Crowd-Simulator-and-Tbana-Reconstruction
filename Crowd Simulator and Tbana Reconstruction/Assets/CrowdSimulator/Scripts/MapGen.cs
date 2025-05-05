@@ -299,6 +299,30 @@ public class MapGen : MonoBehaviour {
 		for (int i = 0; i < shortestPaths.Count; ++i) {
 			for (int j = 0; j < shortestPaths.Count; ++j) {
 				shortestPaths[i][j] = path (ref next, i, j);
+				if (roadmap.allNodes[j].tag == "InsideTrainNode")
+				{
+					int closestNode = -1;
+					float shortestDistance = Mathf.Infinity;
+
+					for (int k = 0; k < dist[j].Count; k++)
+					{
+						if (k == i || k == j) continue;
+
+						if (dist[j][k] < shortestDistance)
+						{
+							shortestDistance = dist[j][k];
+							closestNode = k;
+						}
+					}
+
+					if (closestNode != -1 && shortestPaths[i][j].Count >= 2)
+					{
+						if (shortestPaths[i][j][shortestPaths[i][j].Count - 2] != closestNode)
+						{
+							shortestPaths[i][j].Insert(shortestPaths[i][j].Count - 1, closestNode);
+						}
+					}
+				}
 			}
 
 		}
