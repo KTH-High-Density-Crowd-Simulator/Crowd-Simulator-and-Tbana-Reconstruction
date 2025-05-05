@@ -12,6 +12,7 @@ public class Train : MonoBehaviour
     public float burstRate = 0.5f; // Time between agent spawns
     public GameObject agentContainer;
     public Agent agentPrefab;
+    public Material alightingAgentMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +47,7 @@ public class Train : MonoBehaviour
                 }
             }
             int nAgentsPerDoor = numberOfAgents / spawners.childCount;
-            spawner.Initialize(nAgentsPerDoor,closestGoal, burstRate, agentContainer, agentPrefab);
+            spawner.Initialize(nAgentsPerDoor,closestGoal, burstRate, agentContainer, agentPrefab, alightingAgentMaterial);
         }
         
     }

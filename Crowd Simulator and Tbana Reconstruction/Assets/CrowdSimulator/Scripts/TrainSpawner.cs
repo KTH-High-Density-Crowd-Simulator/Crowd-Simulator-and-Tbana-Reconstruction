@@ -10,15 +10,17 @@ public class TrainSpawner : MonoBehaviour
     private GameObject agentContainer;
     private Main mainScript;
     private Agent agentPrefab;
+    internal Material alightingAgentMaterial;
 
     // Start is called before the first frame update
-    public void Initialize(int numberOfAgents, int goal, float burstRate, GameObject agentContainer, Agent agentPrefab)
+    public void Initialize(int numberOfAgents, int goal, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial)
     {
         this.agentPrefab = agentPrefab;
         this.burstRate = burstRate;
         this.agentContainer = agentContainer;
         this.numberOfAgents = numberOfAgents;
         this.goal = goal;
+        this.alightingAgentMaterial = alightingAgentMaterial;
         mainScript = FindObjectOfType<Main>();
     }
 
@@ -35,6 +37,7 @@ public class TrainSpawner : MonoBehaviour
 	{
 		Agent agent;
 		agent = Instantiate (agentPrefab);
+        agent.GetComponentInChildren<Renderer>().material = alightingAgentMaterial;
 
         int node = transform.GetComponent<CustomNode>().index;
 
