@@ -134,6 +134,21 @@ public class Main : MonoBehaviour {
 		for (int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
+
+			// remove agent if it is outside the bounds of the plane
+			if(Mathf.Abs(agent.transform.position.x) > planeSizeX * 5f || Mathf.Abs(agent.transform.position.z) > planeSizeZ * 5f || agent.transform.position.y > 0.5f)
+				// If the agent is in the waiting area, free the waiting spot
+			{
+				if(agent.isWaitingAgent)
+				{
+					agent.waitingArea.isOccupied[agent.waitingSpot] = false;
+                	agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+					agent.isWaitingAgent = false;
+				}
+				Debug.Log("Agent outside of bounds, removing");
+				agentList.RemoveAt(i);
+			}
+
 			if (agent.done)
 			{
 				if(agent.isWaitingAgent)
