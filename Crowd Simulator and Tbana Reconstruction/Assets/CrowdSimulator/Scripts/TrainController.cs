@@ -14,6 +14,9 @@ public class TrainController : MonoBehaviour
     private float dwellTimer = 0f;
     public WaitingAreaController waitingAreaController;
     private Main mainScript;
+    public int trainCapacity = 500;
+    internal int nBoardedAgents1;
+    internal int nBoardedAgents2;
  
     
     private void Alight(int trainLine)
@@ -97,8 +100,9 @@ public class TrainController : MonoBehaviour
 
     public void Board(int trainLine)
     {
+        waitingAreaController.BoardWaitingAgents(trainLine);
 
-		for(int i = mainScript.agentList.Count - 1; i >= 0; i--)
+		for(int i = 0; i < mainScript.agentList.Count; i++)
 		{
 			Agent agent = mainScript.agentList[i];
 			if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine && !agent.subwayData.Value.boarding)
@@ -116,10 +120,31 @@ public class TrainController : MonoBehaviour
                 	agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
 					agent.isWaitingAgent = false;
 				}
-			}
-		}
+                agent.GetComponentInChildren<Renderer>().material = waitingAreaController.boardingAgentMaterial;
 
-		waitingAreaController.BoardWaitingAgents(trainLine);
+                if(trainLine == 1)
+                {
+                    nBoardedAgents1++;
+                    if(nBoardedAgents1 >= trainCapacity)
+                    {
+                        nBoardedAgents1 = 0;
+                        break;
+                    }
+                }
+                else if(trainLine == 2)
+                {
+                    nBoardedAgents2++;
+                    if(nBoardedAgents2 >= trainCapacity)
+                    {
+                        nBoardedAgents2 = 0;
+                        break;
+                    }
+                }
+			}
+            
+		}
+        nBoardedAgents1 = 0;
+        nBoardedAgents2 = 0;
     }
 
     	int FindClosestNode(Vector3 position)

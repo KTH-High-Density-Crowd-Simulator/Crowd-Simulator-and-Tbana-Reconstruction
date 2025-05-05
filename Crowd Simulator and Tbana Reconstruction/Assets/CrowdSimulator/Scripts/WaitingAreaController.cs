@@ -18,6 +18,10 @@ public class WaitingAreaController : MonoBehaviour
     public bool debug = false;
     public float waitingSpotSize = 0.5f;
     public bool useRowColumns = false;
+    private TrainController trainController;
+    public Material waitingAgentMaterial;
+    public Material walkingAgentMaterial;
+    public Material boardingAgentMaterial;
 
     public void Initialize()
     {
@@ -34,6 +38,12 @@ public class WaitingAreaController : MonoBehaviour
         roadmap = FindObjectOfType<MapGen>().getRoadmap();
 
         BuildSpawnerWaitingAreaDistances();
+
+        trainController = FindObjectOfType<TrainController>();
+        if(trainController == null)
+        {
+            Debug.LogError("TrainController not found in the scene.");
+        }
     }
 
     public void addAgentToWaitingList(Agent agent)
@@ -184,9 +194,10 @@ public class WaitingAreaController : MonoBehaviour
 
         agent.setNewPath(agent.goal, closestTrainDoor, ref roadmap);
         agent.noMap = false;
+        agent.GetComponentInChildren<Renderer>().material = waitingAgentMaterial;
     }
 
-
+    /**
     public void BoardWaitingAgents(int trainLine)
     {
         for(int i = waitingAgents.Count - 1; i >= 0; i--)
@@ -221,6 +232,68 @@ public class WaitingAreaController : MonoBehaviour
             }
             
         }
+    }
+    **/
+
+    public void BoardWaitingAgents(int trainLine)
+    {
+        for (int i = 0; i < waitingAgents.Count; i++)
+        {
+            Agent agent = waitingAgents[i];
+            if (agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
+            {
+                // Start a coroutine to handle delayed boarding
+                StartCoroutine(DelayedBoardAgent(agent, i));
+            }
+            if(trainLine == 1)
+            {
+                trainController.nBoardedAgents1++;
+                if(trainController.nBoardedAgents1 >= trainController.trainCapacity)
+                {
+                    break;
+                }
+            }
+            else if(trainLine == 2)
+            {
+                trainController.nBoardedAgents2++;
+                if(trainController.nBoardedAgents2 >= trainController.trainCapacity)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    private IEnumerator DelayedBoardAgent(Agent agent, int index)
+    {
+        float delay = Random.Range(0.1f, 3f);
+        yield return new WaitForSeconds(delay);
+
+        if (!agent) yield break;
+
+        agent.setAnimatorStanding(false);
+        agent.isWaitingAgent = false;
+        agent.waitingArea.isOccupied[agent.waitingSpot] = false;
+        agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+        agent.walkingSpeed = Random.Range(0.8f, 1.2f);
+
+        Rigidbody rb = agent.GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.None;
+        agent.gameObject.layer = LayerMask.NameToLayer("Agent");
+
+        agent.done = false;
+        FindObjectOfType<Main>().AddToAgentList(agent);
+        waitingAgents.Remove(agent);
+
+        if (agentContainer != null)
+        {
+            agent.transform.SetParent(agentContainer.transform);
+        }
+        else
+        {
+            agent.transform.SetParent(null);
+        }
+        agent.GetComponentInChildren<Renderer>().material = boardingAgentMaterial;
     }
 
     internal int FindClosestTrainDoor(ref Agent agent)

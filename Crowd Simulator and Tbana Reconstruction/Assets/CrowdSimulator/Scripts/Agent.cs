@@ -86,6 +86,7 @@ public class Agent : MonoBehaviour {
 		
 	}
 
+	/**
 	private void OnDrawGizmos()
 	{
 		UnityEditor.Handles.color = Color.red;
@@ -100,6 +101,7 @@ public class Agent : MonoBehaviour {
 		}
 		
 	}
+	**/
 
     public void setWaitingAgent(bool isWaitingAgent)
 	{
