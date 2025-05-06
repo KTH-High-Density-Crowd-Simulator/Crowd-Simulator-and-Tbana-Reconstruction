@@ -86,7 +86,7 @@ public class Agent : MonoBehaviour {
 		
 	}
 
-	/**
+
 	private void OnDrawGizmos()
 	{
 		UnityEditor.Handles.color = Color.red;
@@ -101,7 +101,6 @@ public class Agent : MonoBehaviour {
 		}
 		
 	}
-	**/
 
     public void setWaitingAgent(bool isWaitingAgent)
 	{
@@ -188,10 +187,14 @@ public class Agent : MonoBehaviour {
 		calculateDensityAtPosition ();
 		calculateContinuumVelocity ();
 		//-1 since we subtract this agents density at position
+
 		velocity = preferredVelocity + (densityAtAgentPosition - 1 / Mathf.Pow (Grid.instance.cellLength, 2)) / Grid.maxDensity
 		* (continuumVelocity - preferredVelocity);
 		velocity.y = 0f;
-		transform.forward = velocity.normalized;
+		if(velocity != Vector3.zero)
+		{
+			transform.forward = velocity.normalized;
+		}
 		velocity = velocity + collisionAvoidanceVelocity;
 	}
 
