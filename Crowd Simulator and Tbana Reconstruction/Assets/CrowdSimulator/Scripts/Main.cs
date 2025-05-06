@@ -57,7 +57,7 @@ public class Main : MonoBehaviour {
 	public bool skipNodeIfSeeNext = false;
 	public bool smoothTurns = false;
 	public bool handleCollision = false;
-	private WaitingAreaController waitingAreaController;
+	internal WaitingAreaController waitingAreaController;
 
 	/**
 	 * Initialize simulation by taking the user's options into consideration and spawn agents.
