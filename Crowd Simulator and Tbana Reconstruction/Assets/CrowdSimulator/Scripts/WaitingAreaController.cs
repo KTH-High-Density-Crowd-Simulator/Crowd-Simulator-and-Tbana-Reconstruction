@@ -22,6 +22,7 @@ public class WaitingAreaController : MonoBehaviour
     public Material waitingAgentMaterial;
     public Material walkingAgentMaterial;
     public Material boardingAgentMaterial;
+    private Main mainScript;
 
     public void Initialize()
     {
@@ -44,6 +45,7 @@ public class WaitingAreaController : MonoBehaviour
         {
             Debug.LogError("TrainController not found in the scene.");
         }
+        mainScript = FindObjectOfType<Main>();
     }
 
     public void addAgentToWaitingList(Agent agent)
@@ -282,7 +284,7 @@ public class WaitingAreaController : MonoBehaviour
         agent.gameObject.layer = LayerMask.NameToLayer("Agent");
 
         agent.done = false;
-        FindObjectOfType<Main>().AddToAgentList(agent);
+        mainScript.AddToAgentList(agent);
         waitingAgents.Remove(agent);
 
         if (agentContainer != null)
