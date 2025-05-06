@@ -47,6 +47,7 @@ public class Agent : MonoBehaviour {
 		}
 	}
 	internal SubwayData? subwayData;
+	internal bool isWaiting = false;
 
 	internal void Start() {
 		animator = transform.gameObject.GetComponent<Animator> ();

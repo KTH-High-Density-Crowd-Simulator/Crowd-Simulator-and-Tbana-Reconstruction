@@ -192,11 +192,12 @@ public class WaitingAreaController : MonoBehaviour
         Rigidbody rb = agent.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeAll;
         // Make waiting agents obstcales for other agents
-        agent.gameObject.layer = LayerMask.NameToLayer("WaitingAgent");
+        //agent.gameObject.layer = LayerMask.NameToLayer("WaitingAgent");
 
         agent.setNewPath(agent.goal, closestTrainDoor, ref roadmap);
         agent.noMap = false;
         agent.GetComponentInChildren<Renderer>().material = waitingAgentMaterial;
+        agent.isWaiting = true;
     }
 
     /**
@@ -289,8 +290,13 @@ public class WaitingAreaController : MonoBehaviour
         agent.gameObject.layer = LayerMask.NameToLayer("Agent");
 
         agent.done = false;
-        mainScript.AddToAgentList(agent);
+        //mainScript.AddToAgentList(agent);
         waitingAgents.Remove(agent);
+
+        agent.velocity = Vector3.zero;
+        agent.preferredVelocity = Vector3.zero;
+        agent.continuumVelocity = Vector3.zero;
+        agent.collisionAvoidanceVelocity = Vector3.zero;
 
         if (agentContainer != null)
         {
@@ -301,6 +307,7 @@ public class WaitingAreaController : MonoBehaviour
             agent.transform.SetParent(null);
         }
         agent.GetComponentInChildren<Renderer>().material = boardingAgentMaterial;
+        agent.isWaiting = false;
     }
 
     internal int FindClosestTrainDoor(ref Agent agent)

@@ -87,7 +87,7 @@ public class TrainController : MonoBehaviour
     private void UpdateWithCapacity()
     {
         arrivalTimer += Time.deltaTime;
-        if(waitingAreaController.waitingAgents.Count + mainScript.agentList.Count >= nAgents && arrivalTimer >= arriveInterval)
+        if(mainScript.agentList.Count >= nAgents && arrivalTimer >= arriveInterval)
         {
             arrivalTimer = 0f;
             train1Dwelling = true;

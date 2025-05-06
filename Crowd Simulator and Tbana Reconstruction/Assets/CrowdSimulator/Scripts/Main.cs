@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Data.Common;
 
 public class Main : MonoBehaviour {
 
@@ -134,10 +135,13 @@ public class Main : MonoBehaviour {
 		for (int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
+			if(agent.isWaiting)
+			{
+				continue;
+			}
 
 			// remove agent if it is outside the bounds of the plane
 			if(Mathf.Abs(agent.transform.position.x) > planeSizeX * 5f || Mathf.Abs(agent.transform.position.z) > planeSizeZ * 5f || agent.transform.position.y > 0.5f)
-				// If the agent is in the waiting area, free the waiting spot
 			{
 				if(agent.isWaitingAgent)
 				{
@@ -164,7 +168,7 @@ public class Main : MonoBehaviour {
 					else
 					{
 						waitingAreaController.putAgentInWaitingArea(agent);
-						agentList.RemoveAt(i);
+						//agentList.RemoveAt(i);
 					}
 				}
 				else
@@ -175,6 +179,7 @@ public class Main : MonoBehaviour {
 				continue;
 			}
 			agent.move(ref roadmap);
+			
 		}
 		//Pair-wise collision handling between agents
 		Grid.instance.collisionHandling(ref agentList);

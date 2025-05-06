@@ -357,9 +357,8 @@ public class Grid : MonoBehaviour {
 			return;
 		for(int i = 0; i < neighMatrix[row][col].Count; ++i) {
 			int oa = neighMatrix [row] [col] [i];
-			if (a == oa )
+			if (a == oa || agentList[a].isWaiting)
 				continue;
-
 			Vector3 dis = agentList [a].transform.position - agentList [oa].transform.position;
 			if (dis.magnitude < ringDiameter) { //Assumption: ringDiameter > pxpy
 				if (agentList[a] is SubgroupAgent && agentList[oa] is SubgroupAgent && (agentList[a] as SubgroupAgent).c.tag.Equals ((agentList[oa] as SubgroupAgent).c.tag)) { //Allow modification of value later
