@@ -245,28 +245,33 @@ public class WaitingAreaController : MonoBehaviour
             if (agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
             {
                 // Start a coroutine to handle delayed boarding
-                StartCoroutine(DelayedBoardAgent(agent, i));
+                StartCoroutine(DelayedBoardAgent(agent));
             }
-            if(trainLine == 1)
+            if(trainController.boardWithCapacity)
             {
-                trainController.nBoardedAgents1++;
-                if(trainController.nBoardedAgents1 >= trainController.trainCapacity)
+                if(trainLine == 1)
                 {
-                    break;
+                    trainController.nBoardedAgents1++;
+                    if(trainController.nBoardedAgents1 >= trainController.trainCapacity)
+                    {
+                        Debug.Log(trainController.nBoardedAgents1 + " agents boarded train 1");
+                        break;
+                    }
                 }
-            }
-            else if(trainLine == 2)
-            {
-                trainController.nBoardedAgents2++;
-                if(trainController.nBoardedAgents2 >= trainController.trainCapacity)
+                else if(trainLine == 2)
                 {
-                    break;
+                    trainController.nBoardedAgents2++;
+                    if(trainController.nBoardedAgents2 >= trainController.trainCapacity)
+                    {
+                        Debug.Log(trainController.nBoardedAgents2 + " agents boarded train 2");
+                        break;
+                    }
                 }
             }
         }
     }
 
-    private IEnumerator DelayedBoardAgent(Agent agent, int index)
+    private IEnumerator DelayedBoardAgent(Agent agent)
     {
         float delay = Random.Range(0.1f, 3f);
         yield return new WaitForSeconds(delay);

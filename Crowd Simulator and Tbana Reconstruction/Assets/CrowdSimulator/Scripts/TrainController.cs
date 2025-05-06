@@ -12,11 +12,14 @@ public class TrainController : MonoBehaviour
     private bool train2Dwelling = false;
     public float dwellTime = 5f;
     private float dwellTimer = 0f;
-    public WaitingAreaController waitingAreaController;
+    private WaitingAreaController waitingAreaController;
     private Main mainScript;
     public int trainCapacity = 500;
     internal int nBoardedAgents1;
     internal int nBoardedAgents2;
+    public bool useTimer = false;
+    public int nAgents = 100;
+    public bool boardWithCapacity = false;
  
     
     private void Alight(int trainLine)
@@ -55,14 +58,54 @@ public class TrainController : MonoBehaviour
 
     void Start()
     {
+        waitingAreaController = FindObjectOfType<WaitingAreaController>();
         if(waitingAreaController == null)
         {
-            Debug.LogError("WaitingAreaController is not set in TrainController");
+            Debug.LogError("WaitingAreaController not found");
         }
         mainScript = FindObjectOfType<Main>();
+        if(mainScript == null)
+        {
+            Debug.LogError("Main not found");
+        }
+        ToggleTrain(1);
+        ToggleTrain(2);
     }
 
     void Update()
+    {
+        if(useTimer)
+        {
+            UpdateWithTimer();
+        }
+        else
+        {
+            UpdateWithCapacity();
+        }
+    }
+
+    private void UpdateWithCapacity()
+    {
+        arrivalTimer += Time.deltaTime;
+        if(waitingAreaController.waitingAgents.Count + mainScript.agentList.Count >= nAgents && arrivalTimer >= arriveInterval)
+        {
+            arrivalTimer = 0f;
+            train1Dwelling = true;
+            train2Dwelling = true;
+
+            ToggleTrain(1);
+            ToggleTrain(2);
+
+            Alight(1);
+            Alight(2);
+
+            Board(1);
+            Board(2);
+        }
+        Dwell();
+    }
+
+    private void UpdateWithTimer()
     {
         arrivalTimer += Time.deltaTime;
 
@@ -82,6 +125,11 @@ public class TrainController : MonoBehaviour
             Board(1);
             Board(2);
         }
+        Dwell();
+    }
+
+    private void Dwell()
+    {
         // The train is dwelling
         if(train1Dwelling || train2Dwelling)
         {
@@ -95,8 +143,9 @@ public class TrainController : MonoBehaviour
                 dwellTimer = 0f;
             }
         }
-
     }
+
+
 
     public void Board(int trainLine)
     {
@@ -122,22 +171,25 @@ public class TrainController : MonoBehaviour
 				}
                 agent.GetComponentInChildren<Renderer>().material = waitingAreaController.boardingAgentMaterial;
 
-                if(trainLine == 1)
+                if(boardWithCapacity)
                 {
-                    nBoardedAgents1++;
-                    if(nBoardedAgents1 >= trainCapacity)
+                    if(trainLine == 1)
                     {
-                        nBoardedAgents1 = 0;
-                        break;
+                        nBoardedAgents1++;
+                        if(nBoardedAgents1 >= trainCapacity)
+                        {
+                            nBoardedAgents1 = 0;
+                            break;
+                        }
                     }
-                }
-                else if(trainLine == 2)
-                {
-                    nBoardedAgents2++;
-                    if(nBoardedAgents2 >= trainCapacity)
+                    else if(trainLine == 2)
                     {
-                        nBoardedAgents2 = 0;
-                        break;
+                        nBoardedAgents2++;
+                        if(nBoardedAgents2 >= trainCapacity)
+                        {
+                            nBoardedAgents2 = 0;
+                            break;
+                        }
                     }
                 }
 			}
