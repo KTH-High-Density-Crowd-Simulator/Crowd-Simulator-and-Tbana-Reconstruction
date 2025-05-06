@@ -68,19 +68,7 @@ void UpdateLOS()
                 densityMap[x, y] += 1.0f;
             }
         }
-
-        foreach (Agent agent in mainScript.waitingAreaController.waitingAgents)
-        {
-            Vector3 pos = agent.transform.position;
-            int x = Mathf.FloorToInt((pos.x + areaSize.x / 2f) / cellSize);
-            int y = Mathf.FloorToInt((pos.z + areaSize.y / 2f) / cellSize);
-
-            if (x >= 0 && x < cols && y >= 0 && y < rows)
-            {
-                densityMap[x, y] += 1.0f;
-            }
-        }
-
+        
         // Assign gradient colors based on smoothed density
         for (int x = 0; x < cols; x++)
         {
