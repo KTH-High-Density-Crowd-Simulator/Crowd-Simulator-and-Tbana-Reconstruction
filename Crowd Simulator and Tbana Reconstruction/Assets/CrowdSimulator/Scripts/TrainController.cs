@@ -47,6 +47,8 @@ public class TrainController : MonoBehaviour
             dwelling[1] = true;
             dwelling[2] = true;
 
+            ResetLostAgents();
+
             ToggleTrain(1);
             ToggleTrain(2);
 
@@ -193,6 +195,16 @@ public class TrainController : MonoBehaviour
         {
             waitPosition = new Vector3(targetPoint.x, 0, targetPoint.z + Random.Range(1.5f, 2.5f));
         }
+        if(agent.transform.position.x < targetPoint.x)
+        {
+            waitPosition.x = targetPoint.x + Random.Range(-1.5f, 0.4f);
+        }
+        else
+        {
+            waitPosition.x = targetPoint.x + Random.Range(-0.4f, 1.5f);
+        }
+
+        Debug.DrawLine(waitPosition, waitPosition + Vector3.up * 0.5f, Color.red, 10f);
 
         agent.noMapGoal = waitPosition;
         agent.noMap = true;
@@ -272,5 +284,18 @@ public class TrainController : MonoBehaviour
             }
         }
         return closestNode;
+    }
+
+    private void ResetLostAgents()
+    {
+        for (int i = mainScript.agentList.Count - 1; i >= 0; i--)
+        {
+            Agent agent = mainScript.agentList[i];
+            if(agent.isPreparingToBoard || agent.boarding)
+            {
+                agent.isPreparingToBoard = false;
+                agent.boarding = false;
+            }
+        }
     }
 }

@@ -28,9 +28,10 @@ public class TrainSpawner : MonoBehaviour
     public IEnumerator SpawnAgents()
     {
         for (int i = 0; i < numberOfAgents; ++i) {
-			Vector3 startPos = new Vector3(transform.position.x + Random.Range(-1.5f, 1.5f), transform.position.y, transform.position.z + Random.Range(-0.5f, 0.5f));
-			spawnOneAgent (startPos);
-			yield return new WaitForSeconds (burstRate);
+			//Vector3 startPos = new Vector3(transform.position.x + Random.Range(-1.5f, 1.5f), transform.position.y, transform.position.z + Random.Range(-0.5f, 0.5f));
+			Vector3 startPos = new Vector3(transform.position.x, 0f, transform.position.z + Random.Range(-0.5f, 0.5f));
+            spawnOneAgent (startPos);
+			yield return new WaitForSeconds (burstRate + Random.Range(-0.1f, 0.2f));
 		}
         done = true;
     }
@@ -44,8 +45,17 @@ public class TrainSpawner : MonoBehaviour
         int node = transform.GetComponent<CustomNode>().index;
 
 		agent.InitializeAgent (startPosition, node, goal, ref mainScript.roadmap);
-		//agent.ApplyMaterials(materialColor, ref skins);
 
+        if(startPosition.x > 0)
+        {
+            agent.noMapGoal = new Vector3(transform.position.x - 3f, 0f, startPosition.z);
+        }else
+        {
+            agent.noMapGoal = new Vector3(transform.position.x + 3f, 0f, startPosition.z);
+        }
+        agent.noMap = true;
+		
+        agent.isAlighting = true;
 		if (agentContainer != null)
 			agent.transform.parent = agentContainer.transform;
 

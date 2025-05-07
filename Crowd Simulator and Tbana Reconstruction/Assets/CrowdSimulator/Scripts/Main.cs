@@ -135,8 +135,20 @@ public class Main : MonoBehaviour {
 		for (int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
+
+			if(agent.transform.position.y > 0.01f || agent.transform.position.y < 0f || agent.transform.rotation.x > 0 || agent.transform.rotation.z > 0)
+			{
+				agent.Reset();
+			}
+
 			if(agent.isWaiting || (agent.done && agent.isPreparingToBoard))
 			{
+				continue;
+			}
+			if(agent.done && agent.isAlighting && agent.noMap)
+			{
+				agent.noMap = false;
+				agent.done = false;
 				continue;
 			}
 

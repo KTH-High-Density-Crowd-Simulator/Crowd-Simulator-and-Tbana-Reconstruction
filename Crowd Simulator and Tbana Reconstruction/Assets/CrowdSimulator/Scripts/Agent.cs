@@ -39,6 +39,7 @@ public class Agent : MonoBehaviour {
 	internal bool isWaiting = false;
 	internal bool isPreparingToBoard = false;
 	internal bool boarding = false;
+	internal bool isAlighting = false;
 
 	internal void Start() {
 		animator = transform.gameObject.GetComponent<Animator> ();
@@ -90,12 +91,18 @@ public class Agent : MonoBehaviour {
 		if(!noMap && pathIndex < path.Count)
 		{
 			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, path[pathIndex].ToString());
-		}else
+		}else if(pathIndex < path.Count)
 		{
-			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, noMapGoal.ToString());
+			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "noMap " + path[pathIndex].ToString());
+		}
+		if(transform.position.y > 0.1f || transform.position.y < 0f)
+		{
+			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.7f, "Y: " + transform.position.y.ToString("F2"));
+			Debug.DrawLine(transform.position, transform.position + Vector3.up * 5f, Color.red, 10f);
 		}
 		
 	}
+
 	
 
 
@@ -215,16 +222,7 @@ public class Agent : MonoBehaviour {
 	bool change = false;
 	internal void calculatePreferredVelocityMap(ref MapGen.map map) {
 		previousDirection = preferredVelocity.normalized;
-		try
-		{
-			CustomNode testNode = map.allNodes[path[pathIndex]];
-		}
-		catch (System.Exception e)
-		{
-			Debug.LogError("Something is wrooong\n " + pathIndex + " " + path.Count);
-			isProblem = true;
-			return;
-		}
+
 		if (map.allNodes[path[pathIndex]].IsAgentInsideArea(transform.position) || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) 
 		{
 			//New node reached
@@ -459,5 +457,14 @@ public class Agent : MonoBehaviour {
 	{
 		Vector3 direction = target - transform.position;
 		transform.rotation = Quaternion.LookRotation(direction);
+	}
+
+	internal void Reset()
+	{
+		velocity = Vector3.zero;
+        preferredVelocity = Vector3.zero;
+        continuumVelocity = Vector3.zero;
+        collisionAvoidanceVelocity = Vector3.zero;
+		transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 	}
 }

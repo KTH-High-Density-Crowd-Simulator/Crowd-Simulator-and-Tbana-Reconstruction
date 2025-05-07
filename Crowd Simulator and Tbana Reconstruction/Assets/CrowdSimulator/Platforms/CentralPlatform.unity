@@ -3901,7 +3901,7 @@ PrefabInstance:
       objectReference: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: maxNumberOfAgents
-      value: 300
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: skipNodeIfSeeNext
@@ -6425,7 +6425,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 300
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size
@@ -23115,7 +23115,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 300
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size
