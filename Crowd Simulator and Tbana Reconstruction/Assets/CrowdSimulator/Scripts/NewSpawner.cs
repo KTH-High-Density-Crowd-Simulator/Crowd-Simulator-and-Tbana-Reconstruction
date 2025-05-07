@@ -122,7 +122,7 @@ public class NewSpawner : MonoBehaviour {
 		if(subwayAgents)
 		{
 			
-			agent.subwayData = new Agent.SubwayData(trainLine);
+			agent.trainLine = trainLine;
 
 		}
 

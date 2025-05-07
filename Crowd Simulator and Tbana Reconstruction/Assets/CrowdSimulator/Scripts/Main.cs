@@ -135,7 +135,7 @@ public class Main : MonoBehaviour {
 		for (int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
-			if(agent.isWaiting)
+			if(agent.isWaiting || (agent.done && agent.isPreparingToBoard))
 			{
 				continue;
 			}

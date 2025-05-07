@@ -7,7 +7,7 @@ public class Train : MonoBehaviour
 {
     public int trainLine;
     public int numberOfAgents;
-    private List<TrainSpawner> trainSpawners;
+    internal List<TrainSpawner> trainSpawners;
     public List<CustomNode> goalNodes;
     public float burstRate = 0.5f; // Time between agent spawns
     public GameObject agentContainer;
@@ -57,6 +57,7 @@ public class Train : MonoBehaviour
     {
         foreach (TrainSpawner spawner in trainSpawners)
         {   
+            spawner.done = false;
             StartCoroutine (spawner.SpawnAgents());
         }
     }

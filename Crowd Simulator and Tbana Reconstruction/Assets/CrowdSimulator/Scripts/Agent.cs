@@ -35,19 +35,10 @@ public class Agent : MonoBehaviour {
 	internal WaitingArea waitingArea;
 	internal int waitingSpot;
 	// Subway
-	public struct SubwayData
-	{
-		public int trainLine;
-		public bool boarding;
-
-		public SubwayData(int trainLine)
-		{
-			this.trainLine = trainLine;
-			boarding = false;
-		}
-	}
-	internal SubwayData? subwayData;
+	internal int trainLine;
 	internal bool isWaiting = false;
+	internal bool isPreparingToBoard = false;
+	internal bool boarding = false;
 
 	internal void Start() {
 		animator = transform.gameObject.GetComponent<Animator> ();
@@ -87,7 +78,7 @@ public class Agent : MonoBehaviour {
 		
 	}
 
-/**
+
 	private void OnDrawGizmos()
 	{
 		UnityEditor.Handles.color = Color.red;
@@ -96,13 +87,17 @@ public class Agent : MonoBehaviour {
 			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "Problem!!!");
 			Debug.DrawLine(transform.position, transform.position + Vector3.up * 5f, Color.red, 10f);
 		}
-		if(pathIndex < path.Count)
+		if(!noMap && pathIndex < path.Count)
 		{
 			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, path[pathIndex].ToString());
+		}else
+		{
+			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, noMapGoal.ToString());
 		}
 		
 	}
-	*/
+	
+
 
     public void setWaitingAgent(bool isWaitingAgent)
 	{
@@ -220,6 +215,16 @@ public class Agent : MonoBehaviour {
 	bool change = false;
 	internal void calculatePreferredVelocityMap(ref MapGen.map map) {
 		previousDirection = preferredVelocity.normalized;
+		try
+		{
+			CustomNode testNode = map.allNodes[path[pathIndex]];
+		}
+		catch (System.Exception e)
+		{
+			Debug.LogError("Something is wrooong\n " + pathIndex + " " + path.Count);
+			isProblem = true;
+			return;
+		}
 		if (map.allNodes[path[pathIndex]].IsAgentInsideArea(transform.position) || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) 
 		{
 			//New node reached

@@ -238,81 +238,10 @@ public class WaitingAreaController : MonoBehaviour
     }
     **/
 
-    public void BoardWaitingAgents(int trainLine)
-    {
-        for (int i = 0; i < waitingAgents.Count; i++)
-        {
-            Agent agent = waitingAgents[i];
-            if (agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
-            {
-                // Start a coroutine to handle delayed boarding
-                StartCoroutine(DelayedBoardAgent(agent));
-            }
-            if(trainController.boardWithCapacity)
-            {
-                if(trainLine == 1)
-                {
-                    trainController.nBoardedAgents1++;
-                    if(trainController.nBoardedAgents1 >= trainController.trainCapacity)
-                    {
-                        Debug.Log(trainController.nBoardedAgents1 + " agents boarded train 1");
-                        break;
-                    }
-                }
-                else if(trainLine == 2)
-                {
-                    trainController.nBoardedAgents2++;
-                    if(trainController.nBoardedAgents2 >= trainController.trainCapacity)
-                    {
-                        Debug.Log(trainController.nBoardedAgents2 + " agents boarded train 2");
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    private IEnumerator DelayedBoardAgent(Agent agent)
-    {
-        float delay = Random.Range(0.1f, 3f);
-        yield return new WaitForSeconds(delay);
-
-        if (!agent) yield break;
-
-        agent.setAnimatorStanding(false);
-        agent.isWaitingAgent = false;
-        agent.waitingArea.isOccupied[agent.waitingSpot] = false;
-        agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
-        agent.walkingSpeed = Random.Range(0.8f, 1.2f);
-
-        Rigidbody rb = agent.GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.None;
-        agent.gameObject.layer = LayerMask.NameToLayer("Agent");
-
-        agent.done = false;
-        //mainScript.AddToAgentList(agent);
-        waitingAgents.Remove(agent);
-
-        agent.velocity = Vector3.zero;
-        agent.preferredVelocity = Vector3.zero;
-        agent.continuumVelocity = Vector3.zero;
-        agent.collisionAvoidanceVelocity = Vector3.zero;
-
-        if (agentContainer != null)
-        {
-            agent.transform.SetParent(agentContainer.transform);
-        }
-        else
-        {
-            agent.transform.SetParent(null);
-        }
-        agent.GetComponentInChildren<Renderer>().material = boardingAgentMaterial;
-        agent.isWaiting = false;
-    }
 
     internal int FindClosestTrainDoor(ref Agent agent)
     {   
-        GameObject train = GameObject.Find("Train"+agent.subwayData.Value.trainLine);
+        GameObject train = GameObject.Find("Train"+agent.trainLine);
         GameObject trainDoors = train.transform.Find("NodesInsideTrain").gameObject;
 
         float closestDistance = Mathf.Infinity;

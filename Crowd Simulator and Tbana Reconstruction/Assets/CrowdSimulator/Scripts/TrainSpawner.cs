@@ -11,6 +11,7 @@ public class TrainSpawner : MonoBehaviour
     private Main mainScript;
     private Agent agentPrefab;
     internal Material alightingAgentMaterial;
+    internal bool done = false;
 
     // Start is called before the first frame update
     public void Initialize(int numberOfAgents, int goal, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial)
@@ -31,6 +32,7 @@ public class TrainSpawner : MonoBehaviour
 			spawnOneAgent (startPos);
 			yield return new WaitForSeconds (burstRate);
 		}
+        done = true;
     }
 
     public void spawnOneAgent(Vector3 startPosition)
