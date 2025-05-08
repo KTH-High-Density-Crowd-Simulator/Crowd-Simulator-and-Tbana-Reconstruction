@@ -19,11 +19,11 @@ public class CustomNode : MonoBehaviour {
 		return transform.position;
 	}
 
-	/**
+
 	private void OnDrawGizmos()
 	{
 		UnityEditor.Handles.color = Color.white;
 		UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, index.ToString());
 	}
-	*/
+
 }

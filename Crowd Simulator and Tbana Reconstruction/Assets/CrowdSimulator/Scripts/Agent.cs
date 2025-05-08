@@ -79,7 +79,7 @@ public class Agent : MonoBehaviour {
 		
 	}
 
-/**
+
 	private void OnDrawGizmos()
 	{
 		UnityEditor.Handles.color = Color.red;
@@ -109,7 +109,7 @@ public class Agent : MonoBehaviour {
 		}
 		
 	}
-	*/
+
 
 	
 
@@ -137,7 +137,8 @@ public class Agent : MonoBehaviour {
 		}
 		catch (System.Exception e)
 		{
-			Debug.LogError("Path index out of range: " + e.Message);
+			Debug.LogError("path.Count: " + path.Count);
+			Debug.LogError(map.shortestPaths[start][goal].Count);
 			isProblem = true;
 			return;
 		}

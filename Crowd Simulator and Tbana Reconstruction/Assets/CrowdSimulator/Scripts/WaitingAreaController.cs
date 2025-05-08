@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Data.Common;
 
 /*
 *   This class manages all the waiting areas and related functions.
@@ -71,7 +72,7 @@ public class WaitingAreaController : MonoBehaviour
         return (-1,-1);
     }
 
-    public (int,int) GetWaitingAreaSpotNew(Vector3 startPosition, int trainLine)
+    public (int,int) GetWaitingAreaSpotNew(ref CustomNode startNode, int trainLine, bool forceTrainLine = false)
     {
         float bestScore = Mathf.Infinity;
         WaitingArea bestWaitingArea = null;
@@ -82,7 +83,7 @@ public class WaitingAreaController : MonoBehaviour
                 continue;
             }
             float score;
-            float distance = Vector3.Distance(startPosition, waitingArea.transform.position);
+            float distance = Vector3.Distance(startNode.transform.position, waitingArea.transform.position);
             distance /= 150f; // Normalize the distance to a value between 0 and 1
             float density = waitingArea.GetDensity();
             int closestTrainLine;
@@ -94,6 +95,11 @@ public class WaitingAreaController : MonoBehaviour
             else
             {
                 closestTrainLine = 2;
+            }
+
+            if(forceTrainLine && trainLine != closestTrainLine)
+            {
+                continue;
             }
 
             float lineMismatch;

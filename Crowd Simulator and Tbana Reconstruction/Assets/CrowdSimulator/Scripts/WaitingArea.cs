@@ -20,7 +20,7 @@ public class WaitingArea : MonoBehaviour
     internal List<bool> isOccupied;
     internal List<int> freeWaitingSpots;
     private int currentWaitingSpotIndex = 0;
-    private int mapIndex;
+    internal int mapIndex;
     private bool useRowColumns = false;
     public Material[] priorityMaterials;
 

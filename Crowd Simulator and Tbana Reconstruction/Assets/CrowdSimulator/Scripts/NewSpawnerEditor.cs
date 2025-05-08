@@ -1,3 +1,4 @@
+/**
 using UnityEditor;
 using UnityEngine;
 
@@ -65,3 +66,4 @@ public class NewSpawnerEditor : Editor {
     }
 
 }
+*/

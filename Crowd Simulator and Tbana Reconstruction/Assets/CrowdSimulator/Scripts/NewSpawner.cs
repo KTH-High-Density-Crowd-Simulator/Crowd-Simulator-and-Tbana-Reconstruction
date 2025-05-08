@@ -1,18 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class NewSpawner : MonoBehaviour {
 
-	private int node;	//The node for this spawner
+	internal int node;	//The node for this spawner
 	private Main mainScript;
-	public bool useSimpleAgents;
 
 	// Waiting agents
-	public bool waitingAgents;
-	private WaitingAreaController waitingAreaController;
-	public bool subwayAgents;
+	internal WaitingAreaController waitingAreaController;
 
 	internal List<Agent> agentList; //Reference to global agentlist
 	internal MapGen.map map; //map of available spawns / goals
@@ -21,7 +17,7 @@ public class NewSpawner : MonoBehaviour {
 
 	public GameObject agentEditorContainer = null;
 	public CustomNode customGoal = null;
-	private int goal;
+	internal int goal;
 
 	public float spawnRate;
 	public bool usePoisson = false;
@@ -68,10 +64,6 @@ public class NewSpawner : MonoBehaviour {
 		continousSpawn(); 
 	}
 
-	
-
-
-
 	// CONTINUOUS SPAWN
 	public void continousSpawn() {
 		StartCoroutine (spawnContinously(spawnRate));
@@ -116,38 +108,37 @@ public class NewSpawner : MonoBehaviour {
         Agent agent;
 		agent = Instantiate (agentPrefab);
 
-		int agentGoal = goal;
-
-		int trainLine = Random.Range(1,3);
-		if(subwayAgents)
-		{
-			agent.trainLine = trainLine;
-		}
-
-		if(waitingAgents)
-		{
-			// Find a waiting area goal for the agent. If there are no free waiting area spots their goal will be the ordinary goal for this spawner.
-			(int waitingArea,int waitingSpot) waitingAreaSpot = waitingAreaController.GetWaitingAreaSpotNew(startPosition, trainLine);
-			if(waitingAreaSpot.waitingArea != -1)
-			{
-				agent.setWaitingAgent(true);
-				agentGoal = waitingAreaSpot.waitingArea;
-				agent.waitingSpot = waitingAreaSpot.waitingSpot;
-				agent.waitingArea = map.allNodes[waitingAreaSpot.waitingArea].GetComponent<WaitingArea>();
-			}
-		}
-
+		int agentGoal = SetSubwayData(agent, startPosition);
 		agent.InitializeAgent (startPosition, node, agentGoal, ref map);
-		
 
 		if (agentEditorContainer != null)
 			agent.transform.parent = agentEditorContainer.transform;
 
 		agentList.Add (agent);
-		if(mainScript.trainController.isPreparingToBoard[trainLine])
+		if(mainScript.trainController.isPreparingToBoard[agent.trainLine])
 		{
 			mainScript.trainController.PrepareWalkingAgent(agent);
 		}
+	}
+
+	internal virtual int SetSubwayData(Agent agent, Vector3 startPosition)
+	{
+		int agentGoal = goal;
+		int trainLine = Random.Range(1,3);
+		agent.trainLine = trainLine;
+
+		// Find a waiting area goal for the agent. If there are no free waiting area spots their goal will be the ordinary goal for this spawner.
+		CustomNode startNode = transform.GetChild(0).GetComponent<CustomNode>();
+		(int waitingArea,int waitingSpot) waitingAreaSpot = waitingAreaController.GetWaitingAreaSpotNew(ref startNode, trainLine);
+		if(waitingAreaSpot.waitingArea != -1)
+		{
+			agent.setWaitingAgent(true);
+			agentGoal = waitingAreaSpot.waitingArea;
+			agent.waitingSpot = waitingAreaSpot.waitingSpot;
+			agent.waitingArea = map.allNodes[waitingAreaSpot.waitingArea].GetComponent<WaitingArea>();
+		}
+
+		return agentGoal;
 	}
 
 

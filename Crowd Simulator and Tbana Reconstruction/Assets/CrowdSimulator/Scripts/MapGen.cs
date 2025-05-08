@@ -326,7 +326,7 @@ public class MapGen : MonoBehaviour {
 			}
 
 		}
-
+		
 		return shortestPaths;
 	}
 

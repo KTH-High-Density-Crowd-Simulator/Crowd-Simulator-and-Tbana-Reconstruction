@@ -9,15 +9,14 @@ public class LOSVisualizer : MonoBehaviour
     private GameObject[,] gridCells;
     private Main mainScript;
     public Gradient losGradient;
-    private const float maxDensity = 2.17f;
+    private const float maxDensity = 5.26f;
     private float[,] densityMap;
     public int smoothingRadius = 1; // 1 = 3x3, 2 = 5x5
 
     void Start()
     {
         mainScript = FindObjectOfType<Main>();
-        //areaSize = new Vector2(mainScript.planeSizeX*10, mainScript.planeSizeZ*10);
-        areaSize = new Vector2(18, 150);
+        areaSize = new Vector2(mainScript.planeSizeX*10, mainScript.planeSizeZ*10);
         CreateGrid();
     }
 

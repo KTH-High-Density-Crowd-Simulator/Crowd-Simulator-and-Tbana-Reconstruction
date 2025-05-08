@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8881275998846585255}
   m_Layer: 0
   m_Name: Waiting Area
-  m_TagString: Untagged
+  m_TagString: WaitingArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,10 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 2
   columns: 10
-  debug: 0
-  waitingSpotSize: 0.5
   priority: 1
-  useRowColumns: 0
   priorityMaterials:
   - {fileID: 2100000, guid: feb18a4ddd906614ca2d666816b659ad, type: 2}
   - {fileID: 2100000, guid: d1bff4af175fadb42b592cab315f9acb, type: 2}
@@ -154,4 +151,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSpawn: 0
   isGoal: 0
+  index: 0
   thresholdDistance: 1
