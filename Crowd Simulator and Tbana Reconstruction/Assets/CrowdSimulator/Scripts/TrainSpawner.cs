@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrainSpawner : MonoBehaviour
 {
     private int numberOfAgents;
-    private int goal;
+    private int[] goals = new int[2];
     private float burstRate;
     private GameObject agentContainer;
     private Main mainScript;
@@ -14,13 +14,14 @@ public class TrainSpawner : MonoBehaviour
     internal bool done = false;
 
     // Start is called before the first frame update
-    public void Initialize(int numberOfAgents, int goal, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial)
+    public void Initialize(int numberOfAgents, int goal1, int goal2, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial)
     {
         this.agentPrefab = agentPrefab;
         this.burstRate = burstRate;
         this.agentContainer = agentContainer;
         this.numberOfAgents = numberOfAgents;
-        this.goal = goal;
+        goals[0] = goal1;
+        goals[1] = goal2;
         this.alightingAgentMaterial = alightingAgentMaterial;
         mainScript = FindObjectOfType<Main>();
     }
@@ -44,14 +45,25 @@ public class TrainSpawner : MonoBehaviour
 
         int node = transform.GetComponent<CustomNode>().index;
 
+        int goal;
+        if(goals[1] == -1)
+        {
+            goal = goals[0];
+        }
+        else
+        {
+            // Choose goals[0] 70% of the time, goals[1] 30% of the time
+            goal = (Random.value < 0.7f) ? goals[0] : goals[1];
+        }
+
 		agent.InitializeAgent (startPosition, node, goal, ref mainScript.roadmap);
 
         if(startPosition.x > 0)
         {
-            agent.noMapGoal = new Vector3(transform.position.x - 3f, 0f, startPosition.z);
+            agent.noMapGoal = new Vector3(transform.position.x - 4f, 0f, startPosition.z);
         }else
         {
-            agent.noMapGoal = new Vector3(transform.position.x + 3f, 0f, startPosition.z);
+            agent.noMapGoal = new Vector3(transform.position.x + 4f, 0f, startPosition.z);
         }
         agent.noMap = true;
 		

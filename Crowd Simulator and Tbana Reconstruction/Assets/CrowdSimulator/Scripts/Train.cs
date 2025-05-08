@@ -37,17 +37,42 @@ public class Train : MonoBehaviour
             trainSpawners.Add(spawner);
             int closestGoal = -1;
             float closestDistance = Mathf.Infinity;
-            foreach (CustomNode goal in goalNodes)
+            int goal1 = -1;
+            int goal2 = -1;
+            int closestIndex = -1;
+
+            for (int i = 0; i < goalNodes.Count; i++)
             {
-                float distance = Vector3.Distance(spawner.transform.position, goal.transform.position);
+                float distance = Vector3.Distance(spawner.transform.position, goalNodes[i].transform.position);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    closestGoal = goal.index;
+                    closestGoal = goalNodes[i].index;
+                    closestIndex = i;
                 }
             }
+
+            if (closestIndex == 0 || closestIndex == 3)
+            {
+                goal1 = closestGoal;
+                goal2 = -1;
+            }
+            else if (closestIndex == 1 || closestIndex == 2)
+            {
+                goal1 = goalNodes[1].index;
+                goal2 = goalNodes[2].index;
+
+                if (closestIndex == 2)
+                {
+                    // Swap so goal1 is always the closest
+                    int temp = goal1;
+                    goal1 = goal2;
+                    goal2 = temp;
+                }
+            }
+
             int nAgentsPerDoor = numberOfAgents / spawners.childCount;
-            spawner.Initialize(nAgentsPerDoor,closestGoal, burstRate, agentContainer, agentPrefab, alightingAgentMaterial);
+            spawner.Initialize(nAgentsPerDoor, goal1, goal2, burstRate, agentContainer, agentPrefab, alightingAgentMaterial);
         }
         
     }

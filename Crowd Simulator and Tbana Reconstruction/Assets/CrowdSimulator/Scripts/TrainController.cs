@@ -203,11 +203,11 @@ public class TrainController : MonoBehaviour
         }
         if(agent.transform.position.x < targetPoint.x)
         {
-            waitPosition.x = targetPoint.x + Random.Range(-1.5f, 0.4f);
+            waitPosition.x = targetPoint.x + Random.Range(-5f, 0.4f);
         }
         else
         {
-            waitPosition.x = targetPoint.x + Random.Range(-0.4f, 1.5f);
+            waitPosition.x = targetPoint.x + Random.Range(-0.4f, 5f);
         }
 
         agent.noMapGoal = waitPosition;
