@@ -11,11 +11,13 @@ public class LOSVisualizer : MonoBehaviour
     public Gradient losGradient;
     private const float maxDensity = 2.17f;
     private float[,] densityMap;
+    public int smoothingRadius = 1; // 1 = 3x3, 2 = 5x5
 
     void Start()
     {
         mainScript = FindObjectOfType<Main>();
-        areaSize = new Vector2(mainScript.planeSizeX*10, mainScript.planeSizeZ*10);
+        //areaSize = new Vector2(mainScript.planeSizeX*10, mainScript.planeSizeZ*10);
+        areaSize = new Vector2(18, 150);
         CreateGrid();
     }
 
@@ -87,9 +89,9 @@ void UpdateLOS()
         float total = 0;
         int count = 0;
 
-        for (int dx = -1; dx <= 1; dx++)
+        for (int dx = -smoothingRadius; dx <= smoothingRadius; dx++)
         {
-            for (int dy = -1; dy <= 1; dy++)
+            for (int dy = -smoothingRadius; dy <= smoothingRadius; dy++)
             {
                 int x = cx + dx;
                 int y = cy + dy;
