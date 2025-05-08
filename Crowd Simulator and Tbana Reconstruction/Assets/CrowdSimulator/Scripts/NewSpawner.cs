@@ -121,9 +121,7 @@ public class NewSpawner : MonoBehaviour {
 		int trainLine = Random.Range(1,3);
 		if(subwayAgents)
 		{
-			
 			agent.trainLine = trainLine;
-
 		}
 
 		if(waitingAgents)
@@ -140,12 +138,16 @@ public class NewSpawner : MonoBehaviour {
 		}
 
 		agent.InitializeAgent (startPosition, node, agentGoal, ref map);
-		//agent.ApplyMaterials(materialColor, ref skins);
+		
 
 		if (agentEditorContainer != null)
 			agent.transform.parent = agentEditorContainer.transform;
 
 		agentList.Add (agent);
+		if(mainScript.trainController.isPreparingToBoard[trainLine])
+		{
+			mainScript.trainController.PrepareWalkingAgent(agent);
+		}
 	}
 
 
