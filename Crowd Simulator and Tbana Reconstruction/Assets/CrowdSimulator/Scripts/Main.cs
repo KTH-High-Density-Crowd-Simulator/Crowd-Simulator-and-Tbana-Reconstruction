@@ -59,6 +59,7 @@ public class Main : MonoBehaviour {
 	public bool smoothTurns = false;
 	public bool handleCollision = false;
 	internal WaitingAreaController waitingAreaController;
+	internal TrainController trainController;
 
 	/**
 	 * Initialize simulation by taking the user's options into consideration and spawn agents.
@@ -86,6 +87,11 @@ public class Main : MonoBehaviour {
 		if(waitingAreaController != null)
 		{
 			waitingAreaController.Initialize();
+		}
+		trainController = FindObjectOfType<TrainController>();
+		if(trainController == null)
+		{
+			Debug.LogError("TrainController not found in scene");
 		}
 
 
@@ -136,9 +142,16 @@ public class Main : MonoBehaviour {
 		{
 			Agent agent = agentList[i];
 
-			if(agent.transform.position.y > 0.01f || agent.transform.position.y < 0f || agent.transform.rotation.x > 0 || agent.transform.rotation.z > 0)
+			if(agent.transform.position.y > 0.1f || 
+			agent.transform.position.y < -0.1f || 
+			agent.transform.rotation.x < -0.1 || 
+			agent.transform.rotation.x > 0.1 ||
+			agent.transform.rotation.z > 0.1 ||
+			agent.transform.rotation.z < -0.1)
 			{
+				//Debug.Log(transform.position.y + " " + transform.rotation.x + " " + transform.rotation.z);
 				agent.Reset();
+				Debug.DrawLine(agent.transform.position, agent.transform.position + Vector3.up * 5f, Color.red, 2f);
 			}
 
 			if(agent.isWaiting || (agent.done && agent.isPreparingToBoard))

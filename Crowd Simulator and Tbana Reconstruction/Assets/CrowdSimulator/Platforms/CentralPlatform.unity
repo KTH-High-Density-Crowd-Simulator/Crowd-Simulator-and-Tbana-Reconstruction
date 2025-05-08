@@ -1826,7 +1826,7 @@ PrefabInstance:
       objectReference: {fileID: 908229884}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: dwellTime
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: trainCapacity
@@ -1834,7 +1834,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: arriveInterval
-      value: 60
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: trains.Array.data[1]
@@ -3780,7 +3780,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 446555961}
-  spawnRate: 5
+  spawnRate: 2
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!114 &288606869 stripped
@@ -16574,7 +16574,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 216364175}
-  spawnRate: 5
+  spawnRate: 2
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!1 &1543804604
@@ -19573,7 +19573,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 443753746}
-  spawnRate: 5
+  spawnRate: 2
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!1 &1864808929
@@ -20984,6 +20984,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 6
     m_NumAlphaKeys: 3
+  smoothingRadius: 2
 --- !u!4 &1948559498
 Transform:
   m_ObjectHideFlags: 0
@@ -22731,7 +22732,7 @@ MonoBehaviour:
   subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 327909441}
-  spawnRate: 5
+  spawnRate: 2
   usePoisson: 1
   agentPrefab: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
 --- !u!1 &2119348801

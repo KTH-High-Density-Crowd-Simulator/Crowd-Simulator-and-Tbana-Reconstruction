@@ -9,7 +9,7 @@ public class TrainController : MonoBehaviour
     public float arriveInterval = 10f;
     private bool[] dwelling = new bool[3];
     public float dwellTime = 5f;
-    private float dwellTimer = 0f;
+    private float[] dwellTimer = new float[3];
     private WaitingAreaController waitingAreaController;
     private Main mainScript;
     public int trainCapacity = 500;
@@ -17,6 +17,8 @@ public class TrainController : MonoBehaviour
     public int nAgents = 100;
     public bool waitForMinimumAgents = false;
     public bool boardWithCapacity = false;
+    internal bool[] isPreparingToBoard = new bool[3];
+    internal bool[] boarding = new bool[3];
  
     void Start()
     {
@@ -44,10 +46,9 @@ public class TrainController : MonoBehaviour
                 return;
             }
             arrivalTimer = 0f;
+            UnityEditor.EditorApplication.isPaused = true;
             dwelling[1] = true;
             dwelling[2] = true;
-
-            ResetLostAgents();
 
             ToggleTrain(1);
             ToggleTrain(2);
@@ -57,9 +58,9 @@ public class TrainController : MonoBehaviour
 
             StartCoroutine(Alight(1));
             StartCoroutine(Alight(2));
-
-            Dwell();
         }
+        Dwell(1);
+        Dwell(2);
         
     }
 
@@ -89,29 +90,31 @@ public class TrainController : MonoBehaviour
             }
             yield return null;
         }
+        isPreparingToBoard[trainLine] = false;
         Board(trainLine);
     }
 
     public void PrepareBoarding(int trainLine)
     {
+        isPreparingToBoard[trainLine] = true;
         PrepareWaitingAgents(trainLine);
         PrepareWalkingAgents(trainLine);
         nBoardedAgents[trainLine] = 0;
     }
 
 
-    private void Dwell()
+    private void Dwell(int trainLine)
     {
         if(dwelling[1] || dwelling[2])
         {
-            dwellTimer += Time.deltaTime;
-            if (dwellTimer >= dwellTime)
+            dwellTimer[trainLine] += Time.deltaTime;
+            if (dwellTimer[trainLine] >= dwellTime)
             {
-                dwelling[1] = false;
-                dwelling[2] = false;
-                ToggleTrain(1);
-                ToggleTrain(2);
-                dwellTimer = 0f;
+                dwelling[trainLine] = false;
+                ToggleTrain(trainLine);
+                dwellTimer[trainLine] = 0f;
+                ResetLostAgents();
+                boarding[trainLine] = false;
             }
         }
     }
@@ -128,7 +131,6 @@ public class TrainController : MonoBehaviour
                 agent.isWaitingAgent = false;
                 agent.waitingArea.isOccupied[agent.waitingSpot] = false;
                 agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
-                agent.walkingSpeed = Random.Range(0.8f, 1.2f);
 
                 Rigidbody rb = agent.GetComponent<Rigidbody>();
                 rb.constraints = RigidbodyConstraints.None;
@@ -151,20 +153,7 @@ public class TrainController : MonoBehaviour
 			Agent agent = mainScript.agentList[i];
 			if(agent.trainLine == trainLine && !agent.boarding && !agent.isWaiting)
 			{
-                agent.GetComponentInChildren<Renderer>().material = waitingAreaController.boardingAgentMaterial;
-
-				int closestTrainDoor = waitingAreaController.FindClosestTrainDoor(ref agent);
-				int closestNode = FindClosestNode(agent.transform.position);
-				agent.setNewPath(closestNode, closestTrainDoor, ref mainScript.roadmap);
-				if(agent.isWaitingAgent)
-				{
-					agent.waitingArea.isOccupied[agent.waitingSpot] = false;
-                	agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
-					agent.isWaitingAgent = false;
-				}
-
-                StartCoroutine(WaitOutsideTrain(agent));
-
+                PrepareWalkingAgent(agent);
                 nBoardedAgents[trainLine]++;
                 if(nBoardedAgents[trainLine] >= trainCapacity && boardWithCapacity)
                 {
@@ -173,6 +162,23 @@ public class TrainController : MonoBehaviour
 			}
             
 		}
+    }
+
+    internal void PrepareWalkingAgent(Agent agent)
+    {
+        agent.GetComponentInChildren<Renderer>().material = waitingAreaController.boardingAgentMaterial;
+
+        int closestTrainDoor = waitingAreaController.FindClosestTrainDoor(ref agent);
+        int closestNode = FindClosestNode(agent.transform.position);
+        agent.setNewPath(closestNode, closestTrainDoor, ref mainScript.roadmap);
+
+        if(agent.isWaitingAgent)
+        {
+            agent.waitingArea.isOccupied[agent.waitingSpot] = false;
+            agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+            agent.isWaitingAgent = false;
+        }
+        StartCoroutine(WaitOutsideTrain(agent));
     }
 
     private IEnumerator WaitOutsideTrain(Agent agent)
@@ -204,8 +210,6 @@ public class TrainController : MonoBehaviour
             waitPosition.x = targetPoint.x + Random.Range(-0.4f, 1.5f);
         }
 
-        Debug.DrawLine(waitPosition, waitPosition + Vector3.up * 0.5f, Color.red, 10f);
-
         agent.noMapGoal = waitPosition;
         agent.noMap = true;
 
@@ -216,6 +220,7 @@ public class TrainController : MonoBehaviour
         agent.collisionAvoidanceVelocity = Vector3.zero;
 
         // Start moving towards the train door
+        agent.walkingSpeed = Random.Range(0.5f, 1f);
         agent.done = false;
         agent.isWaiting = false;
         agent.isPreparingToBoard = true;
@@ -223,18 +228,22 @@ public class TrainController : MonoBehaviour
 
     public void Board(int trainLine)
     {
+        boarding[trainLine] = true;
         for (int i = mainScript.agentList.Count - 1; i >= 0; i--)
         {
             Agent agent = mainScript.agentList[i];
             if (agent.trainLine == trainLine)
             {
-                agent.boarding = true;
+                if(!agent.isPreparingToBoard)
+                {
+                    continue;
+                }
                 StartCoroutine(BoardAgent(agent));
             }
         }
     }
 
-    private IEnumerator BoardAgent(Agent agent)
+    internal IEnumerator BoardAgent(Agent agent)
     {
         float delay = Random.Range(1.5f, 3f);
         yield return new WaitForSeconds(delay);
@@ -262,6 +271,7 @@ public class TrainController : MonoBehaviour
         agent.done = false;
         agent.isWaiting = false;
         agent.isPreparingToBoard = false;
+        agent.boarding = true;
     }
 
     int FindClosestNode(Vector3 position)
@@ -293,8 +303,21 @@ public class TrainController : MonoBehaviour
             Agent agent = mainScript.agentList[i];
             if(agent.isPreparingToBoard || agent.boarding)
             {
+                /**
                 agent.isPreparingToBoard = false;
                 agent.boarding = false;
+                agent.pathIndex = 1;
+                agent.Reset();
+                agent.transform.position = new Vector3(Mathf.Clamp(agent.transform.position.x, -7.5f, 7.5f), 0f, agent.transform.position.z);
+                agent.isWaiting = true;
+                waitingAreaController.waitingAgents.Add(agent);
+                */
+                mainScript.agentList.RemoveAt(i);
+                Destroy(agent.gameObject);
+            }
+            if(agent.isAlighting)
+            {
+                agent.Reset();
             }
         }
     }

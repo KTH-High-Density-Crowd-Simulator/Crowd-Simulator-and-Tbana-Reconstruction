@@ -79,7 +79,7 @@ public class Agent : MonoBehaviour {
 		
 	}
 
-
+/**
 	private void OnDrawGizmos()
 	{
 		UnityEditor.Handles.color = Color.red;
@@ -88,6 +88,7 @@ public class Agent : MonoBehaviour {
 			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "Problem!!!");
 			Debug.DrawLine(transform.position, transform.position + Vector3.up * 5f, Color.red, 10f);
 		}
+
 		if(!noMap && pathIndex < path.Count)
 		{
 			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, path[pathIndex].ToString());
@@ -95,13 +96,20 @@ public class Agent : MonoBehaviour {
 		{
 			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "noMap " + path[pathIndex].ToString());
 		}
-		if(transform.position.y > 0.1f || transform.position.y < 0f)
+
+		if(transform.position.y > 0.1f || 
+			transform.position.y < -0.1f || 
+			transform.rotation.x < -0.1 || 
+			transform.rotation.x > 0.1 ||
+			transform.rotation.z > 0.1 ||
+			transform.rotation.z < -0.1)
 		{
-			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.7f, "Y: " + transform.position.y.ToString("F2"));
+			Debug.Log("Problem: " + transform.position.y + " " + transform.rotation.x + " " + transform.rotation.z);
 			Debug.DrawLine(transform.position, transform.position + Vector3.up * 5f, Color.red, 10f);
 		}
 		
 	}
+	*/
 
 	
 
@@ -461,10 +469,14 @@ public class Agent : MonoBehaviour {
 
 	internal void Reset()
 	{
+		Rigidbody rb = GetComponent<Rigidbody>();
+		rb.velocity = Vector3.zero;
+		rb.angularVelocity = Vector3.zero;
 		velocity = Vector3.zero;
         preferredVelocity = Vector3.zero;
         continuumVelocity = Vector3.zero;
         collisionAvoidanceVelocity = Vector3.zero;
 		transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+		transform.rotation = Quaternion.identity;
 	}
 }
