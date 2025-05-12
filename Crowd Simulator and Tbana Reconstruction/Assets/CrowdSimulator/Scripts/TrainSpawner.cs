@@ -12,9 +12,10 @@ public class TrainSpawner : MonoBehaviour
     private Agent agentPrefab;
     internal Material alightingAgentMaterial;
     internal bool done = false;
+    private bool alightBeforeBoarding;
 
     // Start is called before the first frame update
-    public void Initialize(int numberOfAgents, int goal1, int goal2, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial)
+    public void Initialize(int numberOfAgents, int goal1, int goal2, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial, bool alightBeforeBoarding)
     {
         this.agentPrefab = agentPrefab;
         this.burstRate = burstRate;
@@ -23,6 +24,7 @@ public class TrainSpawner : MonoBehaviour
         goals[0] = goal1;
         goals[1] = goal2;
         this.alightingAgentMaterial = alightingAgentMaterial;
+        this.alightBeforeBoarding = alightBeforeBoarding;
         mainScript = FindObjectOfType<Main>();
     }
 
@@ -58,14 +60,17 @@ public class TrainSpawner : MonoBehaviour
 
 		agent.InitializeAgent (startPosition, node, goal, ref mainScript.roadmap);
 
-        if(startPosition.x > 0)
+        if(alightBeforeBoarding)
         {
-            agent.noMapGoal = new Vector3(transform.position.x - 4f, 0f, startPosition.z);
-        }else
-        {
-            agent.noMapGoal = new Vector3(transform.position.x + 4f, 0f, startPosition.z);
+            if(startPosition.x > 0)
+            {
+                agent.noMapGoal = new Vector3(transform.position.x - 4f, 0f, startPosition.z);
+            }else
+            {
+                agent.noMapGoal = new Vector3(transform.position.x + 4f, 0f, startPosition.z);
+            }
+            agent.noMap = true;
         }
-        agent.noMap = true;
 		
         agent.isAlighting = true;
 		if (agentContainer != null)

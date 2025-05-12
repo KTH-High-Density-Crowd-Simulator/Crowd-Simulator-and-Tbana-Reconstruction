@@ -19,6 +19,7 @@ public class TrainController : MonoBehaviour
     public bool boardWithCapacity = false;
     internal bool[] isPreparingToBoard = new bool[3];
     internal bool[] boarding = new bool[3];
+    public bool alightBeforeBoarding = true;
  
     void Start()
     {
@@ -76,22 +77,30 @@ public class TrainController : MonoBehaviour
         yield return new WaitForSeconds(15f);
         Train trainScript = trains[trainLine].GetComponent<Train>();
         trainScript.Alight();
-        bool allSpawnersDone = false;
-        while (!allSpawnersDone)
+        if(!alightBeforeBoarding)
         {
-            allSpawnersDone = true;
-            foreach (var spawner in trainScript.trainSpawners)
-            {
-                if (!spawner.done)
-                {
-                    allSpawnersDone = false;
-                    break;
-                }
-            }
-            yield return null;
+            isPreparingToBoard[trainLine] = false;
+            Board(trainLine);
         }
-        isPreparingToBoard[trainLine] = false;
-        Board(trainLine);
+        else
+        {
+            bool allSpawnersDone = false;
+            while (!allSpawnersDone)
+            {
+                allSpawnersDone = true;
+                foreach (var spawner in trainScript.trainSpawners)
+                {
+                    if (!spawner.done)
+                    {
+                        allSpawnersDone = false;
+                        break;
+                    }
+                }
+                yield return null;
+            }
+            isPreparingToBoard[trainLine] = false;
+            Board(trainLine);
+        }
     }
 
     public void PrepareBoarding(int trainLine)
