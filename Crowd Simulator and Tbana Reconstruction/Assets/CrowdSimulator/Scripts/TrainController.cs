@@ -46,7 +46,7 @@ public class TrainController : MonoBehaviour
                 return;
             }
             arrivalTimer = 0f;
-            UnityEditor.EditorApplication.isPaused = true;
+            //UnityEditor.EditorApplication.isPaused = true;
             dwelling[1] = true;
             dwelling[2] = true;
 

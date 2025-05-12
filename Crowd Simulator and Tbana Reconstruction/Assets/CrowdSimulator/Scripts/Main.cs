@@ -151,7 +151,7 @@ public class Main : MonoBehaviour {
 			{
 				//Debug.Log(transform.position.y + " " + transform.rotation.x + " " + transform.rotation.z);
 				agent.Reset();
-				Debug.DrawLine(agent.transform.position, agent.transform.position + Vector3.up * 5f, Color.red, 2f);
+				//Debug.DrawLine(agent.transform.position, agent.transform.position + Vector3.up * 5f, Color.red, 2f);
 			}
 
 			if(agent.isWaiting || (agent.done && agent.isPreparingToBoard))
