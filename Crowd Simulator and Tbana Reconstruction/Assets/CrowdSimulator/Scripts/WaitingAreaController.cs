@@ -195,11 +195,11 @@ public class WaitingAreaController : MonoBehaviour
         agent.rotateAgent(roadmap.allNodes[closestTrainDoor].transform.position);
         
         // Freeze the agent's position and rotation
-        Rigidbody rb = agent.GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        //Rigidbody rb = agent.GetComponent<Rigidbody>();
+        //rb.constraints = RigidbodyConstraints.FreezeAll;
 
         agent.setNewPath(agent.goal, closestTrainDoor, ref roadmap);
-        agent.noMap = false;
+        //agent.noMap = false;
         agent.GetComponentInChildren<Renderer>().material = waitingAgentMaterial;
         agent.isWaiting = true;
     }

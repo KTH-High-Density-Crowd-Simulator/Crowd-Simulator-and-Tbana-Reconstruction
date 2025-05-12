@@ -40,6 +40,7 @@ public class Agent : MonoBehaviour {
 	internal bool isPreparingToBoard = false;
 	internal bool boarding = false;
 	internal bool isAlighting = false;
+	private bool crossingYellowLine = false;
 
 	internal void Start() {
 		animator = transform.gameObject.GetComponent<Animator> ();
@@ -79,7 +80,7 @@ public class Agent : MonoBehaviour {
 		
 	}
 
-
+/**
 	private void OnDrawGizmos()
 	{
 		UnityEditor.Handles.color = Color.red;
@@ -94,7 +95,7 @@ public class Agent : MonoBehaviour {
 			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, path[pathIndex].ToString());
 		}else if(pathIndex < path.Count)
 		{
-			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "noMap " + path[pathIndex].ToString());
+			//UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "noMap");
 		}
 
 		if(transform.position.y > 0.1f || 
@@ -109,7 +110,7 @@ public class Agent : MonoBehaviour {
 		}
 		
 	}
-
+*/
 
 	
 
@@ -284,7 +285,21 @@ public class Agent : MonoBehaviour {
 		preferredVelocity.y = 0f;
 	}
 
-	internal virtual void calculatePreferredVelocity(ref MapGen.map map) {
+    private void Update()
+    {
+        if (Mathf.Abs(transform.position.x) < 6f && !crossingYellowLine)
+		{
+			Debug.Log($"Agent crossed the yellow line");
+			crossingYellowLine = true;
+		}
+		if(crossingYellowLine && Mathf.Abs(transform.position.x) > 6f)
+		{
+			crossingYellowLine = false;
+		}
+			
+    }
+
+    internal virtual void calculatePreferredVelocity(ref MapGen.map map) {
 		if (noMap) {
 			calculatePreferredVelocityNoMap ();
 		} else {
@@ -301,8 +316,9 @@ public class Agent : MonoBehaviour {
 		} 
 
 		calculatePreferredVelocity(ref map);
+		ApplyYellowLineForce();
 		setCorrectedVelocity ();
-
+	
 		prevPos = transform.position;
 
 		Vector3 newPosition = transform.position + velocity * Grid.instance.dt;
@@ -313,6 +329,24 @@ public class Agent : MonoBehaviour {
 		collisionAvoidanceVelocity = Vector3.zero;
 
 		Animate(prevPos);
+	}
+
+	internal void PassiveMove()
+	{
+		ApplyYellowLineForce();
+		Vector3 force = collisionAvoidanceVelocity;
+		force.y = 0f;
+
+		if (force.magnitude > 0.01f)
+		{
+			Vector3 newPosition = transform.position + force * Grid.instance.dt;
+			newPosition.y = 0f;
+			transform.position = newPosition;
+			transform.forward = force.normalized;
+
+
+			collisionAvoidanceVelocity = Vector3.zero;
+		}
 	}
 
 	void Animate(Vector3 previousPosition)
@@ -479,5 +513,29 @@ public class Agent : MonoBehaviour {
         collisionAvoidanceVelocity = Vector3.zero;
 		transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 		transform.rotation = Quaternion.identity;
+	}
+
+	private void ApplyYellowLineForce()
+	{
+		float zoneWidth = 1.0f;
+		float agentX = transform.position.x;
+
+		// approaching from -12
+		if (agentX > -7f && agentX < -6f)
+		{
+			float distIntoZone = -6f - agentX; // how far into yellow zone
+			float strength = distIntoZone / zoneWidth;
+			Vector3 repel = Vector3.left * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
+
+		// approaching from +12
+		else if (agentX < 7f && agentX > 6f)
+		{
+			float distIntoZone = agentX - 6f;
+			float strength = distIntoZone / zoneWidth;
+			Vector3 repel = Vector3.right * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
 	}
 }

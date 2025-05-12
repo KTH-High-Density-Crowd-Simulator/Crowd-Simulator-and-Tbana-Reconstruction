@@ -357,34 +357,30 @@ public class Grid : MonoBehaviour {
 			return;
 		for(int i = 0; i < neighMatrix[row][col].Count; ++i) {
 			int oa = neighMatrix [row] [col] [i];
-			if (a == oa || agentList[a].isWaiting)
+			if (a == oa)
 				continue;
+			if(agentList[a].isWaiting && agentList[oa].isWaiting)
+			{
+				float standingDistance = 0.3f;
+				Vector3 distance = agentList [a].transform.position - agentList [oa].transform.position;
+				if (distance.magnitude < standingDistance) 
+				{
+					agentList [a].collisionAvoidanceVelocity += distance.normalized * (standingDistance - distance.magnitude) * agentList[a].walkingSpeed;
+				}
+				continue;
+			}
+			if(agentList[a].isWaiting)
+				continue;
+
+			float bumpDiameter = 0.4f;
 			Vector3 dis = agentList [a].transform.position - agentList [oa].transform.position;
 			if (dis.magnitude < ringDiameter) { //Assumption: ringDiameter > pxpy
-				if (agentList[a] is SubgroupAgent && agentList[oa] is SubgroupAgent && (agentList[a] as SubgroupAgent).c.tag.Equals ((agentList[oa] as SubgroupAgent).c.tag)) { //Allow modification of value later
-					float groupDis = ringDiameter;
-					if (usePresetGroupDistances) {
-						switch (((SubgroupAgent)agentList [a]).c.comp.Count) {
-						case 2:
-							groupDis = this.pair;
-							break;
-						case 3:
-							groupDis = this.trio;
-							break;
-						case 4:
-							groupDis = this.quad;
-							break;
-						default:
-							break;
-						}
-					}
-					if (dis.magnitude < 2 * groupDis) {
-				
-						agentList [a].collisionAvoidanceVelocity += dis.normalized * (2 * groupDis - dis.magnitude) * agentList[a].walkingSpeed; 
-					}
-				} else {
-					agentList [a].collisionAvoidanceVelocity += dis.normalized * (ringDiameter - dis.magnitude) * agentList[a].walkingSpeed; //Push away
-				}
+
+				agentList [a].collisionAvoidanceVelocity += dis.normalized * (ringDiameter - dis.magnitude) * agentList[a].walkingSpeed; //Push away
+			}
+			if(agentList[oa].isWaiting && dis.magnitude <= bumpDiameter)
+			{
+				agentList[oa].collisionAvoidanceVelocity -= dis.normalized * (bumpDiameter - dis.magnitude) * agentList[oa].walkingSpeed;
 			}
 		}
 	}

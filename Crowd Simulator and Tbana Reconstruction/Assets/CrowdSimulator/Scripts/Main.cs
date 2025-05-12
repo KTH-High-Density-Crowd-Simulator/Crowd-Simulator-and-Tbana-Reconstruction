@@ -154,7 +154,12 @@ public class Main : MonoBehaviour {
 				//Debug.DrawLine(agent.transform.position, agent.transform.position + Vector3.up * 5f, Color.red, 2f);
 			}
 
-			if(agent.isWaiting || (agent.done && agent.isPreparingToBoard))
+			if(agent.isWaiting)
+			{
+				agent.PassiveMove();
+				continue;
+			}
+			if(agent.done && agent.isPreparingToBoard)
 			{
 				continue;
 			}

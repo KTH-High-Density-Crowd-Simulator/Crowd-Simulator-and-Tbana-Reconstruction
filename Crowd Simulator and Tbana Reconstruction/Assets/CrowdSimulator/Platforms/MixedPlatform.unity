@@ -2708,7 +2708,7 @@ Transform:
   m_GameObject: {fileID: 255346154}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24, y: 0, z: 0}
+  m_LocalPosition: {x: 24.1, y: 0, z: 0}
   m_LocalScale: {x: 24, y: 11, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3006,7 +3006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: maxNumberOfAgents
-      value: 500
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: skipNodeIfSeeNext
@@ -5174,12 +5174,16 @@ PrefabInstance:
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
+      propertyPath: spawnTrains
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: trainCapacity
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: arriveInterval
-      value: 60
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: alightBeforeBoarding
@@ -19028,7 +19032,7 @@ PrefabInstance:
       objectReference: {fileID: 2038246482}
     - target: {fileID: 7032286784090803201, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
       propertyPath: waitingSpotSize
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7032286784090803201, guid: 8c0934f826fe59849836864d64a640ae, type: 3}
       propertyPath: waitingAgentMaterial
@@ -19552,7 +19556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 830694103624372395, guid: 434a9d4fff810c6488cc801b40378f60, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5095366863406242159, guid: 434a9d4fff810c6488cc801b40378f60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -28444,7 +28448,7 @@ Transform:
   m_GameObject: {fileID: 2119119650}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24, y: 0, z: 0}
+  m_LocalPosition: {x: -24.1, y: 0, z: 0}
   m_LocalScale: {x: 24, y: 11, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children: []

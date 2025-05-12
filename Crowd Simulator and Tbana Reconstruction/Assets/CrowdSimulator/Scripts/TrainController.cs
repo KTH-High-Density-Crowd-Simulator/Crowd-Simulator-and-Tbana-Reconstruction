@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TrainController : MonoBehaviour
 {
+    public bool spawnTrains = true;
     public GameObject[] trains = new GameObject[3];
     private float arrivalTimer = 0f;
     public float arriveInterval = 10f;
@@ -20,6 +21,7 @@ public class TrainController : MonoBehaviour
     internal bool[] isPreparingToBoard = new bool[3];
     internal bool[] boarding = new bool[3];
     public bool alightBeforeBoarding = true;
+   
  
     void Start()
     {
@@ -39,6 +41,10 @@ public class TrainController : MonoBehaviour
 
     void Update()
     {
+        if(!spawnTrains)
+        {
+            return;
+        }
         arrivalTimer += Time.deltaTime;
         if(arrivalTimer >= arriveInterval)
         {
@@ -330,4 +336,5 @@ public class TrainController : MonoBehaviour
             }
         }
     }
+
 }
