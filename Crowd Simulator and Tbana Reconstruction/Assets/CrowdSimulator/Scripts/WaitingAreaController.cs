@@ -197,53 +197,12 @@ public class WaitingAreaController : MonoBehaviour
         // Freeze the agent's position and rotation
         Rigidbody rb = agent.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeAll;
-        // Make waiting agents obstcales for other agents
-        //agent.gameObject.layer = LayerMask.NameToLayer("WaitingAgent");
 
         agent.setNewPath(agent.goal, closestTrainDoor, ref roadmap);
         agent.noMap = false;
         agent.GetComponentInChildren<Renderer>().material = waitingAgentMaterial;
         agent.isWaiting = true;
     }
-
-    /**
-    public void BoardWaitingAgents(int trainLine)
-    {
-        for(int i = waitingAgents.Count - 1; i >= 0; i--)
-        {
-            Agent agent = waitingAgents[i];
-            if(agent.subwayData.HasValue && agent.subwayData.Value.trainLine == trainLine)
-            {
-                agent.setAnimatorStanding(false);
-                agent.isWaitingAgent = false;
-                agent.waitingArea.isOccupied[agent.waitingSpot] = false;
-                agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
-                agent.walkingSpeed = Random.Range(0.8f, 1.2f);
-                
-                // Unfreeze the agent's position and rotation
-                Rigidbody rb = agent.GetComponent<Rigidbody>();
-                rb.constraints = RigidbodyConstraints.None;
-                // Set the agent's layer to default
-                agent.gameObject.layer = LayerMask.NameToLayer("Agent");
-
-                agent.done = false;
-                FindObjectOfType<Main>().AddToAgentList(agent);
-                waitingAgents.RemoveAt(i);
-
-                if(agentContainer != null)
-                {
-                    agent.transform.SetParent(agentContainer.transform);
-                }
-                else
-                {
-                    agent.transform.SetParent(null); 
-                }
-            }
-            
-        }
-    }
-    **/
-
 
     internal int FindClosestTrainDoor(ref Agent agent)
     {   
