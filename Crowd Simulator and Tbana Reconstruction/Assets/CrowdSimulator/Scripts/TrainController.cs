@@ -8,7 +8,7 @@ public class TrainController : MonoBehaviour
     public GameObject[] trains = new GameObject[3];
     private float arrivalTimer = 0f;
     public float arriveInterval = 10f;
-    private bool[] dwelling = new bool[3];
+    internal bool[] dwelling = new bool[3];
     public float dwellTime = 5f;
     private float[] dwellTimer = new float[3];
     private WaitingAreaController waitingAreaController;
@@ -120,7 +120,7 @@ public class TrainController : MonoBehaviour
 
     private void Dwell(int trainLine)
     {
-        if(dwelling[1] || dwelling[2])
+        if(dwelling[trainLine])
         {
             dwellTimer[trainLine] += Time.deltaTime;
             if (dwellTimer[trainLine] >= dwellTime)
@@ -336,5 +336,4 @@ public class TrainController : MonoBehaviour
             }
         }
     }
-
 }

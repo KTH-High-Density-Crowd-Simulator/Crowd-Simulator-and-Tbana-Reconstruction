@@ -117,7 +117,7 @@ public class NewSpawner : MonoBehaviour {
 		agentList.Add (agent);
 		if(mainScript.trainController.isPreparingToBoard[agent.trainLine])
 		{
-			mainScript.trainController.PrepareWalkingAgent(agent);
+			//mainScript.trainController.PrepareWalkingAgent(agent);
 		}
 	}
 

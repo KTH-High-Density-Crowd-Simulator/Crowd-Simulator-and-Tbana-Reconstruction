@@ -1825,6 +1825,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 908229884}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
+      propertyPath: nAgents
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: dwellTime
       value: 45
       objectReference: {fileID: 0}
@@ -1844,6 +1848,10 @@ PrefabInstance:
       propertyPath: trains.Array.data[2]
       value: 
       objectReference: {fileID: 908229884}
+    - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
+      propertyPath: waitForMinimumAgents
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: waitingAreaController
       value: 
@@ -3775,9 +3783,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useSimpleAgents: 1
-  waitingAgents: 1
-  subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 446555961}
   spawnRate: 4
@@ -3901,7 +3906,7 @@ PrefabInstance:
       objectReference: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: maxNumberOfAgents
-      value: 1000
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 114000011453258514, guid: ead6e50105b8a264ab4274d310eab2f7, type: 3}
       propertyPath: skipNodeIfSeeNext
@@ -6425,7 +6430,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 200
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size
@@ -16569,9 +16574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useSimpleAgents: 1
-  waitingAgents: 1
-  subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 216364175}
   spawnRate: 4
@@ -19568,9 +19570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useSimpleAgents: 1
-  waitingAgents: 1
-  subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 443753746}
   spawnRate: 4
@@ -22651,9 +22650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827e8876ec2abd74cb997cf58fb058ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useSimpleAgents: 1
-  waitingAgents: 1
-  subwayAgents: 1
   agentEditorContainer: {fileID: 2038246482}
   customGoal: {fileID: 327909441}
   spawnRate: 4
@@ -23040,7 +23036,7 @@ PrefabInstance:
       objectReference: {fileID: 1937552808}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: numberOfAgents
-      value: 200
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.size

@@ -359,9 +359,10 @@ public class Grid : MonoBehaviour {
 			int oa = neighMatrix [row] [col] [i];
 			if (a == oa)
 				continue;
+
 			if(agentList[a].isWaiting && agentList[oa].isWaiting)
 			{
-				float standingDistance = 0.3f;
+				float standingDistance = 0.4f;
 				Vector3 distance = agentList [a].transform.position - agentList [oa].transform.position;
 				if (distance.magnitude < standingDistance) 
 				{
