@@ -302,7 +302,7 @@ public class Agent : MonoBehaviour {
 		} 
 
 		calculatePreferredVelocity(ref map);
-		if(!isPreparingToBoard && !isAlighting && !boarding)
+		if((!trainController.dwelling[1] && !trainController.dwelling[2]) || isAlighting)
 		{
 			ApplyYellowLineForce();
 		}
@@ -314,8 +314,11 @@ public class Agent : MonoBehaviour {
 		newPosition.y = 0.0f;	// Lock Y position
 		transform.position = newPosition;
 
+		float positionX = Mathf.Abs(transform.position.x);
 
-		if (Mathf.Abs(transform.position.x) < 7f && !crossingYellowLine && !isPreparingToBoard && !isAlighting && !boarding)
+		if (!(trainController.dwelling[1] || trainController.dwelling[2]) && 
+			((positionX < 7f && positionX > 4f) ||
+			(positionX > 2f && positionX < 5f)))
 		{
 			Debug.Log($"Agent crossed the yellow line");
 			Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
@@ -334,7 +337,7 @@ public class Agent : MonoBehaviour {
 
 	internal void PassiveMove()
 	{
-		if(!isPreparingToBoard && !isAlighting && !boarding)
+		if(!trainController.dwelling[1] && !trainController.dwelling[2])
 		{
 			ApplyYellowLineForce();
 		}
@@ -348,8 +351,11 @@ public class Agent : MonoBehaviour {
 			transform.position = newPosition;
 			transform.forward = force.normalized;
 
+			float positionX = Mathf.Abs(transform.position.x);
 
-			if (Mathf.Abs(transform.position.x) < 7f && !crossingYellowLine && !isPreparingToBoard && !isAlighting && !boarding)
+			if (!(trainController.dwelling[1] || trainController.dwelling[2]) && 
+			((positionX < 7f && positionX > 4f) ||
+			(positionX > 2f && positionX < 5f)))
 			{
 				Debug.Log($"Agent crossed the yellow line");
 				Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
@@ -533,27 +539,58 @@ public class Agent : MonoBehaviour {
 
 	private void ApplyYellowLineForce()
 	{
-		float zoneWidth = 1.0f;
 		float agentX = transform.position.x;
 
-		// approaching from -12
-		if (agentX > -7.24f && agentX < -6f)
+		// Side Platforms
 		{
-			float distIntoZone = -6f - agentX; // how far into yellow zone
-			float strength = distIntoZone / zoneWidth;
-			Vector3 repel = Vector3.left * strength * walkingSpeed * 0.5f;
-			collisionAvoidanceVelocity += repel;
-			//Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.yellow, 10f);
+			float platformEdge = 6f;
+			float yellowLineStart = 7.24f;
+			float zoneWidth = yellowLineStart - platformEdge;
+
+			// approaching from -12)
+			if (agentX > -yellowLineStart && agentX < -platformEdge)
+			{
+				float distToEdge = -platformEdge - agentX; // how far into the yellow zone
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.left * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+				// Debug.DrawRay(transform.position, repel, Color.yellow);
+			}
+
+			// approaching from +12)
+			else if (agentX < yellowLineStart && agentX > platformEdge)
+			{
+				float distToEdge = agentX - platformEdge;
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.right * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+				// Debug.DrawRay(transform.position, repel, Color.yellow);
+			}
 		}
 
-		// approaching from +12
-		else if (agentX < 7.24f && agentX > 6f)
+		// Central Platform
 		{
-			float distIntoZone = agentX - 6f;
-			float strength = distIntoZone / zoneWidth;
-			Vector3 repel = Vector3.right * strength * walkingSpeed * 0.5f;
-			collisionAvoidanceVelocity += repel;
-			//Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.yellow, 10f);
+			float platformEdge = 3f;
+			float yellowLineStart = 1.76f;
+			float zoneWidth = platformEdge - yellowLineStart;
+
+			if (agentX > -platformEdge && agentX < -yellowLineStart)
+			{
+				float distToEdge = agentX + platformEdge; // how far into the yellow zone from the edge
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.right * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+				// Debug.DrawRay(transform.position, repel, Color.green);
+			}
+
+			else if (agentX < platformEdge && agentX > yellowLineStart)
+			{
+				float distToEdge = platformEdge - agentX;
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.left * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+				// Debug.DrawRay(transform.position, repel, Color.green);
+			}
 		}
 	}
 }

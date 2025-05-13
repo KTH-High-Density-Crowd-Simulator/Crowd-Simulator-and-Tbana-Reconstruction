@@ -381,7 +381,17 @@ public class Grid : MonoBehaviour {
 			}
 			if(agentList[oa].isWaiting && dis.magnitude <= bumpDiameter)
 			{
-				agentList[oa].collisionAvoidanceVelocity -= dis.normalized * (bumpDiameter - dis.magnitude) * agentList[oa].walkingSpeed;
+				//agentList[oa].collisionAvoidanceVelocity -= dis.normalized * (bumpDiameter - dis.magnitude) * agentList[oa].walkingSpeed * 2f;
+				Vector3 walkDir = agentList[a].preferredVelocity.normalized;
+				Vector3 sideDir = Vector3.Cross(walkDir, Vector3.up);
+
+				// Decide left or right based on relative position
+				Vector3 relative = agentList[oa].transform.position - agentList[a].transform.position;
+				float sideSign = Mathf.Sign(Vector3.Dot(relative, sideDir));
+
+				Vector3 bumpDir = sideDir * sideSign;
+
+				agentList[oa].collisionAvoidanceVelocity += bumpDir * agentList[a].walkingSpeed * 0.5f;
 			}
 		}
 	}
