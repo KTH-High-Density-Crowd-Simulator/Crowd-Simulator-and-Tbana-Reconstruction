@@ -124,7 +124,27 @@ public class NewSpawner : MonoBehaviour {
 	internal virtual int SetSubwayData(Agent agent, Vector3 startPosition)
 	{
 		int agentGoal = goal;
-		int trainLine = Random.Range(1,3);
+		int trainLine = 0;
+		if(mainScript.trainController.flow == TrainController.Flow.Symmetric)
+		{
+			trainLine = Random.Range(1,3);
+		}
+		else if(mainScript.trainController.flow == TrainController.Flow.Asymmetric)
+		{
+			float rand = Random.value;
+
+			if (rand < 0.20f) 
+			{
+				trainLine = 1;  // Reduced flow
+			} else 
+			{
+				trainLine = 2;  // Increased flow
+			}
+		}
+		if(trainLine == 0)
+		{
+			Debug.LogError("Yabai");
+		}
 		agent.trainLine = trainLine;
 
 		// Find a waiting area goal for the agent. If there are no free waiting area spots their goal will be the ordinary goal for this spawner.

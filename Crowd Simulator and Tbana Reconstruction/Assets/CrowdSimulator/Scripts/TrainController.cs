@@ -29,6 +29,14 @@ public class TrainController : MonoBehaviour
     }
 
     public PlatformType platformType;
+
+    public enum Flow
+    {
+        Symmetric,
+        Asymmetric
+    }
+
+    public Flow flow;
    
  
     void Start()
