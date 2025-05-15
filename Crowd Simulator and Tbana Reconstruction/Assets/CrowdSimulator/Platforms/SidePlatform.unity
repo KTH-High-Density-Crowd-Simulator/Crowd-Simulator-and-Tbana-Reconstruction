@@ -1107,10 +1107,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2070598343}
   - {fileID: 1317236884}
-  - {fileID: 55839766}
   - {fileID: 1185866698}
+  - {fileID: 2070598343}
+  - {fileID: 55839766}
   m_Father: {fileID: 383962140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &145633492
@@ -8762,6 +8762,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
+      propertyPath: flow
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: train1
       value: 
       objectReference: {fileID: 0}
@@ -15301,6 +15305,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
+      propertyPath: trainLine
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: agentPrefab
       value: 
       objectReference: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
@@ -15838,10 +15846,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1742880680}
   - {fileID: 1079285448}
-  - {fileID: 1242001119}
   - {fileID: 973680387}
+  - {fileID: 1242001119}
+  - {fileID: 1742880680}
   m_Father: {fileID: 383962140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1659538782
@@ -20389,6 +20397,10 @@ PrefabInstance:
     - target: {fileID: 297341106612912601, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
+      propertyPath: trainLine
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: agentPrefab

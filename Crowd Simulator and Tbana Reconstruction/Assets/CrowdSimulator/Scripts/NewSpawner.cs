@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class NewSpawner : MonoBehaviour {
 
 	internal int node;	//The node for this spawner
-	private Main mainScript;
+	protected Main mainScript;
 
 	// Waiting agents
 	internal WaitingAreaController waitingAreaController;
@@ -140,10 +140,6 @@ public class NewSpawner : MonoBehaviour {
 			{
 				trainLine = 2;  // Increased flow
 			}
-		}
-		if(trainLine == 0)
-		{
-			Debug.LogError("Yabai");
 		}
 		agent.trainLine = trainLine;
 
