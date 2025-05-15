@@ -21,6 +21,14 @@ public class TrainController : MonoBehaviour
     internal bool[] isPreparingToBoard = new bool[3];
     internal bool[] boarding = new bool[3];
     public bool alightBeforeBoarding = true;
+    public enum PlatformType
+    {
+        Central,
+        Mixed,
+        Side
+    }
+
+    public PlatformType platformType;
    
  
     void Start()

@@ -314,20 +314,7 @@ public class Agent : MonoBehaviour {
 		newPosition.y = 0.0f;	// Lock Y position
 		transform.position = newPosition;
 
-		float positionX = Mathf.Abs(transform.position.x);
-
-		if (!(trainController.dwelling[1] || trainController.dwelling[2]) && 
-			((positionX < 7f && positionX > 4f) ||
-			(positionX > 2f && positionX < 5f)))
-		{
-			Debug.Log($"Agent crossed the yellow line");
-			Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
-			crossingYellowLine = true;
-		}
-		if(crossingYellowLine && Mathf.Abs(transform.position.x) > 7f)
-		{
-			crossingYellowLine = false;
-		}
+		CheckYellowLine();
 
 		if(rbody != null) { rbody.velocity = Vector3.zero; }
 		collisionAvoidanceVelocity = Vector3.zero;
@@ -351,23 +338,43 @@ public class Agent : MonoBehaviour {
 			transform.position = newPosition;
 			transform.forward = force.normalized;
 
-			float positionX = Mathf.Abs(transform.position.x);
-
-			if (!(trainController.dwelling[1] || trainController.dwelling[2]) && 
-			((positionX < 7f && positionX > 4f) ||
-			(positionX > 2f && positionX < 5f)))
-			{
-				Debug.Log($"Agent crossed the yellow line");
-				Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
-				crossingYellowLine = true;
-			}
-			if(crossingYellowLine && Mathf.Abs(transform.position.x) > 7f)
-			{
-				crossingYellowLine = false;
-			}
-
+			CheckYellowLine();
 
 			collisionAvoidanceVelocity = Vector3.zero;
+		}
+	}
+
+	private void CheckYellowLine()
+	{
+		if(trainController.dwelling[1] || trainController.dwelling[2]){ return; }
+
+		float positionX = Mathf.Abs(transform.position.x);
+
+		switch (trainController.platformType)
+		{
+			case TrainController.PlatformType.Central:
+				
+				break;
+
+			case TrainController.PlatformType.Mixed:
+				if (((positionX < 7f && positionX > 4f) ||
+					 (positionX > 2f && positionX < 5f)) 
+					 && !crossingYellowLine)
+				{
+					Debug.Log($"Agent crossed the yellow line");
+					Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
+					crossingYellowLine = true;
+				}
+				if(crossingYellowLine && 
+				(positionX > 7f || positionX < 2f))
+				{
+					crossingYellowLine = false;
+				}
+				break;
+
+			case TrainController.PlatformType.Side:
+				
+				break;
 		}
 	}
 
@@ -539,6 +546,22 @@ public class Agent : MonoBehaviour {
 
 	private void ApplyYellowLineForce()
 	{
+		switch (trainController.platformType)
+		{
+			case TrainController.PlatformType.Central:
+				
+				break;
+			case TrainController.PlatformType.Mixed:
+				ApplyYellowLineForceMixed();
+				break;
+			case TrainController.PlatformType.Side:
+				
+				break;
+		}
+	}
+
+	private void ApplyYellowLineForceMixed()
+	{
 		float agentX = transform.position.x;
 
 		// Side Platforms
@@ -592,5 +615,15 @@ public class Agent : MonoBehaviour {
 				// Debug.DrawRay(transform.position, repel, Color.green);
 			}
 		}
+	}
+
+	private void ApplyYellowLineForceCentral()
+	{
+
+	}
+
+	private void ApplyYellowLineForceSide()
+	{
+
 	}
 }
