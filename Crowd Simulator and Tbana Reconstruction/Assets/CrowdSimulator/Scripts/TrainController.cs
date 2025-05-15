@@ -12,7 +12,7 @@ public class TrainController : MonoBehaviour
     public float dwellTime = 5f;
     private float[] dwellTimer = new float[3];
     private WaitingAreaController waitingAreaController;
-    private Main mainScript;
+    internal Main mainScript;
     public int trainCapacity = 500;
     internal int[] nBoardedAgents = new int[3];
     public int nAgents = 100;

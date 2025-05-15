@@ -341,7 +341,9 @@ public class Agent : MonoBehaviour {
 			CheckYellowLine();
 
 			collisionAvoidanceVelocity = Vector3.zero;
+			rotateAgent(trainController.mainScript.roadmap.allNodes[goal].transform.position);
 		}
+		
 	}
 
 	private void CheckYellowLine()
@@ -547,13 +549,14 @@ public class Agent : MonoBehaviour {
 	{
 		Vector3 direction = target - transform.position;
 		transform.rotation = Quaternion.LookRotation(direction);
+		rbody.velocity = Vector3.zero;
+		rbody.angularVelocity = Vector3.zero;
 	}
 
 	internal void Reset()
 	{
-		Rigidbody rb = GetComponent<Rigidbody>();
-		rb.velocity = Vector3.zero;
-		rb.angularVelocity = Vector3.zero;
+		rbody.velocity = Vector3.zero;
+		rbody.angularVelocity = Vector3.zero;
 		velocity = Vector3.zero;
         preferredVelocity = Vector3.zero;
         continuumVelocity = Vector3.zero;
