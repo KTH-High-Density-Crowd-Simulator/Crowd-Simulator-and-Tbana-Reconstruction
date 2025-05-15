@@ -13,9 +13,11 @@ public class TrainSpawner : MonoBehaviour
     internal Material alightingAgentMaterial;
     internal bool done = false;
     private bool alightBeforeBoarding;
+    private TrainController.PlatformType platformType;
 
     // Start is called before the first frame update
-    public void Initialize(int numberOfAgents, int goal1, int goal2, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial, bool alightBeforeBoarding)
+    public void Initialize(int numberOfAgents, int goal1, int goal2, float burstRate, GameObject agentContainer, Agent agentPrefab, Material alightingAgentMaterial, bool alightBeforeBoarding,
+    TrainController.PlatformType platformType)
     {
         this.agentPrefab = agentPrefab;
         this.burstRate = burstRate;
@@ -25,6 +27,7 @@ public class TrainSpawner : MonoBehaviour
         goals[1] = goal2;
         this.alightingAgentMaterial = alightingAgentMaterial;
         this.alightBeforeBoarding = alightBeforeBoarding;
+        this.platformType = platformType;
         mainScript = FindObjectOfType<Main>();
     }
 
@@ -62,12 +65,26 @@ public class TrainSpawner : MonoBehaviour
 
         if(alightBeforeBoarding)
         {
-            if(startPosition.x > 0)
+            if(platformType == TrainController.PlatformType.Central)
             {
-                agent.noMapGoal = new Vector3(transform.position.x - 4f, 0f, startPosition.z);
-            }else
+                if(startPosition.x > 0)
+                {
+                    agent.noMapGoal = new Vector3(transform.position.x - 4f, 0f, startPosition.z);
+                }else
+                {
+                    agent.noMapGoal = new Vector3(transform.position.x + 4f, 0f, startPosition.z);
+                }
+            }
+
+            if(platformType == TrainController.PlatformType.Side)
             {
-                agent.noMapGoal = new Vector3(transform.position.x + 4f, 0f, startPosition.z);
+                if(startPosition.x > 0)
+                {
+                    agent.noMapGoal = new Vector3(transform.position.x + 4f, 0f, startPosition.z);
+                }else
+                {
+                    agent.noMapGoal = new Vector3(transform.position.x - 4f, 0f, startPosition.z);
+                }
             }
             agent.noMap = true;
         }

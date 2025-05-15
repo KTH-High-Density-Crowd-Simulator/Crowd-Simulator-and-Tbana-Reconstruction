@@ -8782,6 +8782,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
+      propertyPath: platformType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: trainCapacity
       value: 100
       objectReference: {fileID: 0}
@@ -8791,7 +8795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: alightBeforeBoarding
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9163898548400775096, guid: df5440e17c6aff940b34e9744166a88b, type: 3}
       propertyPath: trains.Array.data[1]
@@ -15293,6 +15297,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
+      propertyPath: agentPrefab
+      value: 
+      objectReference: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
+    - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: agentContainer
       value: 
       objectReference: {fileID: 2038246482}
@@ -15300,6 +15308,10 @@ PrefabInstance:
       propertyPath: goalNodes.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
+      propertyPath: alightingAgentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: a2f3a2c98295eeb4687c14286ef38d07, type: 2}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.data[0]
       value: 
@@ -16105,7 +16117,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662857778}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -20375,6 +20387,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
+      propertyPath: agentPrefab
+      value: 
+      objectReference: {fileID: 652558794516568689, guid: 6da3b9a6e980a904fa2688413d990bb0, type: 3}
+    - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: agentContainer
       value: 
       objectReference: {fileID: 2038246482}
@@ -20382,6 +20398,10 @@ PrefabInstance:
       propertyPath: goalNodes.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
+      propertyPath: alightingAgentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: a2f3a2c98295eeb4687c14286ef38d07, type: 2}
     - target: {fileID: 5410846902613704895, guid: e1355b5944ab17e46b1a074a861b9934, type: 3}
       propertyPath: goalNodes.Array.data[0]
       value: 

@@ -30,7 +30,9 @@ public class Train : MonoBehaviour
         trainSpawners = new List<TrainSpawner>();
 
         Transform spawners = transform.Find("TrainSpawners");
-        bool alightBeforeBoarding = FindObjectOfType<TrainController>().alightBeforeBoarding;
+        TrainController trainController = FindObjectOfType<TrainController>();
+        bool alightBeforeBoarding = trainController.alightBeforeBoarding;
+        TrainController.PlatformType platformType = trainController.platformType;
 
         foreach (Transform spawnerTransform in spawners)
         {
@@ -73,7 +75,7 @@ public class Train : MonoBehaviour
             }
 
             int nAgentsPerDoor = numberOfAgents / spawners.childCount;
-            spawner.Initialize(nAgentsPerDoor, goal1, goal2, burstRate, agentContainer, agentPrefab, alightingAgentMaterial, alightBeforeBoarding);
+            spawner.Initialize(nAgentsPerDoor, goal1, goal2, burstRate, agentContainer, agentPrefab, alightingAgentMaterial, alightBeforeBoarding, platformType);
         }
         
     }

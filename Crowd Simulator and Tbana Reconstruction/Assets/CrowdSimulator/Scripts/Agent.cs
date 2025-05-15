@@ -382,7 +382,16 @@ public class Agent : MonoBehaviour {
 				break;
 
 			case TrainController.PlatformType.Side:
-				
+				if (positionX < 4f && !crossingYellowLine)
+				{
+					Debug.Log($"Agent crossed the yellow line");
+					Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
+					crossingYellowLine = true;
+				}
+				if(crossingYellowLine && positionX > 4f)
+				{
+					crossingYellowLine = false;
+				}
 				break;
 		}
 	}
@@ -564,7 +573,7 @@ public class Agent : MonoBehaviour {
 				ApplyYellowLineForceMixed();
 				break;
 			case TrainController.PlatformType.Side:
-				
+				ApplyYellowLineForceSide();
 				break;
 		}
 	}
@@ -648,6 +657,28 @@ public class Agent : MonoBehaviour {
 
 	private void ApplyYellowLineForceSide()
 	{
+		float agentX = transform.position.x;
 
+		float platformEdge = 3f;
+		float yellowLineStart = 4.24f;
+		float zoneWidth = yellowLineStart - platformEdge;
+
+		// approaching from -
+		if (agentX > -yellowLineStart && agentX < -platformEdge)
+		{
+			float distToEdge = -platformEdge - agentX;
+			float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+			Vector3 repel = Vector3.left * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
+
+		// approaching from +
+		else if (agentX < yellowLineStart && agentX > platformEdge)
+		{
+			float distToEdge = agentX - platformEdge;
+			float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+			Vector3 repel = Vector3.right * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
 	}
 }
