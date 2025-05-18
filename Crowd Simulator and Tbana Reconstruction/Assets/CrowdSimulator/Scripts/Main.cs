@@ -142,9 +142,9 @@ public class Main : MonoBehaviour {
 		{
 			Agent agent = agentList[i];
 
-			if(agent.transform.position.y > 0.1f || 
-			agent.transform.position.y < -0.1f || 
-			agent.transform.rotation.x < -0.1 || 
+			if (agent.transform.position.y > 0.1f ||
+			agent.transform.position.y < -0.1f ||
+			agent.transform.rotation.x < -0.1 ||
 			agent.transform.rotation.x > 0.1 ||
 			agent.transform.rotation.z > 0.1 ||
 			agent.transform.rotation.z < -0.1)
@@ -154,16 +154,16 @@ public class Main : MonoBehaviour {
 				//Debug.DrawLine(agent.transform.position, agent.transform.position + Vector3.up * 5f, Color.red, 2f);
 			}
 
-			if(agent.isWaiting)
+			if (agent.isWaiting)
 			{
 				agent.PassiveMove();
 				continue;
 			}
-			if(agent.done && agent.isPreparingToBoard)
+			if (agent.done && agent.isPreparingToBoard)
 			{
 				continue;
 			}
-			if(agent.done && agent.isAlighting && agent.noMap)
+			if (agent.done && agent.isAlighting && agent.noMap)
 			{
 				agent.noMap = false;
 				agent.done = false;
@@ -171,12 +171,12 @@ public class Main : MonoBehaviour {
 			}
 
 			// remove agent if it is outside the bounds of the plane
-			if(Mathf.Abs(agent.transform.position.x) > planeSizeX * 5f || Mathf.Abs(agent.transform.position.z) > planeSizeZ * 5f || agent.transform.position.y > 0.5f)
+			if (Mathf.Abs(agent.transform.position.x) > planeSizeX * 5f || Mathf.Abs(agent.transform.position.z) > planeSizeZ * 5f || agent.transform.position.y > 0.5f)
 			{
-				if(agent.isWaitingAgent)
+				if (agent.isWaitingAgent)
 				{
 					agent.waitingArea.isOccupied[agent.waitingSpot] = false;
-                	agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+					agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
 					agent.isWaitingAgent = false;
 				}
 				Debug.Log("Agent outside of bounds, removing");
@@ -186,10 +186,10 @@ public class Main : MonoBehaviour {
 
 			if (agent.done)
 			{
-				if(agent.isWaitingAgent)
+				if (agent.isWaitingAgent)
 				{
 					// Agent reached the waiting area
-					if(!agent.noMap)
+					if (!agent.noMap)
 					{
 						waitingAreaController.walkAgentToWaitingSpot(agent);
 						agent.move(ref roadmap);
@@ -203,12 +203,18 @@ public class Main : MonoBehaviour {
 				}
 				else
 				{
+					if (agent.boarding)
+					{
+						trainController.nBoardingAgents[agent.trainLine]--;
+					}
 					agentList.RemoveAt(i);
 					Destroy(agent.gameObject);
 				}
 				continue;
 			}
 			agent.move(ref roadmap);
+			agent.rbody.velocity = Vector3.zero;
+			agent.rbody.angularVelocity = Vector3.zero;
 			
 		}
 		//Pair-wise collision handling between agents

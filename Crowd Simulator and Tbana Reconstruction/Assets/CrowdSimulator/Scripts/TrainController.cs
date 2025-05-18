@@ -37,6 +37,12 @@ public class TrainController : MonoBehaviour
     }
 
     public Flow flow;
+    internal int[] nBoardingAgents = new int[3];
+    internal float[] BAT = new float[3];
+    public bool useDwellTimer = true;
+    internal bool[] measureBAT = new bool[3];
+
+
    
  
     void Start()
@@ -57,14 +63,17 @@ public class TrainController : MonoBehaviour
 
     void Update()
     {
-        if(!spawnTrains)
+        if (!spawnTrains)
         {
             return;
         }
-        arrivalTimer += Time.deltaTime;
-        if(arrivalTimer >= arriveInterval)
+        if(!(dwelling[1] || dwelling[2]))
         {
-            if(waitForMinimumAgents && mainScript.agentList.Count < nAgents)
+            arrivalTimer += Time.deltaTime;
+        }
+        if (arrivalTimer >= arriveInterval)
+        {
+            if (waitForMinimumAgents && mainScript.agentList.Count < nAgents)
             {
                 return;
             }
@@ -84,6 +93,14 @@ public class TrainController : MonoBehaviour
         }
         Dwell(1);
         Dwell(2);
+
+        for(int i = 1; i <= 2; i++)
+        {
+            if (measureBAT[i])
+            {
+                BAT[i] += Time.deltaTime;
+            }
+        }
         
     }
 
@@ -98,6 +115,8 @@ public class TrainController : MonoBehaviour
     {
         yield return new WaitForSeconds(15f);
         Train trainScript = trains[trainLine].GetComponent<Train>();
+        measureBAT[trainLine] = true;
+        Debug.Log("Starting BAT for train line " + trainLine);
         trainScript.Alight();
         if(!alightBeforeBoarding)
         {
@@ -136,7 +155,7 @@ public class TrainController : MonoBehaviour
 
     private void Dwell(int trainLine)
     {
-        if(dwelling[trainLine])
+        if (dwelling[trainLine] && useDwellTimer)
         {
             dwellTimer[trainLine] += Time.deltaTime;
             if (dwellTimer[trainLine] >= dwellTime)
@@ -148,6 +167,17 @@ public class TrainController : MonoBehaviour
                 boarding[trainLine] = false;
             }
         }
+        else if (dwelling[trainLine] && nBoardingAgents[trainLine] <= 0 && boarding[trainLine])
+        {
+            dwelling[trainLine] = false;
+            ToggleTrain(trainLine);
+            dwellTimer[trainLine] = 0f;
+            boarding[trainLine] = false;
+            measureBAT[trainLine] = false;
+            Debug.Log("BAT for train line " + trainLine + ": " + BAT[trainLine]);
+            BAT[trainLine] = 0f;
+        }
+        
     }
 
     public void PrepareWaitingAgents(int trainLine)
@@ -265,18 +295,19 @@ public class TrainController : MonoBehaviour
             Agent agent = mainScript.agentList[i];
             if (agent.trainLine == trainLine)
             {
-                if(!agent.isPreparingToBoard)
+                if (!agent.isPreparingToBoard)
                 {
                     continue;
                 }
                 StartCoroutine(BoardAgent(agent));
+                nBoardingAgents[agent.trainLine]++;
             }
         }
     }
 
     internal IEnumerator BoardAgent(Agent agent)
     {
-        float delay = Random.Range(1.5f, 3f);
+        float delay = Random.Range(0.1f, 1f);
         yield return new WaitForSeconds(delay);
 
         if (!agent) yield break;
@@ -297,12 +328,13 @@ public class TrainController : MonoBehaviour
             agent.transform.SetParent(null);
         }
 
-        
+
         agent.noMap = false;
         agent.done = false;
         agent.isWaiting = false;
         agent.isPreparingToBoard = false;
         agent.boarding = true;
+        
     }
 
     int FindClosestNode(Vector3 position)
