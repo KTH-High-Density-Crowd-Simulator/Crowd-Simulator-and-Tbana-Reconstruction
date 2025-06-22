@@ -1,16 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Data.Common;
 
 public class Main : MonoBehaviour {
-
-	public enum Method{
-		uniformSpawn,
-		circleSpawn,
-		discSpawn,
-		continuousSpawn,
-		areaSpawn
-	}
 
 	public enum LCPSolutioner {
 		mprgp,
@@ -22,7 +16,8 @@ public class Main : MonoBehaviour {
 	public LCPSolutioner solver;
 	
 
-	public float planeSize;
+	public float planeSizeX;
+	public float planeSizeZ;
 	
 
 	
@@ -34,13 +29,8 @@ public class Main : MonoBehaviour {
 
 
 
-	public GameObject agentPrefabs;
-	public GameObject groupAgentPrefabs;
-	public Agent shirtColorPrefab;
-
-
 	public Grid gridPrefab;
-	public Spawner spawnerPrefab;
+	public NewSpawner spawnerPrefab;
 	public MapGen mapGen;
 	public Plane plane;
 	internal static Vector2 xMinMax;
@@ -59,7 +49,7 @@ public class Main : MonoBehaviour {
 	[Range(0.01f, 1f)]
 	public float alpha; 
 
-	List<Agent> agentList = new List<Agent>();
+	internal List<Agent> agentList = new List<Agent>();
 	public int maxNumberOfAgents = 1000; // Maximum number of agents when spawning continuously
 
 	public bool showSplattedDensity = false;
@@ -68,6 +58,8 @@ public class Main : MonoBehaviour {
 	public bool skipNodeIfSeeNext = false;
 	public bool smoothTurns = false;
 	public bool handleCollision = false;
+	internal WaitingAreaController waitingAreaController;
+	internal TrainController trainController;
 
 	/**
 	 * Initialize simulation by taking the user's options into consideration and spawn agents.
@@ -78,7 +70,7 @@ public class Main : MonoBehaviour {
 		if (error)
 			return;
 		
-		plane.transform.localScale = new Vector3 (planeSize, 1.0f, planeSize);
+		plane.transform.localScale = new Vector3 (planeSizeX, 1.0f, planeSizeZ);
 		Vector3 planeLength = plane.getLengths (); //Staggered grid length
 		xMinMax = new Vector2 (plane.transform.position.x - planeLength.x / 2, 
 			                   plane.transform.position.x + planeLength.x / 2);
@@ -90,6 +82,17 @@ public class Main : MonoBehaviour {
 		//Creates roadmap / pathfinding for agents based on map
 		MapGen m = Instantiate (mapGen) as MapGen; 
 		roadmap = m.generateRoadMap (roadNodeAmount, xMinMax, zMinMax, visibleMap);
+
+		waitingAreaController = FindObjectOfType<WaitingAreaController>();
+		if(waitingAreaController != null)
+		{
+			waitingAreaController.Initialize();
+		}
+		trainController = FindObjectOfType<TrainController>();
+		if(trainController == null)
+		{
+			Debug.LogError("TrainController not found in scene");
+		}
 
 
 		Grid grid = Instantiate (gridPrefab) as Grid;
@@ -112,16 +115,19 @@ public class Main : MonoBehaviour {
 		Grid.instance.initGrid (xMinMax, zMinMax, alpha, agentAvoidanceRadius);
 
 		for (int i = 0; i < roadmap.spawns.Count; ++i)
-			roadmap.spawns[i].spawner.InitializeSpawner (ref agentPrefabs, ref groupAgentPrefabs, ref shirtColorPrefab, ref roadmap, 
+		{
+			//roadmap.spawns[i].spawner.InitializeSpawner (ref agentPrefabs, ref groupAgentPrefabs, ref shirtColorPrefab, ref roadmap, 
+			//								 ref agentList, xMinMax, zMinMax, agentAvoidanceRadius);
+			roadmap.spawns[i].spawner.InitializeSpawner(ref roadmap, 
 											 ref agentList, xMinMax, zMinMax, agentAvoidanceRadius);
-		
+		}
 	}
-	
 
-	/**
+
+    /**
 	 * Main simulation loop which is called every frame
 	**/
-	void Update () {
+    void Update () {
 		Grid.instance.solver = solver;
 		Grid.instance.solverEpsilon = epsilon;
 		Grid.instance.solverMaxIterations = solverMaxIterations;
@@ -135,13 +141,81 @@ public class Main : MonoBehaviour {
 		for (int i = agentList.Count - 1; i >= 0; i--)
 		{
 			Agent agent = agentList[i];
+
+			if (agent.transform.position.y > 0.1f ||
+			agent.transform.position.y < -0.1f ||
+			agent.transform.rotation.x < -0.1 ||
+			agent.transform.rotation.x > 0.1 ||
+			agent.transform.rotation.z > 0.1 ||
+			agent.transform.rotation.z < -0.1)
+			{
+				//Debug.Log(transform.position.y + " " + transform.rotation.x + " " + transform.rotation.z);
+				agent.Reset();
+				//Debug.DrawLine(agent.transform.position, agent.transform.position + Vector3.up * 5f, Color.red, 2f);
+			}
+
+			if (agent.isWaiting)
+			{
+				agent.PassiveMove();
+				continue;
+			}
+			if (agent.done && agent.isPreparingToBoard)
+			{
+				continue;
+			}
+			if (agent.done && agent.isAlighting && agent.noMap)
+			{
+				agent.noMap = false;
+				agent.done = false;
+				continue;
+			}
+
+			// remove agent if it is outside the bounds of the plane
+			if (Mathf.Abs(agent.transform.position.x) > planeSizeX * 5f || Mathf.Abs(agent.transform.position.z) > planeSizeZ * 5f || agent.transform.position.y > 0.5f)
+			{
+				if (agent.isWaitingAgent)
+				{
+					agent.waitingArea.isOccupied[agent.waitingSpot] = false;
+					agent.waitingArea.freeWaitingSpots.Add(agent.waitingSpot);
+					agent.isWaitingAgent = false;
+				}
+				Debug.Log("Agent outside of bounds, removing");
+				agentList.RemoveAt(i);
+				Destroy(agent.gameObject);
+			}
+
 			if (agent.done)
 			{
-				Destroy(agent.gameObject);
-				agentList.RemoveAt(i);
+				if (agent.isWaitingAgent)
+				{
+					// Agent reached the waiting area
+					if (!agent.noMap)
+					{
+						waitingAreaController.walkAgentToWaitingSpot(agent);
+						agent.move(ref roadmap);
+					}
+					// Agent reached the waiting spot
+					else
+					{
+						waitingAreaController.putAgentInWaitingArea(agent);
+						//agentList.RemoveAt(i);
+					}
+				}
+				else
+				{
+					if (agent.boarding)
+					{
+						trainController.nBoardingAgents[agent.trainLine]--;
+					}
+					agentList.RemoveAt(i);
+					Destroy(agent.gameObject);
+				}
 				continue;
 			}
 			agent.move(ref roadmap);
+			agent.rbody.velocity = Vector3.zero;
+			agent.rbody.angularVelocity = Vector3.zero;
+			
 		}
 		//Pair-wise collision handling between agents
 		Grid.instance.collisionHandling(ref agentList);
@@ -156,4 +230,9 @@ public class Main : MonoBehaviour {
 		Grid.instance.dt = customTimeStep ? timeStep : Time.deltaTime;
 
 	}
+	public void AddToAgentList(Agent agent)
+	{
+		agentList.Add(agent);
+	}
+
 }

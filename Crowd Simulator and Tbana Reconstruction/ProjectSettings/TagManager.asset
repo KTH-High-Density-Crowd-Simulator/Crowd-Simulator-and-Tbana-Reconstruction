@@ -11,6 +11,8 @@ TagManager:
   - girl
   - PostProcessing
   - Obstacle
+  - InsideTrainNode
+  - WaitingArea
   layers:
   - Default
   - TransparentFX
@@ -20,8 +22,8 @@ TagManager:
   - UI
   - Player
   - Obstacle
-  - 
-  - 
+  - WaitingAgent
+  - Agent
   - 
   - 
   - 

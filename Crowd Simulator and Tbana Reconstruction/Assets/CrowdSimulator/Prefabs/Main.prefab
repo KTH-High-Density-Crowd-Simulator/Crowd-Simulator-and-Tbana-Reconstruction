@@ -47,7 +47,8 @@ MonoBehaviour:
   epsilon: 0.01
   solverMaxIterations: 40
   solver: 2
-  planeSize: 20
+  planeSizeX: 20
+  planeSizeZ: 20
   agentAvoidanceRadius: 0.5
   agentMaxSpeed: 5
   agentMinSpeed: 3

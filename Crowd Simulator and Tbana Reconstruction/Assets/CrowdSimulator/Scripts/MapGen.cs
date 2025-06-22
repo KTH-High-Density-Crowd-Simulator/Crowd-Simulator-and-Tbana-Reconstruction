@@ -13,11 +13,29 @@ public class MapGen : MonoBehaviour {
 		public List<CustomNode> allNodes;
 		public List<spawnNode> spawns;
 		public List<int> goals;
+		public List<List<float>> distances;
 	}
 
 	public struct spawnNode {
 		public int node;
-		public Spawner spawner;
+		public NewSpawner spawner;
+	}
+
+	private map roadmap;
+
+	public map getRoadmap()
+	{
+		return roadmap;
+	}
+
+	public void printRoadmap()
+	{
+		Debug.Log("Roadmap\nNumber of nodes: " + roadmap.allNodes.Count
+		+"\nNumber of spawners: " + roadmap.spawns.Count
+		+"\nNumber of goals: " + roadmap.goals.Count
+		+"\n Distances: " + roadmap.distances
+		+"\n Shortest paths: " + roadmap.shortestPaths);
+		
 	}
 
 	void sweepMap(Vector2 xMinMax, Vector2 zMinMax) {
@@ -97,17 +115,24 @@ public class MapGen : MonoBehaviour {
 		foreach(CustomNode c in Object.FindObjectsOfType<CustomNode> ()) {
 			map.Add (c.transform.position);
 			m.allNodes.Add (c); //Assume a circle threshold
-			if (c.gameObject.GetComponent<CustomNode> ().isSpawn) {
-				spawnNode sn = new spawnNode ();
+			if (c.gameObject.GetComponent<CustomNode>().isSpawn && c.gameObject.GetComponent<TrainSpawner>() == null) {
+				spawnNode sn = new spawnNode();
 				sn.node = map.Count - 1;
-				sn.spawner = c.gameObject.transform.parent.gameObject.GetComponent<Spawner>();
+				sn.spawner = c.gameObject.transform.parent.gameObject.GetComponent<NewSpawner>();
 				sn.spawner.SetNode(sn.node);
 				m.spawns.Add (sn);
 				//	c.gameObject.transform.parent.gameObject.GetComponent<Renderer> ().enabled = false;
 			} 
-			if (c.gameObject.GetComponent<CustomNode> ().isGoal) {
+			if (c.gameObject.GetComponent<CustomNode>().isGoal) {
 				m.goals.Add (map.Count-1);
 			} 
+			// Inform the waiting area of its node index in the map
+			if(c is WaitingAreaNode)
+			{
+				c.GetComponent<WaitingArea>().setMapIndex(map.Count - 1);
+			}
+			c.index = map.Count - 1;
+
 			Renderer r = c.GetComponent<Renderer> ();
 			if (r != null) {
 				if (!visibleMap) {
@@ -119,7 +144,7 @@ public class MapGen : MonoBehaviour {
 					}
 				}
 			}
-			c.transform.parent = graph.transform;
+			//c.transform.parent = graph.transform;
 		}
 
 		/**
@@ -196,13 +221,18 @@ public class MapGen : MonoBehaviour {
 				}
 			}
 		}
+
+		roadmap = m;
 		// Automatically adding nodes finished
 
 
 		List<List<float>> dist = makeDist (ref map);
 		List<List<List<int>>> shortestPaths = getShortestPaths (ref dist, Mathf.Max(xMinMax.y - xMinMax.x, zMinMax.y - zMinMax.x));
 		m.shortestPaths = shortestPaths;
-
+		roadmap.shortestPaths = shortestPaths;
+		m.distances = dist;
+	
+		//printRoadmap();
 		return m;
 	}
 
@@ -214,6 +244,14 @@ public class MapGen : MonoBehaviour {
 		for (int i = 0; i < map.Count; ++i) {
 			for (int j = 0; j < map.Count; ++j) {
 				if (i != j) {
+					/**
+					if(roadmap.allNodes[i] is WaitingAreaNode)
+					{
+						// This prevents agents from using waiting areas as nodes in their path
+						// except when their goal is the waiting area
+						dist[i].Add (float.MaxValue);
+					}
+					**/
 					if (!Physics.Raycast (map [j], map [i] - map [j], (map [i] - map [j]).magnitude)) {
 						dist [i].Add ((map [i] - map [j]).magnitude);
 					} else {
@@ -224,6 +262,7 @@ public class MapGen : MonoBehaviour {
 				}
 			}
 		}
+		roadmap.distances = dist;
 		return dist;
 	}
 
@@ -260,10 +299,34 @@ public class MapGen : MonoBehaviour {
 		for (int i = 0; i < shortestPaths.Count; ++i) {
 			for (int j = 0; j < shortestPaths.Count; ++j) {
 				shortestPaths[i][j] = path (ref next, i, j);
+				if (roadmap.allNodes[j].tag == "InsideTrainNode")
+				{
+					int closestNode = -1;
+					float shortestDistance = Mathf.Infinity;
+
+					for (int k = 0; k < dist[j].Count; k++)
+					{
+						if (k == i || k == j) continue;
+
+						if (dist[j][k] < shortestDistance)
+						{
+							shortestDistance = dist[j][k];
+							closestNode = k;
+						}
+					}
+
+					if (closestNode != -1 && shortestPaths[i][j].Count >= 2)
+					{
+						if (shortestPaths[i][j][shortestPaths[i][j].Count - 2] != closestNode)
+						{
+							shortestPaths[i][j].Insert(shortestPaths[i][j].Count - 1, closestNode);
+						}
+					}
+				}
 			}
 
 		}
-
+		
 		return shortestPaths;
 	}
 

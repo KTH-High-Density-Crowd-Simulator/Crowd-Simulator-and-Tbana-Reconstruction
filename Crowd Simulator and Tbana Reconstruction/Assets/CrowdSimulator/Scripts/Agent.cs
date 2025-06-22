@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
+
 public class Agent : MonoBehaviour {
 	public Vector3 preferredVelocity, continuumVelocity, collisionAvoidanceVelocity;
 	public Vector3 velocity;
@@ -14,9 +15,11 @@ public class Agent : MonoBehaviour {
 	neighbourRightVelocityWeight, neighbourLeftVelocityWeight, neighbourUpperVelocityWeight, neighbourLowerVelocityWeight;
 	internal float densityAtAgentPosition;
 
+	internal Vector3 targetPoint;
 	internal bool done = false;
 	internal bool noMap = false;
 	internal Vector3 noMapGoal;
+	internal int goal;
 	internal Animator animator;
 	internal Rigidbody rbody;
 	internal bool collision = false;
@@ -25,12 +28,25 @@ public class Agent : MonoBehaviour {
 	Vector3 previousDirection;
 	public float walkingSpeed;
     public float maxWaitTime = 2f;
-	public float currentSpeed;
+	private bool isProblem = false;
 
-	
+	// Waiting
+	internal bool isWaitingAgent;
+	internal WaitingArea waitingArea;
+	internal int waitingSpot;
+	// Subway
+	internal int trainLine;
+	public bool isWaiting = false;
+	public bool isPreparingToBoard = false;
+	public bool boarding = false;
+	public bool isAlighting = false;
+	private bool crossingYellowLine = false;
+	private TrainController trainController;
+
 	internal void Start() {
 		animator = transform.gameObject.GetComponent<Animator> ();
 		rbody = transform.gameObject.GetComponent<Rigidbody> ();
+		trainController = FindObjectOfType<TrainController>();
 
 		if (rbody != null)
 		{
@@ -66,13 +82,75 @@ public class Agent : MonoBehaviour {
 		
 	}
 
+/**
+	private void OnDrawGizmos()
+	{
+		UnityEditor.Handles.color = Color.red;
+		if(isProblem)
+		{
+			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "Problem!!!");
+			Debug.DrawLine(transform.position, transform.position + Vector3.up * 5f, Color.red, 10f);
+		}
+
+		if(!noMap && pathIndex < path.Count)
+		{
+			UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, path[pathIndex].ToString());
+		}else if(pathIndex < path.Count)
+		{
+			//UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f, "noMap");
+		}
+
+		if(transform.position.y > 0.1f || 
+			transform.position.y < -0.1f || 
+			transform.rotation.x < -0.1 || 
+			transform.rotation.x > 0.1 ||
+			transform.rotation.z > 0.1 ||
+			transform.rotation.z < -0.1)
+		{
+			Debug.Log("Problem: " + transform.position.y + " " + transform.rotation.x + " " + transform.rotation.z);
+			Debug.DrawLine(transform.position, transform.position + Vector3.up * 5f, Color.red, 10f);
+		}
+		
+	}
+
+*/
+	
+
+
+    public void setWaitingAgent(bool isWaitingAgent)
+	{
+		this.isWaitingAgent = isWaitingAgent;
+	}
+
+	public void setNewPath(int start, int goal, ref MapGen.map map) {
+		calculateRowAndColumn();
+		this.goal = goal;
+
+		path = map.shortestPaths[start][goal];
+
+		pathIndex = 1;
+
+		if(path.Count <= 1)
+		{
+			pathIndex = 0;
+		}
+
+		targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+		
+		//targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+		preferredVelocity = (targetPoint - transform.position).normalized;
+	}
+
 	public void InitializeAgent(Vector3 pos, int start, int goal, ref MapGen.map map) {
 		transform.position = pos;
 		transform.right = transform.right;
-		path = map.shortestPaths [start] [goal]; 
+		this.goal = goal;
+		path = map.shortestPaths[start][goal];
+
 		pathIndex = 1;
-		preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint (transform.position) - transform.position).normalized;
-		transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); // Modify this to change the size of characters new Vector3(2.0f, 2.0f, 2.0f) is normal size
+		targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+		preferredVelocity = (targetPoint - transform.position).normalized;
+		//transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); // Modify this to change the size of characters new Vector3(2.0f, 2.0f, 2.0f) is normal size
 	}
 
 	public void ApplyMaterials(Material materialColor, ref Dictionary<string, int> skins, Material argMat = null)
@@ -117,19 +195,26 @@ public class Agent : MonoBehaviour {
 		calculateDensityAtPosition ();
 		calculateContinuumVelocity ();
 		//-1 since we subtract this agents density at position
+
 		velocity = preferredVelocity + (densityAtAgentPosition - 1 / Mathf.Pow (Grid.instance.cellLength, 2)) / Grid.maxDensity
 		* (continuumVelocity - preferredVelocity);
 		velocity.y = 0f;
-		transform.forward = velocity.normalized;
+		if(velocity != Vector3.zero)
+		{
+			transform.forward = velocity.normalized;
+		}
 		velocity = velocity + collisionAvoidanceVelocity;
 	}
 
 	internal bool canSeeNext(ref MapGen.map map, int modifier) {
-		if (pathIndex + modifier< path.Count && pathIndex + modifier >= 0 && pathIndex + modifier < map.allNodes.Count) {
+		if (pathIndex + modifier < path.Count && pathIndex + modifier >= 0 && pathIndex + modifier < map.allNodes.Count) {
 			//Can we see next goal?
 			Vector3 next = map.allNodes[path[pathIndex+modifier]].getTargetPoint(transform.position);
-			Vector3 dir = next - transform.position;
-			if(!Physics.Raycast (transform.position, dir.normalized, dir.magnitude)) {
+			int layersToIgnore = LayerMask.GetMask("WaitingAgent", "Agent");
+			int layerMask = ~layersToIgnore;
+			Vector3 targetPosition = transform.position - transform.forward;
+			Vector3 dir = next - targetPosition;
+			if (!Physics.Raycast(targetPosition, dir.normalized, dir.magnitude, layerMask)) {
 				return true;
 			}
 		}
@@ -141,15 +226,20 @@ public class Agent : MonoBehaviour {
 	bool change = false;
 	internal void calculatePreferredVelocityMap(ref MapGen.map map) {
 		previousDirection = preferredVelocity.normalized;
-		if ((transform.position - map.allNodes[path[pathIndex]].transform.position).magnitude < map.allNodes[path[pathIndex]].getThreshold() || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) {
+
+		if (map.allNodes[path[pathIndex]].IsAgentInsideArea(transform.position) || (Grid.instance.skipNodeIfSeeNext && canSeeNext(ref map, 1))) 
+		{
 			//New node reached
 			collision = false;
 			pathIndex += 1;
-			if (pathIndex >= path.Count) {
+			if (pathIndex >= path.Count) 
+			{
 				//Done
 				done = true;
-			} else {
-				Vector3 nextDirection = ((map.allNodes [path [pathIndex]].getTargetPoint(transform.position)) - transform.position).normalized;
+			} else 
+			{
+				targetPoint = map.allNodes[path[pathIndex]].getTargetPoint(transform.position);
+				Vector3 nextDirection = (targetPoint - transform.position).normalized;
 				if (Vector3.Angle (previousDirection, nextDirection) > 20.0f && Grid.instance.smoothTurns) {
 					preferredVelocity = Vector3.RotateTowards (velocity.normalized, nextDirection, Grid.instance.dt*((35.0f - 400*Grid.instance.dt) * Mathf.PI / 180.0f), 15.0f).normalized;
 					change = true;
@@ -161,12 +251,12 @@ public class Agent : MonoBehaviour {
 			change = false;
 		} else {
 			collision = false;
-			Vector3 nextDirection = (map.allNodes [path [pathIndex]].getTargetPoint(transform.position) - transform.position).normalized;
+			Vector3 nextDirection = (targetPoint - transform.position).normalized;
 			if (change && Vector3.Angle (previousDirection, nextDirection) > 20.0f && Grid.instance.smoothTurns) {
 				preferredVelocity = Vector3.RotateTowards(velocity.normalized, nextDirection, Grid.instance.dt*((35.0f - 400*Grid.instance.dt) * Mathf.PI / 180.0f),  15.0f).normalized;
 			} else {
 				change = false;
-				preferredVelocity = (map.allNodes [path [pathIndex]].getTargetPoint(transform.position) - transform.position).normalized;
+				preferredVelocity = (targetPoint - transform.position).normalized;
 			}
 		}
 		//collision = false;
@@ -189,7 +279,13 @@ public class Agent : MonoBehaviour {
 		preferredVelocity.y = 0f;
 	}
 
-	internal virtual void calculatePreferredVelocity(ref MapGen.map map) {
+    private void Update()
+    {
+        
+			
+    }
+
+    internal virtual void calculatePreferredVelocity(ref MapGen.map map) {
 		if (noMap) {
 			calculatePreferredVelocityNoMap ();
 		} else {
@@ -206,18 +302,100 @@ public class Agent : MonoBehaviour {
 		} 
 
 		calculatePreferredVelocity(ref map);
+		if((!trainController.dwelling[1] && !trainController.dwelling[2]) || isAlighting)
+		{
+			ApplyYellowLineForce();
+		}
 		setCorrectedVelocity ();
-
+	
 		prevPos = transform.position;
 
 		Vector3 newPosition = transform.position + velocity * Grid.instance.dt;
 		newPosition.y = 0.0f;	// Lock Y position
 		transform.position = newPosition;
 
+		CheckYellowLine();
+
 		if(rbody != null) { rbody.velocity = Vector3.zero; }
 		collisionAvoidanceVelocity = Vector3.zero;
 
 		Animate(prevPos);
+	}
+
+	internal void PassiveMove()
+	{
+		if(!trainController.dwelling[1] && !trainController.dwelling[2])
+		{
+			ApplyYellowLineForce();
+		}
+		Vector3 force = collisionAvoidanceVelocity;
+		force.y = 0f;
+
+		if (force.magnitude > 0.01f)
+		{
+			Vector3 newPosition = transform.position + force * Grid.instance.dt;
+			newPosition.y = 0f;
+			transform.position = newPosition;
+			transform.forward = force.normalized;
+
+			CheckYellowLine();
+
+			collisionAvoidanceVelocity = Vector3.zero;
+			rotateAgent(trainController.mainScript.roadmap.allNodes[goal].transform.position);
+		}
+		
+	}
+
+	private void CheckYellowLine()
+	{
+		if(trainController.dwelling[1] || trainController.dwelling[2]){ return; }
+
+		float positionX = Mathf.Abs(transform.position.x);
+
+		switch (trainController.platformType)
+		{
+			case TrainController.PlatformType.Central:
+				if (positionX > 8f && !crossingYellowLine)
+				{
+					Debug.Log($"Agent crossed the yellow line");
+					Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
+					crossingYellowLine = true;
+				}
+				if(crossingYellowLine && positionX < 8f)
+				{
+					crossingYellowLine = false;
+				}
+				break;
+
+			case TrainController.PlatformType.Mixed:
+				if (((positionX < 7f && positionX > 4f) ||
+					 (positionX > 2f && positionX < 5f)) 
+					 && !crossingYellowLine)
+				{
+					Debug.Log($"Agent crossed the yellow line");
+					Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
+					crossingYellowLine = true;
+				}
+				if(crossingYellowLine && 
+				(positionX > 7f || positionX < 2f))
+				{
+					crossingYellowLine = false;
+				}
+				break;
+
+			case TrainController.PlatformType.Side:
+				if (positionX < 4f && !crossingYellowLine)
+				{
+					Debug.Log($"Agent crossed the yellow line");
+					Debug.DrawLine(transform.position, transform.position + Vector3.up * 10f, Color.red, 10f);
+					crossingYellowLine = true;
+				}
+				if(crossingYellowLine && positionX > 4f)
+				{
+					crossingYellowLine = false;
+				}
+				break;
+		}
 	}
 
 	void Animate(Vector3 previousPosition)
@@ -227,6 +405,9 @@ public class Agent : MonoBehaviour {
 	
 			if (realSpeed < 0.05f) {
 				animator.speed = 0;
+			} else if(realSpeed > walkingSpeed)
+			{
+				animator.speed = 1;
 			} else {
 				animator.speed = realSpeed / walkingSpeed;
 			}
@@ -348,5 +529,159 @@ public class Agent : MonoBehaviour {
 		neighbourLeftVelocityWeight  = leftShiftedRelXPos  * Mathf.Abs(agentRelZPos) / clSquared;
 		neighbourUpperVelocityWeight = upperShiftedRelZPos * Mathf.Abs(agentRelXPos) / clSquared;
 		neighbourLowerVelocityWeight = lowerShiftedRelZPos * Mathf.Abs(agentRelXPos) / clSquared;
+	}
+
+	public void teleportAgent(Vector3 newPosition)
+	{
+		newPosition.y = 0.0f;
+		transform.position = newPosition;
+	}
+
+	public void setAnimatorStanding(bool isStanding)
+	{
+		if(!(animator == null))
+		{
+			animator.SetBool("Standing",isStanding);
+		}
+	}
+
+	public void rotateAgent(Vector3 target)
+	{
+		Vector3 direction = target - transform.position;
+		transform.rotation = Quaternion.LookRotation(direction);
+		rbody.velocity = Vector3.zero;
+		rbody.angularVelocity = Vector3.zero;
+	}
+
+	internal void Reset()
+	{
+		rbody.velocity = Vector3.zero;
+		rbody.angularVelocity = Vector3.zero;
+		velocity = Vector3.zero;
+        preferredVelocity = Vector3.zero;
+        continuumVelocity = Vector3.zero;
+        collisionAvoidanceVelocity = Vector3.zero;
+		transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+		transform.rotation = Quaternion.identity;
+	}
+
+	private void ApplyYellowLineForce()
+	{
+		switch (trainController.platformType)
+		{
+			case TrainController.PlatformType.Central:
+				ApplyYellowLineForceCentral();
+				break;
+			case TrainController.PlatformType.Mixed:
+				ApplyYellowLineForceMixed();
+				break;
+			case TrainController.PlatformType.Side:
+				ApplyYellowLineForceSide();
+				break;
+		}
+	}
+
+	private void ApplyYellowLineForceMixed()
+	{
+		float agentX = transform.position.x;
+
+		// Side Platforms
+		{
+			float platformEdge = 6f;
+			float yellowLineStart = 7.24f;
+			float zoneWidth = yellowLineStart - platformEdge;
+
+			// approaching from -12)
+			if (agentX > -yellowLineStart && agentX < -platformEdge)
+			{
+				float distToEdge = -platformEdge - agentX;
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.left * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+			}
+
+			// approaching from +12)
+			else if (agentX < yellowLineStart && agentX > platformEdge)
+			{
+				float distToEdge = agentX - platformEdge;
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.right * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+			}
+		}
+
+		// Central Platform
+		{
+			float platformEdge = 3f;
+			float yellowLineStart = 1.76f;
+			float zoneWidth = platformEdge - yellowLineStart;
+
+			if (agentX > -platformEdge && agentX < -yellowLineStart)
+			{
+				float distToEdge = agentX + platformEdge;
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.right * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+			}
+
+			else if (agentX < platformEdge && agentX > yellowLineStart)
+			{
+				float distToEdge = platformEdge - agentX;
+				float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+				Vector3 repel = Vector3.left * strength * walkingSpeed;
+				collisionAvoidanceVelocity += repel;
+			}
+		}
+	}
+
+	private void ApplyYellowLineForceCentral()
+	{
+		float agentX = transform.position.x;
+		float platformEdge = 9f;
+		float yellowLineStart = 7.76f;
+		float zoneWidth = platformEdge - yellowLineStart;
+
+		if (agentX > -platformEdge && agentX < -yellowLineStart)
+		{
+			float distToEdge = agentX + platformEdge;
+			float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+			Vector3 repel = Vector3.right * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
+
+		else if (agentX < platformEdge && agentX > yellowLineStart)
+		{
+			float distToEdge = platformEdge - agentX;
+			float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+			Vector3 repel = Vector3.left * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
+	}
+
+	private void ApplyYellowLineForceSide()
+	{
+		float agentX = transform.position.x;
+
+		float platformEdge = 3f;
+		float yellowLineStart = 4.24f;
+		float zoneWidth = yellowLineStart - platformEdge;
+
+		// approaching from -
+		if (agentX > -yellowLineStart && agentX < -platformEdge)
+		{
+			float distToEdge = -platformEdge - agentX;
+			float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+			Vector3 repel = Vector3.left * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
+
+		// approaching from +
+		else if (agentX < yellowLineStart && agentX > platformEdge)
+		{
+			float distToEdge = agentX - platformEdge;
+			float strength = Mathf.Clamp01(distToEdge / zoneWidth);
+			Vector3 repel = Vector3.right * strength * walkingSpeed;
+			collisionAvoidanceVelocity += repel;
+		}
 	}
 }
