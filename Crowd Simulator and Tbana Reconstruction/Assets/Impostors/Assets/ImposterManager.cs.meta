@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8d761b6f45d05a9339c4fa90d07ca4de
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - impostorQuadPrefab: {fileID: 4569201518653313689, guid: 94c829b4a7b5fd444b8c4a534cfc3327, type: 3}
+  - impostorNormalMaterial: {fileID: 2100000, guid: 041deacd669e40d4a94514c93972f5d3, type: 2}
+  - impostorMaterialPrefab: {fileID: 2100000, guid: 8316507b88242720fb62865b9ce71f31, type: 2}
+  - captureCameraPrefab: {fileID: 3541075915918575897, guid: 8fd4ac2fd020dd053beffda593417413, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
