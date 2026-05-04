@@ -22,14 +22,12 @@ public class ImpostorController : MonoBehaviour
         float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
 
         if (angle < 0)
-        {
             angle += 360;
-        }
-                    
-        int frame = Mathf.FloorToInt(angle / (360f / frames));
+
+        int frame = Mathf.FloorToInt(angle / (360f / frames)) % frames;
 
         int column = frame % columns;
-        int row = (1 - (frame / columns)) % rows;
+        int row = rows - 1 - (frame / columns);
 
         Vector2 scale = new Vector2(1f / columns, 1f / rows);
 
@@ -38,10 +36,16 @@ public class ImpostorController : MonoBehaviour
             row * scale.y
         );
 
-        rend.material.mainTextureScale = scale;
-        rend.material.mainTextureOffset = offset;
+        rend.material.SetTextureScale("_MainTex", scale);
+        rend.material.SetTextureOffset("_MainTex", offset);
 
-        transform.LookAt(cam);
-        transform.Rotate(0, 180, 0);
+        Vector3 lookDir = cam.position - transform.position;
+        lookDir.y = 0;
+
+        if (lookDir.sqrMagnitude > 0.001f)
+        {
+            transform.rotation = Quaternion.LookRotation(lookDir);
+            transform.Rotate(0, 180, 0);
+        }
     }
 }
