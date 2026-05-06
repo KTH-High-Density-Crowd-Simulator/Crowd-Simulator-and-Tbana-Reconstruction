@@ -81,7 +81,7 @@ public class ImpostorManager : MonoBehaviour {
         int frame = Mathf.FloorToInt(angle / (360f / frames)) % frames;
 
         int column = frame % columns;
-        int row = frame / columns;
+        int row = rows + 1 - frame / columns;
 
         Vector2 scale = new Vector2(1f / columns, 1f / rows);
         Vector2 offset = new Vector2(column * scale.x, row * scale.y);
@@ -118,10 +118,12 @@ public class ImpostorManager : MonoBehaviour {
 
         Material[] normalMaterials = new Material[renderer.materials.Length];
         for (int i = 0; i < normalMaterials.Length; ++i) normalMaterials[i] = impostorNormalMaterial;
+
+        Material[] realMaterials = renderer.materials;
         renderer.materials = normalMaterials;
 
         Texture2D normalAtlas = BakeAtlas(centerPos, true);
-		// normalAtlas
+        renderer.materials = realMaterials;
 
 		this.impostorMaterial.SetTexture("_MainTex", colorAtlas);
 		this.impostorMaterial.SetTexture("_NormalTex", normalAtlas);
@@ -159,7 +161,7 @@ public class ImpostorManager : MonoBehaviour {
             int column = i % columns;
             int row = i / columns;
 
-            atlas.SetPixels(column * resolution, row * resolution, resolution, resolution, frame.GetPixels());
+            atlas.SetPixels(column * resolution, (rows - 1 - row) * resolution, resolution, resolution, frame.GetPixels());
             DestroyImmediate(frame);
         }
 
