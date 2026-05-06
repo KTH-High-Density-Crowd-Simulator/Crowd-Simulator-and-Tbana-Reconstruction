@@ -6,7 +6,9 @@ public class ImpostorManager : MonoBehaviour {
 
 	private Renderer renderer;
 	private Camera captureCamera;
+
 	private GameObject impostorQuad;
+    private GameObject LODGroup;
 	
 	private Transform cameraTransform;
 	private Transform targetTransform;
@@ -21,28 +23,34 @@ public class ImpostorManager : MonoBehaviour {
 	private int columns, rows;
 
 	[Header("References")]
-	public GameObject impostorQuadPrefab;
 	public Material impostorNormalMaterial;
+
 	public Material impostorMaterialPrefab;
+    public GameObject impostorQuadPrefab;
 	public GameObject captureCameraPrefab;
+    public GameObject LODGroupPrefab;
 
 	[ContextMenu("Bake and Setup Impostor")]
     void Start() {
 		GameObject cameraObject = Instantiate(this.captureCameraPrefab);
+
+        this.LODGroup = Instantiate(this.LODGroupPrefab);
+        transform.SetParent(this.LODGroup.transform);
 
 		this.impostorMaterial = Instantiate(this.impostorMaterialPrefab);
 
 		this.captureCamera = cameraObject.GetComponent<Camera>();
 		this.cameraTransform = cameraObject.GetComponent<Transform>();
 
-		if (this.renderer == null || cameraObject == null || this.captureCamera == null || this.cameraTransform == null) {
+		if (cameraObject == null || this.captureCamera == null || this.cameraTransform == null) {
 			Debug.Log("ImpostorManager is not setup correctly!?");
 		}
 
 		this.BakeModel();
 		DestroyImmediate(cameraObject);
 
-		this.impostorQuad = Instantiate(this.impostorQuadPrefab);
+		this.impostorQuad = Instantiate(this.impostorQuadPrefab, this.LODGroup.transform);
+		// this.impostorQuad = Instantiate(this.impostorQuadPrefab);
 		this.renderer = this.impostorQuad.GetComponent<Renderer>();
 		this.renderer.material = this.impostorMaterial;
 
@@ -50,6 +58,12 @@ public class ImpostorManager : MonoBehaviour {
 
 		this.cameraTransform = Camera.main.GetComponent<Transform>();
 		this.columns = this.rows = Mathf.FloorToInt(Mathf.Sqrt(frames));
+
+        UnityEngine.LOD[] lods = this.LODGroup.GetComponent<LODGroup>().GetLODs();
+        lods[0].renderers = GetComponentsInChildren<Renderer>();
+        lods[1].renderers = new Renderer[] { this.renderer };
+
+        this.LODGroup.GetComponent<LODGroup>().SetLODs(lods);
 	}
 
     void Update() {

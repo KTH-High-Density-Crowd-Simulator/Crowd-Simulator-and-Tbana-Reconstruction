@@ -8,6 +8,7 @@ MonoImporter:
   - impostorNormalMaterial: {fileID: 2100000, guid: 041deacd669e40d4a94514c93972f5d3, type: 2}
   - impostorMaterialPrefab: {fileID: 2100000, guid: 8316507b88242720fb62865b9ce71f31, type: 2}
   - captureCameraPrefab: {fileID: 3541075915918575897, guid: 8fd4ac2fd020dd053beffda593417413, type: 3}
+  - LODGroupPrefab: {fileID: 6491473044794956804, guid: e8fe78d202b6e82ff8c83d89bf57395e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
