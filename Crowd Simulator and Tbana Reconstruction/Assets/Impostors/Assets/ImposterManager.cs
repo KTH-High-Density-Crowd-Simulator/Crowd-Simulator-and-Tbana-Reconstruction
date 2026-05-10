@@ -24,7 +24,6 @@ public class ImpostorManager : MonoBehaviour {
 
 	[Header("References")]
 	public Material impostorNormalMaterial;
-
 	public Material impostorMaterialPrefab;
     public GameObject impostorQuadPrefab;
 	public GameObject captureCameraPrefab;
@@ -45,16 +44,21 @@ public class ImpostorManager : MonoBehaviour {
 		if (cameraObject == null || this.captureCamera == null || this.cameraTransform == null) {
 			Debug.Log("ImpostorManager is not setup correctly!?");
 		}
-
-		this.BakeModel();
+        Renderer renderer = GetComponentInChildren<Renderer>();
+		this.BakeModel(renderer);
 		DestroyImmediate(cameraObject);
 
 		this.impostorQuad = Instantiate(this.impostorQuadPrefab, this.LODGroup.transform);
+
+        //Adjusts quad height to source objects height        
+        this.MatchQuadHeight(renderer, ref impostorQuad);
+
 		// this.impostorQuad = Instantiate(this.impostorQuadPrefab);
 		this.renderer = this.impostorQuad.GetComponent<Renderer>();
 		this.renderer.material = this.impostorMaterial;
 
 		this.targetTransform = this.impostorQuad.GetComponent<Transform>();
+
 
 		this.cameraTransform = Camera.main.GetComponent<Transform>();
 		this.columns = this.rows = Mathf.FloorToInt(Mathf.Sqrt(frames));
@@ -81,7 +85,7 @@ public class ImpostorManager : MonoBehaviour {
         int frame = Mathf.FloorToInt(angle / (360f / frames)) % frames;
 
         int column = frame % columns;
-        int row = rows + 1 - frame / columns;
+        int row = rows + 5 - frame / columns;
 
         Vector2 scale = new Vector2(1f / columns, 1f / rows);
         Vector2 offset = new Vector2(column * scale.x, row * scale.y);
@@ -99,8 +103,11 @@ public class ImpostorManager : MonoBehaviour {
         }
 	}
 
-    public void BakeModel() {
-        Renderer renderer = GetComponentInChildren<Renderer>();
+
+    public void BakeModel(Renderer renderer) {
+        if (renderer == null){
+            Debug.Log("renderer is null");
+        }
         if (renderer.materials.Length == 0) {
             Debug.Log("[ImposterCapture] Unable to find any materials on mesh");
         }
@@ -186,5 +193,26 @@ public class ImpostorManager : MonoBehaviour {
         }
 
         return bounds.center;
+    }
+
+
+    private void MatchQuadHeight(Renderer sourceRenderer, ref GameObject impostorQuad){
+        Renderer impostorQuadRenderer = impostorQuad.GetComponentInChildren<Renderer>();
+        if(sourceRenderer == null){
+            Debug.Log("renderer is null");
+        }
+        if(impostorQuad == null){
+            Debug.Log("impostorQuad is null");
+        }
+
+        Bounds sourceBounds = sourceRenderer.bounds;
+        Vector3 sourceObjectCenter = sourceRenderer.bounds.center;
+        Vector3 impostorQuadCenter = impostorQuadRenderer.bounds.center;
+        Vector3 diff = sourceObjectCenter - impostorQuadCenter;
+
+        float newHeight = sourceBounds.size.y * distance;
+
+        impostorQuad.transform.localScale = new Vector3(newHeight,newHeight, 1f);
+        impostorQuad.transform.position += diff;
     }
 }
